@@ -5,6 +5,7 @@ type LayoutProps = {
 }
 
 import './globals.css'
+import { Providers } from '@/providers'
 
 export const metadata = {
   description: 'eDoctors - Your online doctor',
@@ -14,7 +15,9 @@ export const metadata = {
 const Layout = ({ children }: LayoutProps) => {
   return (
     <html>
-      <body>{children}</body>
+      <Providers>
+        <body>{children}</body>
+      </Providers>
     </html>
   )
 }
