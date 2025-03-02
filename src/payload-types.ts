@@ -68,6 +68,8 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
+    doctors: Doctor;
+    patients: Patient;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -76,6 +78,8 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
+    doctors: DoctorsSelect<false> | DoctorsSelect<true>;
+    patients: PatientsSelect<false> | PatientsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -118,6 +122,8 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
+  name?: string | null;
+  roles: ('admin' | 'doctor' | 'user')[];
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -150,6 +156,34 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "doctors".
+ */
+export interface Doctor {
+  id: string;
+  name: string;
+  specialty: string;
+  email: string;
+  phone: string;
+  photo?: (string | null) | Media;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "patients".
+ */
+export interface Patient {
+  id: string;
+  name: string;
+  dateOfBirth: string;
+  email: string;
+  phone: string;
+  medicalHistory?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -162,6 +196,14 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
+      } | null)
+    | ({
+        relationTo: 'doctors';
+        value: string | Doctor;
+      } | null)
+    | ({
+        relationTo: 'patients';
+        value: string | Patient;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -210,6 +252,8 @@ export interface PayloadMigration {
  * via the `definition` "users_select".
  */
 export interface UsersSelect<T extends boolean = true> {
+  name?: T;
+  roles?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -237,6 +281,32 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "doctors_select".
+ */
+export interface DoctorsSelect<T extends boolean = true> {
+  name?: T;
+  specialty?: T;
+  email?: T;
+  phone?: T;
+  photo?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "patients_select".
+ */
+export interface PatientsSelect<T extends boolean = true> {
+  name?: T;
+  dateOfBirth?: T;
+  email?: T;
+  phone?: T;
+  medicalHistory?: T;
+  updatedAt?: T;
+  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
