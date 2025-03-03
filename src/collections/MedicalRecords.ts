@@ -5,10 +5,10 @@ import { authenticated } from '@/access/authenticated'
 export const MedicalRecords: CollectionConfig = {
   slug: 'medical-records',
   access: {
-    create: ({ req }) => checkRole(['doctor'], req.user ?? undefined), // Chỉ bác sĩ tạo được hồ sơ
-    read: ({ req }) => checkRole(['admin', 'doctor'], req.user ?? undefined), // Bác sĩ & admin có thể xem
-    update: ({ req }) => checkRole(['doctor'], req.user ?? undefined), // Chỉ bác sĩ chỉnh sửa được hồ sơ
-    delete: ({ req }) => checkRole(['admin'], req.user ?? undefined), // Chỉ admin có thể xóa hồ sơ
+    create: ({ req }) => checkRole(['doctor'], req.user ?? undefined),
+    read: ({ req }) => checkRole(['admin', 'doctor'], req.user ?? undefined),
+    update: ({ req }) => checkRole(['doctor'], req.user ?? undefined),
+    delete: ({ req }) => checkRole(['admin'], req.user ?? undefined),
   },
   admin: {
     defaultColumns: ['patient', 'doctor', 'diagnosis', 'createdAt'],
