@@ -68,8 +68,9 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    doctors: Doctor;
-    patients: Patient;
+    prescriptions: Prescription;
+    appointments: Appointment;
+    'medical-records': MedicalRecord;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -78,8 +79,9 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    doctors: DoctorsSelect<false> | DoctorsSelect<true>;
-    patients: PatientsSelect<false> | PatientsSelect<true>;
+    prescriptions: PrescriptionsSelect<false> | PrescriptionsSelect<true>;
+    appointments: AppointmentsSelect<false> | AppointmentsSelect<true>;
+    'medical-records': MedicalRecordsSelect<false> | MedicalRecordsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -123,7 +125,7 @@ export interface UserAuthOperations {
 export interface User {
   id: string;
   name?: string | null;
-  roles: ('admin' | 'doctor' | 'user')[];
+  roles: ('admin' | 'user')[];
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -156,29 +158,55 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "doctors".
+ * via the `definition` "prescriptions".
  */
-export interface Doctor {
+export interface Prescription {
   id: string;
-  name: string;
-  specialty: string;
-  email: string;
-  phone: string;
-  photo?: (string | null) | Media;
+  user: string | User;
+  doctor: string | User;
+  medicalRecord: string | MedicalRecord;
+  medicines?:
+    | {
+        name: string;
+        dosage: string;
+        frequency: string;
+        notes?: string | null;
+        id?: string | null;
+      }[]
+    | null;
   updatedAt: string;
   createdAt: string;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "patients".
+ * via the `definition` "medical-records".
  */
-export interface Patient {
+export interface MedicalRecord {
   id: string;
-  name: string;
-  dateOfBirth: string;
-  email: string;
-  phone: string;
-  medicalHistory?: string | null;
+  patient: string | User;
+  doctor: string | User;
+  diagnosis: string;
+  treatment?: string | null;
+  attachments?:
+    | {
+        file?: (string | null) | Media;
+        id?: string | null;
+      }[]
+    | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "appointments".
+ */
+export interface Appointment {
+  id: string;
+  patient: string | User;
+  doctor: string | User;
+  date: string;
+  status?: ('pending' | 'confirmed' | 'completed' | 'canceled') | null;
+  notes?: string | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -198,12 +226,16 @@ export interface PayloadLockedDocument {
         value: string | Media;
       } | null)
     | ({
-        relationTo: 'doctors';
-        value: string | Doctor;
+        relationTo: 'prescriptions';
+        value: string | Prescription;
       } | null)
     | ({
-        relationTo: 'patients';
-        value: string | Patient;
+        relationTo: 'appointments';
+        value: string | Appointment;
+      } | null)
+    | ({
+        relationTo: 'medical-records';
+        value: string | MedicalRecord;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -284,27 +316,52 @@ export interface MediaSelect<T extends boolean = true> {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "doctors_select".
+ * via the `definition` "prescriptions_select".
  */
-export interface DoctorsSelect<T extends boolean = true> {
-  name?: T;
-  specialty?: T;
-  email?: T;
-  phone?: T;
-  photo?: T;
+export interface PrescriptionsSelect<T extends boolean = true> {
+  user?: T;
+  doctor?: T;
+  medicalRecord?: T;
+  medicines?:
+    | T
+    | {
+        name?: T;
+        dosage?: T;
+        frequency?: T;
+        notes?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "patients_select".
+ * via the `definition` "appointments_select".
  */
-export interface PatientsSelect<T extends boolean = true> {
-  name?: T;
-  dateOfBirth?: T;
-  email?: T;
-  phone?: T;
-  medicalHistory?: T;
+export interface AppointmentsSelect<T extends boolean = true> {
+  patient?: T;
+  doctor?: T;
+  date?: T;
+  status?: T;
+  notes?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "medical-records_select".
+ */
+export interface MedicalRecordsSelect<T extends boolean = true> {
+  patient?: T;
+  doctor?: T;
+  diagnosis?: T;
+  treatment?: T;
+  attachments?:
+    | T
+    | {
+        file?: T;
+        id?: T;
+      };
   updatedAt?: T;
   createdAt?: T;
 }

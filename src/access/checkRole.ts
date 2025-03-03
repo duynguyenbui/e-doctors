@@ -1,6 +1,4 @@
-import type { User } from '@/payload-types'
-
-export const checkRole = (allRoles: User['roles'] = [], user?: User): boolean => {
-  if (!user) return false
-  return allRoles.some((role) => user.roles?.includes(role))
+export const checkRole = (roles: string[], user?: { roles: string[] }) => {
+  if (!user || !user.roles) return false
+  return user.roles.some((role) => roles.includes(role))
 }

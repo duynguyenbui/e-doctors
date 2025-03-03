@@ -9,9 +9,9 @@ export const Users: CollectionConfig = {
     admin: ({ req }) => checkRole(['admin'], req.user ?? undefined),
     create: anyone,
     delete: admin,
-    read: ({ req }) => checkRole(['admin', 'doctor'], req.user ?? undefined),
+    read: ({ req }) => checkRole(['admin'], req.user ?? undefined),
     update: ({ req }) =>
-      checkRole(['admin', 'doctor'], req.user ?? undefined) && req.user?.id === req.query?.id,
+      checkRole(['admin'], req.user ?? undefined) && req.user?.id === req.query?.id,
   },
   admin: {
     defaultColumns: ['name', 'email'],
@@ -31,7 +31,7 @@ export const Users: CollectionConfig = {
       required: true,
       options: [
         { label: 'Admin', value: 'admin' },
-        { label: 'Doctor', value: 'doctor' },
+        // { label: 'Doctor', value: 'doctor' },
         { label: 'User', value: 'user' },
       ],
     },
