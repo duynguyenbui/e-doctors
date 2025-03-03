@@ -1,30 +1,32 @@
 import { ReactNode } from 'react'
+import './globals.css'
+import { Providers } from '@/providers'
+import { ModeToggle } from '@/components/ModeToggle'
+import NavBar from '@/components/NavBar'
+import { Toaster } from 'sonner'
 
 type LayoutProps = {
   children: ReactNode
 }
-
-import './globals.css'
-import { Providers } from '@/providers'
-import { ModeToggle } from '@/components/ModeToggle'
 
 export const metadata = {
   description: 'eDoctors - Your online doctor',
   title: 'eDoctors',
 }
 
-const Layout = ({ children }: LayoutProps) => {
+export default function RootLayout({ children }: LayoutProps) {
   return (
     <html>
       <head>
         <link href="/favicon.png" rel="icon" />
       </head>
-      <Providers>
-        <body>{children}</body>
-        <ModeToggle />
-      </Providers>
+      <body>
+        <Providers>
+          <NavBar />
+          <div className="mt-16">{children}</div>
+          <Toaster />
+        </Providers>
+      </body>
     </html>
   )
 }
-
-export default Layout

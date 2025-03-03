@@ -1,5 +1,6 @@
+'use client'
+
 import { useSocket } from '@/providers/SocketProvider'
-import React from 'react'
 import { Badge } from '../ui/badge'
 
 export default function SocketIndicator() {

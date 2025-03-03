@@ -1,24 +1,22 @@
 'use client'
 
 import SocketIndicator from '@/components/SocketIndicator'
-import { useAuth } from '@/providers/AuthProvider'
 import { useSocket } from '@/providers/SocketProvider'
 import { useEffect, useState } from 'react'
 
 export default function Home() {
-  const { user } = useAuth()
   const { socket, isConnected } = useSocket()
   const [message, setMessage] = useState('N/A')
 
   useEffect(() => {
-    if (!socket) return
+    if (!socket || !isConnected) return
 
     socket.on('chat:messages', ({ message }: { message: string }) => setMessage(message))
 
     return () => {
-      socket.off('chat:messages', () => setMessage('N/A'))
+      socket.off('chat:messages')
     }
-  }, [socket])
+  }, [socket, isConnected])
 
   return (
     <div className="text-xl font-bold">
