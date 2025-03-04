@@ -68,9 +68,6 @@ export interface Config {
   collections: {
     users: User;
     media: Media;
-    prescriptions: Prescription;
-    appointments: Appointment;
-    'medical-records': MedicalRecord;
     'payload-locked-documents': PayloadLockedDocument;
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
@@ -79,9 +76,6 @@ export interface Config {
   collectionsSelect: {
     users: UsersSelect<false> | UsersSelect<true>;
     media: MediaSelect<false> | MediaSelect<true>;
-    prescriptions: PrescriptionsSelect<false> | PrescriptionsSelect<true>;
-    appointments: AppointmentsSelect<false> | AppointmentsSelect<true>;
-    'medical-records': MedicalRecordsSelect<false> | MedicalRecordsSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
     'payload-preferences': PayloadPreferencesSelect<false> | PayloadPreferencesSelect<true>;
     'payload-migrations': PayloadMigrationsSelect<false> | PayloadMigrationsSelect<true>;
@@ -124,8 +118,13 @@ export interface UserAuthOperations {
  */
 export interface User {
   id: string;
-  name?: string | null;
-  roles: ('admin' | 'user')[];
+  name: string;
+  password?: string | null;
+  avatar?: (string | null) | Media;
+  age: number;
+  gender: 'male' | 'female' | 'other';
+  roles: ('admin' | 'doctor' | 'user')[];
+  specialization?: string | null;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -135,7 +134,6 @@ export interface User {
   hash?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
-  password?: string | null;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
@@ -158,60 +156,6 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "prescriptions".
- */
-export interface Prescription {
-  id: string;
-  user: string | User;
-  doctor: string | User;
-  medicalRecord: string | MedicalRecord;
-  medicines?:
-    | {
-        name: string;
-        dosage: string;
-        frequency: string;
-        notes?: string | null;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "medical-records".
- */
-export interface MedicalRecord {
-  id: string;
-  patient: string | User;
-  doctor: string | User;
-  diagnosis: string;
-  treatment?: string | null;
-  attachments?:
-    | {
-        file?: (string | null) | Media;
-        id?: string | null;
-      }[]
-    | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "appointments".
- */
-export interface Appointment {
-  id: string;
-  patient: string | User;
-  doctor: string | User;
-  date: string;
-  status?: ('pending' | 'confirmed' | 'completed' | 'canceled') | null;
-  notes?: string | null;
-  updatedAt: string;
-  createdAt: string;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "payload-locked-documents".
  */
 export interface PayloadLockedDocument {
@@ -224,18 +168,6 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'media';
         value: string | Media;
-      } | null)
-    | ({
-        relationTo: 'prescriptions';
-        value: string | Prescription;
-      } | null)
-    | ({
-        relationTo: 'appointments';
-        value: string | Appointment;
-      } | null)
-    | ({
-        relationTo: 'medical-records';
-        value: string | MedicalRecord;
       } | null);
   globalSlug?: string | null;
   user: {
@@ -285,7 +217,12 @@ export interface PayloadMigration {
  */
 export interface UsersSelect<T extends boolean = true> {
   name?: T;
+  password?: T;
+  avatar?: T;
+  age?: T;
+  gender?: T;
   roles?: T;
+  specialization?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -313,57 +250,6 @@ export interface MediaSelect<T extends boolean = true> {
   height?: T;
   focalX?: T;
   focalY?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "prescriptions_select".
- */
-export interface PrescriptionsSelect<T extends boolean = true> {
-  user?: T;
-  doctor?: T;
-  medicalRecord?: T;
-  medicines?:
-    | T
-    | {
-        name?: T;
-        dosage?: T;
-        frequency?: T;
-        notes?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "appointments_select".
- */
-export interface AppointmentsSelect<T extends boolean = true> {
-  patient?: T;
-  doctor?: T;
-  date?: T;
-  status?: T;
-  notes?: T;
-  updatedAt?: T;
-  createdAt?: T;
-}
-/**
- * This interface was referenced by `Config`'s JSON-Schema
- * via the `definition` "medical-records_select".
- */
-export interface MedicalRecordsSelect<T extends boolean = true> {
-  patient?: T;
-  doctor?: T;
-  diagnosis?: T;
-  treatment?: T;
-  attachments?:
-    | T
-    | {
-        file?: T;
-        id?: T;
-      };
-  updatedAt?: T;
-  createdAt?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
