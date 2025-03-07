@@ -1,10 +1,10 @@
 'use client'
 
-import SocketIndicator from '@/components/SocketIndicator'
+import Hero from '@/components/Hero'
 import { useSocket } from '@/providers/SocketProvider'
 import { useEffect, useState } from 'react'
 
-export default function Home() {
+export default function Page() {
   const { socket, isConnected } = useSocket()
   const [message, setMessage] = useState('N/A')
 
@@ -18,10 +18,5 @@ export default function Home() {
     }
   }, [socket, isConnected])
 
-  return (
-    <div className="text-xl font-bold">
-      <SocketIndicator />
-      {message}
-    </div>
-  )
+  return <Hero />
 }

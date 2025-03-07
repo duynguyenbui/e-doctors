@@ -23,7 +23,7 @@ export default function RootLayout({ children }: LayoutProps) {
       <body>
         <Providers>
           <NavBar />
-          <div className="mt-16">{children}</div>
+          <main className="mt-16">{children}</main>
           <Toaster />
         </Providers>
       </body>

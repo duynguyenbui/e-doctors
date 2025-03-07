@@ -7,6 +7,7 @@
  */
 import { Button } from '@/components/ui/button'
 import { useAuth } from '@/providers/AuthProvider'
+import { LogInIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
 
@@ -39,7 +40,7 @@ export default function Page() {
         <p className="mt-4 text-muted-foreground">
           You are about to log out of your account. Are you sure you want to continue?
         </p>
-        <div className="mt-6">
+        <div className="mt-6 flex gap-2 justify-center">
           <Button
             className="inline-flex items-center rounded-md bg-primary px-4 py-2 text-sm font-medium text-primary-foreground shadow-sm transition-colors hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
             onClick={() => {
@@ -47,6 +48,17 @@ export default function Page() {
             }}
           >
             Home
+          </Button>
+
+          <Button
+            className="inline-flex items-center rounded-md px-4 py-2 text-sm font-medium shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2"
+            onClick={() => {
+              router.push('/login')
+            }}
+            variant="outline"
+          >
+            Login
+            <LogInIcon className="h-4 w-4" />
           </Button>
         </div>
       </div>

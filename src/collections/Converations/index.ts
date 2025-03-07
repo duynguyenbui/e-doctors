@@ -3,17 +3,11 @@ import type { CollectionConfig } from 'payload'
 export const Conversations: CollectionConfig = {
   slug: 'conversations',
   admin: {
-    useAsTitle: 'Name',
-  },
-  access: {
-    create: () => false,
-    read: () => true,
-    update: () => false,
-    delete: () => false,
+    useAsTitle: 'name',
   },
   fields: [
     {
-      name: 'Name',
+      name: 'name',
       type: 'text',
       required: true,
     },
@@ -22,18 +16,15 @@ export const Conversations: CollectionConfig = {
       type: 'relationship',
       relationTo: 'users',
       hasMany: true,
+      minRows: 2,
+      maxRows: 2,
       required: true,
     },
     {
-      name: 'isGroupChat',
-      type: 'checkbox',
-      defaultValue: false,
-    },
-    {
-      name: 'lastMessage',
-      type: 'relationship',
-      relationTo: 'messages',
-      hasMany: false,
+      name: 'messages',
+      type: 'join',
+      collection: 'messages',
+      on: 'conversation',
     },
   ],
 }

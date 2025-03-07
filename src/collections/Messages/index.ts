@@ -6,12 +6,6 @@ export const Messages: CollectionConfig = {
     useAsTitle: 'content',
     listSearchableFields: ['content'],
   },
-  access: {
-    create: () => false,
-    read: () => true,
-    update: () => false,
-    delete: () => false,
-  },
   fields: [
     {
       name: 'conversation',
@@ -26,6 +20,12 @@ export const Messages: CollectionConfig = {
       relationTo: 'users',
       required: true,
       hasMany: false,
+    },
+    {
+      name: 'role',
+      type: 'select',
+      options: ['User', 'Doctor'],
+      required: true,
     },
     {
       name: 'content',
@@ -44,10 +44,9 @@ export const Messages: CollectionConfig = {
       ],
     },
     {
-      name: 'readBy',
-      type: 'relationship',
-      relationTo: 'users',
-      hasMany: true,
+      name: 'isRead',
+      type: 'checkbox',
+      defaultValue: false,
     },
   ],
 }

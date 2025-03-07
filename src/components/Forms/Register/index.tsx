@@ -6,7 +6,12 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { PayloadUserLoginValidator, TPayloadUserLoginValidator } from '@/validations'
+import {
+  PayloadUserLoginValidator,
+  PayloadUserSignUpValidator,
+  TPayloadUserLoginValidator,
+  TPayloadUserSignUpValidator,
+} from '@/validations'
 import { useAuth } from '@/providers/AuthProvider'
 import { useRouter, useSearchParams } from 'next/navigation'
 import { useCallback, useRef } from 'react'
@@ -20,48 +25,62 @@ import {
   FormMessage,
 } from '@/components/ui/form'
 
-export function LoginForm({ className }: { className?: string }) {
-  const { login } = useAuth()
+export function RegisterForm({ className }: { className?: string }) {
+  const { create } = useAuth()
   const searchParams = useSearchParams()
   const router = useRouter()
   const redirect = useRef(searchParams?.get('redirect'))
 
-  const form = useForm<TPayloadUserLoginValidator>({
-    resolver: zodResolver(PayloadUserLoginValidator),
+  const form = useForm<TPayloadUserSignUpValidator>({
+    resolver: zodResolver(PayloadUserSignUpValidator),
     defaultValues: {
-      email: 'user@edoctors.com',
-      password: 'user',
+      email: 'demo@edoctors.com',
+      password: 'demo',
+      name: 'Demo',
     },
   })
+  const { isSubmitting } = form.formState
 
   const onSubmit = useCallback(
-    async (values: TPayloadUserLoginValidator) => {
+    async (values: TPayloadUserSignUpValidator) => {
       try {
-        const user = await login(values)
-
-        if (user) {
-          router.push(redirect.current || '/')
+        const res = await create(values)
+        if (typeof res === 'object') {
+          toast.success('Your account has been created successfully.')
         } else {
-          toast.error('There was an error with the credentials provided. Please try again.')
+          toast.error(res)
         }
       } catch (_) {
-        toast.error('Something went wrong.')
+        toast.error('Something went wrong when creating your account.')
       }
     },
-    [login, router],
+    [create],
   )
 
   return (
     <div className={cn('flex flex-col gap-6', className)}>
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Login to your account</h1>
+        <h1 className="text-2xl font-bold">Register to your account</h1>
         <p className="text-balance text-sm text-muted-foreground">
-          Enter your email below to login to your account
+          Enter your email below to register to your account
         </p>
       </div>
       <div className="grid gap-6">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
+            <FormField
+              control={form.control}
+              name="name"
+              render={({ field }) => (
+                <FormItem className="grid gap-2">
+                  <FormLabel>Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="John Doe" {...field} required className="rounded-md" />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"
@@ -103,15 +122,15 @@ export function LoginForm({ className }: { className?: string }) {
               />
             </div>
             <Button type="submit" className="w-full mt-2">
-              Login
+              Register
             </Button>
           </form>
         </Form>
       </div>
       <div className="text-center text-sm">
-        Don&apos;t have an account?{' '}
-        <a href="/register" className="underline underline-offset-4">
-          Sign up
+        Already have an account?{' '}
+        <a href="/login" className="underline underline-offset-4">
+          Login
         </a>
       </div>
     </div>

@@ -1,11 +1,11 @@
 'use client'
 
 import type React from 'react'
-import { useState, useRef } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { Button } from '@/components/ui/button'
 import { Card } from '@/components/ui/card'
 import { Input } from '@/components/ui/input'
-import { Image, Link, FileText, Globe, Scissors, Send, Settings } from 'lucide-react'
+import { Image, Link, FileText, Globe, Scissors, Send, Settings, SwitchCamera, DoorOpen } from 'lucide-react'
 import {
   Dialog,
   DialogContent,
@@ -15,67 +15,21 @@ import {
 } from '@/components/ui/dialog'
 import { Label } from '@/components/ui/label'
 import { SettingsDialog } from '../SettingDialog'
+import SocketIndicator from '../SocketIndicator'
+import { Conversation, Message } from '@/payload-types'
+import { useRouter } from 'next/navigation'
+import { getMessagesByConversationId } from '@/actions/messages'
 
-interface Message {
-  role: 'user' | 'assistant'
-  content: string
-}
-
-interface Conversation {
-  id: number
-  title: string
-  messages: Message[]
-}
-
-const mockConversations: Conversation[] = [
-  {
-    id: 1,
-    title: 'About Artificial Intelligence',
-    messages: [
-      { role: 'user', content: 'What is artificial intelligence?' },
-      {
-        role: 'assistant',
-        content:
-          'Artificial intelligence refers to intelligence demonstrated by machines created by humans.',
-      },
-      { role: 'user', content: 'What are some common AI applications?' },
-      {
-        role: 'assistant',
-        content:
-          'Common AI applications include voice assistants, image recognition, autonomous driving, recommendation systems, and more.',
-      },
-    ],
-  },
-  {
-    id: 2,
-    title: 'About Machine Learning',
-    messages: [
-      { role: 'user', content: 'What is machine learning?' },
-      {
-        role: 'assistant',
-        content:
-          "Machine learning is a branch of artificial intelligence that uses statistical techniques to enable computer systems to 'learn'.",
-      },
-      { role: 'user', content: 'What are some common machine learning algorithms?' },
-      {
-        role: 'assistant',
-        content:
-          'Common machine learning algorithms include linear regression, decision trees, random forests, support vector machines, neural networks, and more.',
-      },
-    ],
-  },
-]
-
-export function Chat() {
-  const [conversations, setConversations] = useState<Conversation[]>(mockConversations)
-  const [currentConversationId, setCurrentConversationId] = useState<number>(1)
+export function Chat({conversations, currentConversationId}: {conversations: Conversation[], currentConversationId: string}) {
   const [input, setInput] = useState('')
+  const [messages, setMessages] = useState<Message[]>([])
   const [isLinkDialogOpen, setIsLinkDialogOpen] = useState(false)
   const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [linkUrl, setLinkUrl] = useState('')
   const fileInputRef = useRef<HTMLInputElement>(null)
   const imageInputRef = useRef<HTMLInputElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
+  const router = useRouter()
 
   const currentConversation =
     conversations.find((conv) => conv.id === currentConversationId) || conversations[0]
@@ -109,96 +63,87 @@ export function Chat() {
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
     if (input.trim()) {
-      const newMessage: Message = { role: 'user', content: input.trim() }
-      const updatedConversations = conversations.map((conv) =>
-        conv.id === currentConversationId
-          ? { ...conv, messages: [...conv.messages, newMessage] }
-          : conv,
-      )
-      setConversations(updatedConversations)
+      console.log('input', input)
+
       setInput('')
-      setTimeout(() => {
-        const aiResponse: Message = {
-          role: 'assistant',
-          content: 'This is a simulated AI response.',
-        }
-        const updatedConversationsWithAI = updatedConversations.map((conv) =>
-          conv.id === currentConversationId
-            ? { ...conv, messages: [...conv.messages, aiResponse] }
-            : conv,
-        )
-        setConversations(updatedConversationsWithAI)
-      }, 1000)
     }
   }
 
   const handleLinkInsert = () => {
     if (linkUrl) {
-      const newText = input + ` [链接](${linkUrl})`
+      const newText = input + ` [Link](${linkUrl})`
       setInput(newText)
       setLinkUrl('')
       setIsLinkDialogOpen(false)
     }
   }
 
-  const handleConversationChange = (id: number) => {
-    setCurrentConversationId(id)
+  const handleConversationChange = (id: string) => {
+    router.push(`/conversations/chat/${id}`)
   }
 
+  useEffect(() => {
+    getMessagesByConversationId(currentConversationId).then((messages) => {
+      setMessages(messages)
+    })
+  }, [currentConversationId])
+
   return (
-    <div className="flex h-screen">
-      <div className="w-64 border-r p-4 overflow-y-auto">
+    <div className="flex h-[calc(100vh-4rem)]">
+      <div className="w-64 border-r p-4 overflow-y-auto bg-background">
         <h2 className="text-lg font-semibold mb-4">Conversations</h2>
         {conversations.map((conv) => (
           <Button
             key={conv.id}
-            variant={conv.id === currentConversationId ? 'secondary' : 'ghost'}
-            className="w-full justify-start mb-2"
+            variant={conv.id === currentConversationId ? 'default' : 'ghost'}
+            className="w-full justify-start mb-2 mr-2 text-sm md:text-base truncate"
             onClick={() => handleConversationChange(conv.id)}
           >
-            {conv.title}
+            {conv.name}
+            {conv.id === currentConversationId && <DoorOpen className="w-4 h-4" />}
           </Button>
         ))}
       </div>
 
-      <div className="flex-1 flex flex-col">
+      <div className="flex-1 flex flex-col bg-background">
         <div className="flex items-center justify-between p-4 border-b">
           <div className="flex items-center gap-2">
-            <span>{currentConversation.title}</span>
+            <span>{currentConversation?.name}</span>
           </div>
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={() => setIsSettingsOpen(true)}>
               <Settings className="h-4 w-4" />
               <span className="sr-only">Settings</span>
             </Button>
+            <SocketIndicator />
           </div>
         </div>
 
         <div className="flex-1 overflow-auto p-4">
-          {currentConversation.messages.map((message, index) => (
+          {messages.map((message, index) => (
             <div
               key={index}
-              className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'} mb-4`}
+              className={`flex ${message.role === 'Doctor' ? 'justify-end' : 'justify-start'} mb-4`}
             >
               <Card
-                className={`p-4 max-w-[80%] ${message.role === 'user' ? 'bg-blue-100' : 'bg-gray-100'}`}
+                className={`p-4 max-w-[80%] ${message.role === 'User' ? 'bg-blue-100' : 'bg-gray-100'}`}
               >
                 <div
-                  className={`flex gap-4 ${message.role === 'user' ? 'flex-row-reverse' : 'flex-row'}`}
+                  className={`flex gap-4 ${message.role === 'User' ? 'flex-row-reverse' : 'flex-row'}`}
                 >
                   <div
-                    className={`h-8 w-8 rounded-full flex items-center justify-center text-white ${message.role === 'user' ? 'bg-blue-500' : 'bg-green-500'}`}
+                    className={`h-8 w-8 rounded-full flex items-center justify-center text-white ${message.role === 'Doctor' ? 'bg-blue-500' : 'bg-green-500'}`}
                   >
-                    {message.role === 'user' ? 'U' : 'A'}
+                    {message.role === 'User' ? 'U' : 'A'}
                   </div>
-                  <div className="flex-1">{message.content}</div>
+                  <div className="flex-1 dark:text-black">{message.content}</div>
                 </div>
               </Card>
             </div>
           ))}
         </div>
 
-        <div className="p-4 border-t mb-16">
+        <div className="p-4 border-t">
           <form onSubmit={handleSubmit} className="max-w-2xl mx-auto">
             <div className="flex flex-col gap-2">
               <Input
