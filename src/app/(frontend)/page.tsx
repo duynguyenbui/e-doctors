@@ -22,7 +22,8 @@ export default function Home() {
 
   return (
     <div className="text-xl font-bold">
-      <SocketIndicator />
+      <h1>Chào mừng bạn đã trở về</h1>
+      <div> đặt lịch hẹn với bác sĩ nhé bà</div>
       {message}
     </div>
   )

@@ -11,10 +11,7 @@ dotenv.config()
 
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
-// import { Prescriptions } from './collections/Prescriptions'
-// import { Appointments } from './collections/Appointments'
-// import { MedicalRecords } from './collections/MedicalRecords'
-// import { Departments } from './collections/Departments'
+import { Profiles } from './collections/Profiles'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -26,8 +23,7 @@ export default buildConfig({
       baseDir: path.resolve(dirname),
     },
   },
-  collections: [Users, Media],
-  // collections: [Users, Media, Prescriptions, Appointments, MedicalRecords, Departments],
+  collections: [Users, Media, Profiles],
 
   editor: lexicalEditor(),
   secret: process.env.PAYLOAD_SECRET || '',
