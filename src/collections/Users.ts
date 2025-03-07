@@ -9,7 +9,16 @@ export const Users: CollectionConfig = {
   auth: true,
   access: {
     admin: ({ req }) => checkRole(['admin'], req.user ?? undefined),
-    create: anyone,
+    create: ({ req, data }) => {
+      const roles = data?.roles || []
+      if (!data.roles || data.roles.length == 0 || data.roles.includes('user')) {
+        return true
+      }
+      if (roles.includes('doctor') || roles.includes('admin')) {
+        return checkRole(['admin'], req.user ?? undefined)
+      }
+      return false
+    },
     delete: admin,
     read: canViewOwnProfile,
     update: authenticated,
@@ -47,13 +56,22 @@ export const Users: CollectionConfig = {
       admin: { position: 'sidebar' },
     },
     {
-      name: 'age',
-      type: 'number',
+      name: 'dob',
+      type: 'date',
       required: true,
-      validate: (val: number | null | undefined) => {
-        if (typeof val !== 'number' || val < 0 || val > 120) {
-          return 'Tuổi không hợp lệ!'
-        }
+      admin: {
+        date: {
+          pickerAppearance: 'dayOnly',
+        },
+      },
+      validate: (val: Date | null | undefined) => {
+        if (val === undefined) return true
+        if (!val) return 'khong duoc de trong'
+        const birtDate = new Date(val)
+        if (isNaN(birtDate.getTime())) return 'hop le'
+        const today = new Date()
+        const age = today.getFullYear() - birtDate.getFullYear()
+        if (age < 0 || age > 120) return 'khong hop le'
         return true
       },
     },

@@ -121,7 +121,7 @@ export interface User {
   name: string;
   password?: string | null;
   avatar?: (string | null) | Media;
-  age: number;
+  dob: string;
   gender: 'male' | 'female' | 'other';
   roles: ('admin' | 'doctor' | 'user')[];
   specialization?: string | null;
@@ -219,7 +219,7 @@ export interface UsersSelect<T extends boolean = true> {
   name?: T;
   password?: T;
   avatar?: T;
-  age?: T;
+  dob?: T;
   gender?: T;
   roles?: T;
   specialization?: T;
