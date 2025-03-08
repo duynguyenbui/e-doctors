@@ -213,7 +213,7 @@ export interface Message {
   content?: string | null;
   attachments?:
     | {
-        file: string | Media;
+        media: string | Media;
         id?: string | null;
       }[]
     | null;
@@ -327,7 +327,7 @@ export interface MessagesSelect<T extends boolean = true> {
   attachments?:
     | T
     | {
-        file?: T;
+        media?: T;
         id?: T;
       };
   isRead?: T;

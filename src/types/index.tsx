@@ -1,4 +1,4 @@
-import { DoctorDetail, User } from '@/payload-types'
+import { User } from '@/payload-types'
 import type { Permissions } from 'payload'
 
 import { Server as NetServer, Socket } from 'net'

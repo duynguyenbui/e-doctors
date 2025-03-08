@@ -1,7 +1,6 @@
 import { ReactNode } from 'react'
 import './globals.css'
 import { Providers } from '@/providers'
-import { ModeToggle } from '@/components/ModeToggle'
 import NavBar from '@/components/NavBar'
 import { Toaster } from 'sonner'
 
@@ -23,8 +22,8 @@ export default function RootLayout({ children }: LayoutProps) {
       <body>
         <Providers>
           <NavBar />
-          <main className="mt-16">{children}</main>
-          <Toaster />
+          <main className="min-h-[calc(100vh-4rem)] mt-16">{children}</main>
+          <Toaster position='top-left' />
         </Providers>
       </body>
     </html>

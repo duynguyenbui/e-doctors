@@ -36,8 +36,8 @@ export const Messages: CollectionConfig = {
       type: 'array',
       fields: [
         {
-          name: 'file',
-          type: 'upload',
+          name: 'media',
+          type: 'relationship',
           relationTo: 'media',
           required: true,
         },

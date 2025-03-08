@@ -8,7 +8,7 @@ export const getMessagesByConversationId = async (conversationId: string) => {
   const { docs: messages } = await payloadClient.find({
     collection: 'messages',
     pagination: false,
-    depth: 0,
+    depth: 1,
     where: {
       'conversation.id': {
         equals: conversationId,

@@ -3,18 +3,14 @@
 import { cn } from '@/lib/utils'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { Label } from '@/components/ui/label'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import {
-  PayloadUserLoginValidator,
   PayloadUserSignUpValidator,
-  TPayloadUserLoginValidator,
   TPayloadUserSignUpValidator,
 } from '@/validations'
 import { useAuth } from '@/providers/AuthProvider'
-import { useRouter, useSearchParams } from 'next/navigation'
-import { useCallback, useRef } from 'react'
+import { useCallback } from 'react'
 import { toast } from 'sonner'
 import {
   Form,
@@ -27,9 +23,6 @@ import {
 
 export function RegisterForm({ className }: { className?: string }) {
   const { create } = useAuth()
-  const searchParams = useSearchParams()
-  const router = useRouter()
-  const redirect = useRef(searchParams?.get('redirect'))
 
   const form = useForm<TPayloadUserSignUpValidator>({
     resolver: zodResolver(PayloadUserSignUpValidator),
@@ -39,7 +32,6 @@ export function RegisterForm({ className }: { className?: string }) {
       name: 'Demo',
     },
   })
-  const { isSubmitting } = form.formState
 
   const onSubmit = useCallback(
     async (values: TPayloadUserSignUpValidator) => {

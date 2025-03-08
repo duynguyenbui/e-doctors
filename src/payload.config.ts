@@ -21,6 +21,12 @@ export default buildConfig({
     importMap: {
       baseDir: path.resolve(dirname),
     },
+    components: {
+      graphics: {
+        Logo: './decorators/Logo/index',
+        Icon: './decorators/Icon/index',
+      },
+    },
   },
   collections: [Users, Conversations, Messages, Media],
   editor: lexicalEditor(),

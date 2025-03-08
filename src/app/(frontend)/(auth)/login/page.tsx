@@ -1,3 +1,5 @@
+// @ts-ignore
+
 import { LoginForm } from '@/components/Forms/Login'
 import { GalleryVerticalEnd } from 'lucide-react'
 

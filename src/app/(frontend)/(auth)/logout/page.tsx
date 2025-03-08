@@ -1,5 +1,7 @@
 'use client'
 
+// @ts-nocheck
+import { LogOutIcon } from '@/components/CustomIcon/LogoutIcon'
 /**
  * v0 by Vercel.
  * @see https://v0.dev/t/EXdet7CS2Qj
@@ -9,24 +11,24 @@ import { Button } from '@/components/ui/button'
 import { useAuth } from '@/providers/AuthProvider'
 import { LogInIcon } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useEffect } from 'react'
+import { toast } from 'sonner'
 
 export default function Page() {
   const { user, logout } = useAuth()
   const router = useRouter()
-  const [message, setMessage] = useState('')
 
   useEffect(() => {
     if (user) {
       Promise.resolve(logout())
         .then(() => {
-          setMessage('You have been successfully logged out.')
+          toast.success('You have been successfully logged out.')
         })
         .catch((_) => {
-          setMessage('An error occurred during logout.')
+          toast.error('An error occurred during logout.')
         })
     } else {
-      setMessage('You are already logged out.')
+      toast.info('You are already logged out.')
     }
   }, [logout, user])
 
@@ -66,23 +68,3 @@ export default function Page() {
   )
 }
 
-function LogOutIcon(props: any) {
-  return (
-    <svg
-      {...props}
-      xmlns="http://www.w3.org/2000/svg"
-      width="24"
-      height="24"
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-      <polyline points="16 17 21 12 16 7" />
-      <line x1="21" x2="9" y1="12" y2="12" />
-    </svg>
-  )
-}

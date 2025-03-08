@@ -5,7 +5,7 @@ import React, { useEffect, useState } from 'react'
 import { AuthProvider } from './AuthProvider'
 import { SocketProvider } from './SocketProvider'
 import { ThemeProvider } from './ThemeProvider'
-
+import ModalsProvider from './ModalsProvider'
 export const Providers: React.FC<{
   children: React.ReactNode
 }> = ({ children }) => {
@@ -23,6 +23,7 @@ export const Providers: React.FC<{
     <ThemeProvider attribute="class" defaultTheme="system" enableSystem disableTransitionOnChange>
       <AuthProvider>
         <SocketProvider>{children}</SocketProvider>
+        <ModalsProvider />
       </AuthProvider>
     </ThemeProvider>
   )

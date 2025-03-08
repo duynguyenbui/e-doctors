@@ -10,7 +10,7 @@ import Link from 'next/link'
 import { ModeToggle } from '../ModeToggle'
 import { Button } from '../ui/button'
 import { User } from 'lucide-react'
-
+import { useRouter } from 'next/navigation'
 const linkItems = [
   {
     name: 'Home',
@@ -50,6 +50,7 @@ const linkItems = [
 
 export default function NavBar() {
   const { user } = useAuth()
+  const router = useRouter()
 
   return (
     <header className="fixed top-0 z-50 w-full bg-white backdrop-blur-sm shadow-sm dark:bg-gray-950/80 mb-16">
@@ -79,12 +80,11 @@ export default function NavBar() {
             ))}
 
           {user && (
-            <Button variant="ghost" className="text-sm font-bold hover:text-gray-900 dark:hover:text-gray-50">
+            <Button variant="ghost" className="text-sm font-bold hover:text-gray-900 dark:hover:text-gray-50" onClick={() => router.push('/profile')}>
               <User className="h-4 w-4" />
               {user.name}
             </Button>
           )}
-
           <ModeToggle />
         </nav>
       </div>

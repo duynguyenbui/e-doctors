@@ -195,7 +195,6 @@ export const AuthProvider: React.FC<{ api?: 'gql' | 'rest'; children: React.Reac
   )
 }
 
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type UseAuth<T = User> = () => AuthContext
+type UseAuth = () => AuthContext
 
 export const useAuth: UseAuth = () => useContext(Context)

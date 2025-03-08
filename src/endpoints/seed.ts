@@ -1,6 +1,6 @@
 import type { Payload, PayloadRequest } from 'payload'
 
-export const seed = async ({ payload, req }: { payload: Payload; req: PayloadRequest }) => {
+export const seed = async ({ payload }: { payload: Payload; req: PayloadRequest }) => {
   payload.logger.info(`Seeding demo user...`)
 
   await Promise.all([
@@ -24,7 +24,7 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     }),
   ])
 
-  const [user, doctor] = await Promise.all([
+  const [] = await Promise.all([
     payload.create({
       collection: 'users',
       data: {
