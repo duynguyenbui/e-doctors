@@ -1,7 +1,5 @@
 // storage-adapter-import-placeholder
 import { mongooseAdapter } from '@payloadcms/db-mongodb'
-import { payloadCloudPlugin } from '@payloadcms/payload-cloud'
-import { lexicalEditor } from '@payloadcms/richtext-lexical'
 import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
@@ -11,6 +9,11 @@ import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Conversations } from './collections/Converations'
 import { Messages } from './collections/Messages'
+import { Posts } from './collections/Posts'
+import { Categories } from './collections/Categories'
+import { plugins } from './plugins'
+import { getServerSideURL } from './utilities/getURL'
+import { defaultLexical } from './fields/defaultLexical'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -27,9 +30,31 @@ export default buildConfig({
         Icon: './decorators/Icon/index',
       },
     },
+    livePreview: {
+      breakpoints: [
+        {
+          label: 'Mobile',
+          name: 'mobile',
+          width: 375,
+          height: 667,
+        },
+        {
+          label: 'Tablet',
+          name: 'tablet',
+          width: 768,
+          height: 1024,
+        },
+        {
+          label: 'Desktop',
+          name: 'desktop',
+          width: 1440,
+          height: 900,
+        },
+      ],
+    },
   },
-  collections: [Users, Conversations, Messages, Media],
-  editor: lexicalEditor(),
+  collections: [Users, Conversations, Messages, Media, Posts, Categories],
+  editor: defaultLexical,
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {
     outputFile: path.resolve(dirname, 'payload-types.ts'),
@@ -38,8 +63,12 @@ export default buildConfig({
     url: process.env.DATABASE_URI || '',
   }),
   sharp,
+  cors: [getServerSideURL()].filter(Boolean),
   plugins: [
-    payloadCloudPlugin(),
+    ...plugins,
     // storage-adapter-placeholder
   ],
+  graphQL: {
+    disable: true,
+  },
 })

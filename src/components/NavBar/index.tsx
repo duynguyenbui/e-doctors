@@ -17,8 +17,12 @@ const linkItems = [
     href: '/',
   },
   {
-    name: 'Blogs',
-    href: '/blogs',
+    name: 'Posts',
+    href: '/posts',
+  },
+  {
+    name: 'Search',
+    href: '/search',
   },
   {
     name: 'Conversations',

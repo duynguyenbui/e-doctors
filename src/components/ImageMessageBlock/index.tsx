@@ -9,7 +9,7 @@ import { getMedia } from '@/actions/media'
 import { useModals } from '@/stores'
 import { ModalType } from '@/constants'
 
-interface MediaBlockProps {
+interface ImageMessageBlockProps {
   media: Media | string
   alt?: string
   className?: string
@@ -18,14 +18,14 @@ interface MediaBlockProps {
   height?: number
 }
 
-export const MediaBlock = ({
+export const ImageMessageBlock = ({
   media,
   alt = 'Media content',
   className,
   aspectRatio = 'auto',
   width = 400,
   height = 400,
-}: MediaBlockProps) => {
+}: ImageMessageBlockProps) => {
   const [mediaUrl, setMediaUrl] = useState<string>('')
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)

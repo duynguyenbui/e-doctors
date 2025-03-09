@@ -1,8 +1,19 @@
 @import "tailwindcss";
 
 @plugin "tailwindcss-animate";
+@plugin "@tailwindcss/typography";
 
 @custom-variant dark (&:is(.dark *));
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  font-size: auto;
+  font-weight: auto;
+}
 
 :root {
   --background: oklch(1 0 0);
@@ -119,6 +130,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground min-h-[100vh] flex flex-col;
   }
 }
+

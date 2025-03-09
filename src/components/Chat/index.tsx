@@ -32,7 +32,7 @@ import { useAuth } from '@/providers/AuthProvider'
 import { useSocket } from '@/providers/SocketProvider'
 import { Conversation, Message } from '@/payload-types'
 import { PayloadMessageValidator, TPayloadMessageValidator } from '@/validations'
-import { MediaBlock } from '@/components/MediaBlock'
+import { ImageMessageBlock } from '@/components/ImageMessageBlock'
 
 
 
@@ -280,7 +280,7 @@ export function Chat({
                           message.attachments.length > 0 &&
                           message.attachments.map((attachment) => (
                             <div key={attachment.id} className="mt-2">
-                              <MediaBlock
+                              <ImageMessageBlock
                                 media={attachment.media}
                                 aspectRatio="auto"
                               />
