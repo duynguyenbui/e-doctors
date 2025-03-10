@@ -79,7 +79,7 @@ export function Chat({
     const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
 
       if (attachmentClients.length >= MAX_ATTACHMENTS) {
-        toast.error('You can only upload up to 3 attachments')
+        toast.error('Bạn chỉ có thể tải lên tối đa 3 tệp đính kèm')
         return
       }
 
@@ -128,21 +128,21 @@ export function Chat({
 
   const onSubmit = async (values: TPayloadMessageValidator) => {
     if (!user) {
-      toast.error('Please login to send a message')
+      toast.error('Vui lòng đăng nhập để gửi tin nhắn')
       return
     }
 
     const { success, data } = PayloadMessageValidator.safeParse(values)
 
     if (!success) {
-      toast.error('Please fill in all fields')
+      toast.error('Vui lòng điền đầy đủ các trường')
       return
     }
 
     const { content, attachments } = data
 
     if (!content && !attachments.length) {
-      toast.error('Content or attachment is required')
+      toast.error('Nội dung hoặc tệp đính kèm là bắt buộc')
       return
     }
 
@@ -209,7 +209,7 @@ export function Chat({
   return (
     <div className="flex h-[calc(100vh-4rem)]">
       <div className="w-64 border-r p-4 overflow-y-auto bg-background">
-        <h2 className="text-lg font-semibold mb-4">Conversations</h2>
+        <h2 className="text-lg font-semibold mb-4">Cuộc trò chuyện</h2>
         {conversations.map((conv) => (
           <Button
             key={conv.id}
@@ -231,7 +231,7 @@ export function Chat({
           <div className="flex items-center gap-2">
             <Button variant="ghost" size="icon" onClick={() => setIsSettingsOpen(true)}>
               <Settings className="h-4 w-4" />
-              <span className="sr-only">Settings</span>
+              <span className="sr-only">Cài đặt</span>
             </Button>
             <SocketIndicator />
           </div>
@@ -308,7 +308,7 @@ export function Chat({
                       disabled={isLoading || isSubmitting}
                       ref={inputRef}
                       className="w-full"
-                      placeholder="Type your question here..."
+                      placeholder="Nhập câu hỏi của bạn..."
                       value={field.value}
                       onChange={field.onChange}
                     />
@@ -374,14 +374,14 @@ export function Chat({
         <Dialog open={isLinkDialogOpen} onOpenChange={setIsLinkDialogOpen}>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>Insert Link</DialogTitle>
+              <DialogTitle>Chèn liên kết</DialogTitle>
             </DialogHeader>
             <div className="grid gap-4 py-4">
               <div className="grid gap-2">
                 <Label htmlFor="url">URL</Label>
                 <Input
                   id="url"
-                  placeholder="Please enter the URL"
+                  placeholder="Vui lòng nhập URL"
                   value={linkUrl}
                   onChange={(e) => setLinkUrl(e.target.value)}
                 />
@@ -389,10 +389,10 @@ export function Chat({
             </div>
             <DialogFooter>
               <Button type="button" variant="ghost" onClick={() => setIsLinkDialogOpen(false)}>
-                Cancel
+                Hủy bỏ
               </Button>
               <Button type="button" onClick={handleLinkInsert}>
-                Confirm
+                Xác nhận
               </Button>
             </DialogFooter>
           </DialogContent>

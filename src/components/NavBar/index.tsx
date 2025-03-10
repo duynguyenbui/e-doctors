@@ -13,40 +13,40 @@ import { User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 const linkItems = [
   {
-    name: 'Home',
+    name: 'Trang chủ',
     href: '/',
   },
   {
-    name: 'Posts',
+    name: 'Bài viết',
     href: '/posts',
   },
   {
-    name: 'Search',
+    name: 'Tìm kiếm',
     href: '/search',
   },
   {
-    name: 'Conversations',
+    name: 'Trò chuyện',
     href: '/conversations',
     isLoggedIn: true,
   },
   {
-    name: 'Login',
+    name: 'Đăng nhập',
     href: '/login',
     isLoggedIn: false,
   },
   {
-    name: 'Register',
+    name: 'Đăng ký',
     href: '/register',
     isLoggedIn: false,
   },
   {
-    name: 'Dashboard',
+    name: 'Quản trị',
     href: '/admin',
     isLoggedIn: true,
     isAdmin: true,
   },
   {
-    name: 'Logout',
+    name: 'Đăng xuất',
     href: '/logout',
     isLoggedIn: true,
   },
@@ -66,9 +66,9 @@ export default function NavBar() {
         <nav className="hidden space-x-6 md:flex items-center">
           {linkItems
             .filter((item) => {
-              // Show link if no login condition or if user is logged in
+              // Hiển thị liên kết nếu không có điều kiện đăng nhập hoặc nếu người dùng đã đăng nhập
               const loginCondition = item.isLoggedIn === undefined || item.isLoggedIn === !!user
-              // Check admin condition if specified
+              // Kiểm tra điều kiện admin nếu được chỉ định
               const adminCondition =
                 item.isAdmin === undefined || (item.isAdmin && user?.roles?.includes('admin'))
               return loginCondition && adminCondition

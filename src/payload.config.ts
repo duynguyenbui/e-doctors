@@ -4,7 +4,7 @@ import path from 'path'
 import { buildConfig } from 'payload'
 import { fileURLToPath } from 'url'
 import sharp from 'sharp'
-
+import { vi } from '@payloadcms/translations/languages/vi'
 import { Users } from './collections/Users'
 import { Media } from './collections/Media'
 import { Conversations } from './collections/Converations'
@@ -68,6 +68,10 @@ export default buildConfig({
     ...plugins,
     // storage-adapter-placeholder
   ],
+  i18n: {
+    fallbackLanguage: 'vi', // default
+    supportedLanguages: {vi},
+  },
   graphQL: {
     disable: true,
   },

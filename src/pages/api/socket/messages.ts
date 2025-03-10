@@ -27,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
   })
 
   if (!user) {
-    return res.status(401).json({ message: 'Unauthorized' })
+    return res.status(401).json({ message: 'Not allowed' })
   }
 
   const form = formidable()
@@ -40,7 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
   const attachments = files.attachments
 
   if (!conversationId || !role) {
-    return res.status(400).json({ message: 'Missing pre-defined fields' })
+    return res.status(400).json({ message: 'Missing predefined fields' })
   }
 
   const conversation = await payload.findByID({
@@ -53,7 +53,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
   }
 
   if (!content && !attachments) {
-    return res.status(400).json({ message: 'Missing content or attachment' })
+    return res.status(400).json({ message: 'Missing content or attachments' })
   }
 
   const chatKey = `${CHAT_KEY}:${conversationId}`
@@ -97,7 +97,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
   })
 
   if (!payloadMessage) {
-    return res.status(400).json({ message: 'Failed to send message' })
+    return res.status(400).json({ message: 'Cannot send message' })
   }
 
   res?.socket?.server?.io?.emit(chatKey, payloadMessage)

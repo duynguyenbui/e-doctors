@@ -29,7 +29,7 @@ export default async function Page() {
     <div className="pt-16 pb-16 container max-w-5xl mx-auto">
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
-          <h1 className="text-4xl font-bold">Posts</h1>
+          <h1 className="text-4xl font-bold">Bài viết</h1>
         </div>
       </div>
 
@@ -48,7 +48,7 @@ export default async function Page() {
 
 export function generateMetadata(): Metadata {
   return {
-    title: `eDoctors - Posts`,
-    description: 'Browse the latest articles and insights from eDoctors',
+    title: `eDoctors - Bài viết`,
+    description: 'Xem các bài viết và thông tin từ eDoctors',
   }
 }

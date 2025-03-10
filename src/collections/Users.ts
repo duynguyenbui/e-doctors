@@ -7,6 +7,14 @@ import { checkRole } from '@/access/checkRole'
 
 export const Users: CollectionConfig = {
   slug: 'users',
+  labels: {
+    singular: {
+      vi: 'Người dùng',
+    },
+    plural: {
+      vi: 'Người dùng',
+    },
+  },
   auth: true,
   admin: {
     defaultColumns: ['name', 'email'],
@@ -22,16 +30,25 @@ export const Users: CollectionConfig = {
   fields: [
     {
       name: 'name',
+      label: {
+        vi: 'Tên',
+      },
       type: 'text',
-      required: true
+      required: true,
     },
     {
       name: 'avatar',
+      label: {
+        vi: 'Ảnh đại diện',
+      },
       type: 'upload',
       relationTo: 'media',
     },
     {
       name: 'roles',
+      label: {
+        vi: 'Vai trò (sẽ được lưu vào JWT)',
+      },
       type: 'select',
       hasMany: true,
       saveToJWT: true,
@@ -41,15 +58,21 @@ export const Users: CollectionConfig = {
       },
       options: [
         {
-          label: 'Admin',
+          label: {
+            vi: 'Quản trị viên',
+          },
           value: 'admin',
         },
         {
-          label: 'Doctor',
+          label: {
+            vi: 'Bác sĩ',
+          },
           value: 'doctor',
         },
         {
-          label: 'User',
+          label: {
+            vi: 'Người dùng',
+          },
           value: 'user',
         },
       ],

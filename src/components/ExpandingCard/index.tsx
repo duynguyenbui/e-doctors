@@ -50,7 +50,7 @@ export default function ExpandingCard({ id, name, avatar }: DoctorDetailCard) {
       <div className="absolute bottom-0 left-0 right-0 bg-white bg-opacity-90 transition-all duration-300 ease-in-out h-[100px] group-hover:h-[70%] overflow-hidden">
         <div className="p-4">
           <Badge className="rounded-full border-none bg-gradient-to-r from-sky-500 to-indigo-600 text-white">
-            {doctorId}
+            Bác sĩ #{id}
             <GemIcon className="w-2 h-2" />
           </Badge>
           <h2 className="text-2xl font-bold mb-2 text-black flex items-center gap-2 hover:underline hover:text-blue-600 hover:cursor-pointer">
@@ -59,9 +59,9 @@ export default function ExpandingCard({ id, name, avatar }: DoctorDetailCard) {
           </h2>
           <div className="transition-all duration-300 ease-in-out max-h-[40px] group-hover:max-h-[calc(100%-40px)] overflow-hidden text-black">
             <p>
-              Lorem ipsum dolor sit amet consectetur adipisicing elit. Eveniet deserunt voluptatum
-              eum tenetur consequatur aliquam tempora autem minus ab eaque quis id ex delectus ipsum
-              amet, ratione quia reprehenderit tempore.
+              Bác sĩ có nhiều năm kinh nghiệm trong lĩnh vực y tế. Chuyên điều trị và tư vấn các vấn đề sức khỏe. 
+              Luôn tận tâm với bệnh nhân và cập nhật những phương pháp điều trị tiên tiến nhất. 
+              Nhấn vào để bắt đầu tư vấn trực tuyến với bác sĩ.
             </p>
           </div>
         </div>

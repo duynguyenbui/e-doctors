@@ -52,7 +52,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
     <div className="pt-16 pb-16 container max-w-5xl mx-auto">
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none text-center">
-          <h1 className="mb-8 lg:mb-16">Search</h1>
+          <h1 className="mb-8 lg:mb-16">Tìm kiếm</h1>
 
           <div className="max-w-[50rem] mx-auto">
             <Search route="search" />
@@ -63,7 +63,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       {posts.totalDocs > 0 ? (
         <PostArchive posts={posts.docs as CardPostData[]} />
       ) : (
-        <div className="container">No results found.</div>
+        <div className="container">Không tìm thấy kết quả.</div>
       )}
     </div>
   )
@@ -71,6 +71,6 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
 
 export function generateMetadata(): Metadata {
   return {
-    title: `eDoctors Search`,
+    title: `eDoctors - Tìm kiếm`,
   }
 }

@@ -11,8 +11,6 @@ import { image1 } from './image-1'
 import { image2 } from './image-2'
 import { imageHero1 } from './image-hero-1'
 import { post4 } from './post-4'
-import { post5 } from './post-5'
-import { post6 } from './post-6'
 
 const collections: CollectionSlug[] = ['categories', 'media', 'posts']
 
@@ -77,7 +75,7 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     payload.create({
       collection: 'users',
       data: {
-        name: 'User',
+        name: 'Người dùng',
         email: 'user@edoctors.com',
         password: 'user',
         roles: ['user'],
@@ -86,7 +84,7 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     payload.create({
       collection: 'users',
       data: {
-        name: 'Doctor',
+        name: 'Bác sĩ',
         email: 'doctor@edoctors.com',
         password: 'doctor',
         roles: ['user'],
@@ -95,8 +93,8 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     payload.create({
       collection: 'users',
       data: {
-        name: 'Demo',
-        email: 'demo@ewardrobe.com',
+        name: 'Người dùng demo',
+        email: 'demo@edoctors.com',
         password: 'demo',
         roles: ['user'],
       },
@@ -148,16 +146,16 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
 
   payload.logger.info(`— Seeding demo categories...`)
 
-  const [menCategory, womenCategory, kidsCategory, accessoriesCategory, footwearCategory, outerwearCategory] = await Promise.all([
+  const [menCategory, womenCategory, kidsCategory, accessoriesCategory] = await Promise.all([
     // CATEGORIES
     payload.create({
-      collection: 'categories',
+      collection: 'categories', 
       data: {
-        title: 'Men',
+        title: 'Nam',
         breadcrumbs: [
           {
-            label: 'Men',
-            url: '/men',
+            label: 'Nam',
+            url: '/nam',
           },
         ],
       },
@@ -165,11 +163,11 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     payload.create({
       collection: 'categories',
       data: {
-        title: 'Women',
+        title: 'Nữ',
         breadcrumbs: [
           {
-            label: 'Women',
-            url: '/women',
+            label: 'Nữ', 
+            url: '/nu',
           },
         ],
       },
@@ -177,11 +175,11 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     payload.create({
       collection: 'categories',
       data: {
-        title: 'Kids',
+        title: 'Trẻ em',
         breadcrumbs: [
           {
-            label: 'Kids',
-            url: '/kids',
+            label: 'Trẻ em',
+            url: '/tre-em',
           },
         ],
       },
@@ -189,11 +187,11 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     payload.create({
       collection: 'categories',
       data: {
-        title: 'Accessories',
+        title: 'Phụ kiện',
         breadcrumbs: [
           {
-            label: 'Accessories',
-            url: '/accessories',
+            label: 'Phụ kiện',
+            url: '/phu-kien',
           },
         ],
       },
@@ -201,11 +199,11 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     payload.create({
       collection: 'categories',
       data: {
-        title: 'Footwear',
+        title: 'Giày dép',
         breadcrumbs: [
           {
-            label: 'Footwear',
-            url: '/footwear',
+            label: 'Giày dép',
+            url: '/giay-dep',
           },
         ],
       },
@@ -213,11 +211,11 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     payload.create({
       collection: 'categories',
       data: {
-        title: 'Outerwear',
+        title: 'Áo khoác',
         breadcrumbs: [
           {
-            label: 'Outerwear',
-            url: '/outerwear',
+            label: 'Áo khoác',
+            url: '/ao-khoac',
           },
         ],
       },
@@ -298,34 +296,6 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     ),
   })
 
-  const post5Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: JSON.parse(
-      JSON.stringify({ ...post5, categories: [footwearCategory.id] })
-        .replace(/"\{\{IMAGE_1\}\}"/g, String(image2ID))
-        .replace(/"\{\{IMAGE_2\}\}"/g, String(image3ID))
-        .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID)),
-    ),
-  })
-
-  const post6Doc = await payload.create({
-    collection: 'posts',
-    depth: 0,
-    context: {
-      disableRevalidate: true,
-    },
-    data: JSON.parse(
-      JSON.stringify({ ...post6, categories: [outerwearCategory.id] })
-        .replace(/"\{\{IMAGE_1\}\}"/g, String(image3ID))
-        .replace(/"\{\{IMAGE_2\}\}"/g, String(image1ID))
-        .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID)),
-    ),
-  })
-
   // update each post with related posts
   await payload.update({
     id: post1Doc.id,
@@ -354,23 +324,7 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     id: post4Doc.id,
     collection: 'posts',
     data: {
-      relatedPosts: [post5Doc.id, post6Doc.id],
-    },
-  })
-
-  await payload.update({
-    id: post5Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post1Doc.id, post2Doc.id, post4Doc.id, post6Doc.id],
-    },
-  })
-
-  await payload.update({
-    id: post6Doc.id,
-    collection: 'posts',
-    data: {
-      relatedPosts: [post4Doc.id, post5Doc.id],
+      relatedPosts: [post1Doc.id, post2Doc.id, post3Doc.id],
     },
   })
 }

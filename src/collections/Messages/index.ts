@@ -2,6 +2,14 @@ import type { CollectionConfig } from 'payload'
 
 export const Messages: CollectionConfig = {
   slug: 'messages',
+  labels: {
+    singular: {
+      vi: 'Tin nhắn',
+    },
+    plural: {
+      vi: 'Tin nhắn',
+    },
+  },
   admin: {
     useAsTitle: 'content',
     listSearchableFields: ['content'],
@@ -9,6 +17,9 @@ export const Messages: CollectionConfig = {
   fields: [
     {
       name: 'conversation',
+      label: {
+        vi: 'Cuộc hội thoại',
+      },
       type: 'relationship',
       relationTo: 'conversations',
       required: true,
@@ -16,6 +27,9 @@ export const Messages: CollectionConfig = {
     },
     {
       name: 'sender',
+      label: {
+        vi: 'Người gửi',
+      },
       type: 'relationship',
       relationTo: 'users',
       required: true,
@@ -23,16 +37,25 @@ export const Messages: CollectionConfig = {
     },
     {
       name: 'role',
+      label: {
+        vi: 'Vai trò',
+      },
       type: 'select',
       options: ['User', 'Doctor'],
       required: true,
     },
     {
       name: 'content',
+      label: {
+        vi: 'Nội dung',
+      },
       type: 'text',
     },
     {
       name: 'attachments',
+      label: {
+        vi: 'Tệp đính kèm',
+      },
       type: 'array',
       fields: [
         {
@@ -45,6 +68,9 @@ export const Messages: CollectionConfig = {
     },
     {
       name: 'isRead',
+      label: {
+        vi: 'Đã đọc',
+      },
       type: 'checkbox',
       defaultValue: false,
     },

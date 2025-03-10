@@ -41,10 +41,10 @@ export function LoginForm({ className }: { className?: string }) {
         if (user) {
           router.push(redirect.current || '/')
         } else {
-          toast.error('There was an error with the credentials provided. Please try again.')
+          toast.error('Thông tin đăng nhập không chính xác. Vui lòng thử lại.')
         }
       } catch (_) {
-        toast.error('Something went wrong.')
+        toast.error('Đã xảy ra lỗi.')
       }
     },
     [login, router],
@@ -53,9 +53,9 @@ export function LoginForm({ className }: { className?: string }) {
   return (
     <div className={cn('flex flex-col gap-6', className)}>
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Login to your account</h1>
+        <h1 className="text-2xl font-bold">Đăng nhập vào tài khoản</h1>
         <p className="text-balance text-sm text-muted-foreground">
-          Enter your email below to login to your account
+          Nhập email của bạn để đăng nhập vào tài khoản
         </p>
       </div>
       <div className="grid gap-6">
@@ -81,14 +81,14 @@ export function LoginForm({ className }: { className?: string }) {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center justify-between">
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>Mật khẩu</FormLabel>
                       <a href="#" className="text-sm underline-offset-4 hover:underline">
-                        Forgot your password?
+                        Quên mật khẩu?
                       </a>
                     </div>
                     <FormControl>
                       <Input
-                        placeholder="Enter your password"
+                        placeholder="Nhập mật khẩu của bạn"
                         type="password"
                         {...field}
                         required
@@ -102,15 +102,15 @@ export function LoginForm({ className }: { className?: string }) {
               />
             </div>
             <Button type="submit" className="w-full mt-2">
-              Login
+              Đăng nhập
             </Button>
           </form>
         </Form>
       </div>
       <div className="text-center text-sm">
-        Don&apos;t have an account?{' '}
+        Chưa có tài khoản?{' '}
         <a href="/register" className="underline underline-offset-4">
-          Sign up
+          Đăng ký
         </a>
       </div>
     </div>

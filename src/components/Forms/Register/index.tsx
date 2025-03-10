@@ -38,12 +38,12 @@ export function RegisterForm({ className }: { className?: string }) {
       try {
         const res = await create(values)
         if (typeof res === 'object') {
-          toast.success('Your account has been created successfully.')
+          toast.success('Tài khoản của bạn đã được tạo thành công.')
         } else {
           toast.error(res)
         }
       } catch (_) {
-        toast.error('Something went wrong when creating your account.')
+        toast.error('Đã xảy ra lỗi khi tạo tài khoản của bạn.')
       }
     },
     [create],
@@ -52,9 +52,9 @@ export function RegisterForm({ className }: { className?: string }) {
   return (
     <div className={cn('flex flex-col gap-6', className)}>
       <div className="flex flex-col items-center gap-2 text-center">
-        <h1 className="text-2xl font-bold">Register to your account</h1>
+        <h1 className="text-2xl font-bold">Đăng ký tài khoản</h1>
         <p className="text-balance text-sm text-muted-foreground">
-          Enter your email below to register to your account
+          Nhập email của bạn để đăng ký tài khoản
         </p>
       </div>
       <div className="grid gap-6">
@@ -65,9 +65,9 @@ export function RegisterForm({ className }: { className?: string }) {
               name="name"
               render={({ field }) => (
                 <FormItem className="grid gap-2">
-                  <FormLabel>Name</FormLabel>
+                  <FormLabel>Họ và tên</FormLabel>
                   <FormControl>
-                    <Input placeholder="John Doe" {...field} required className="rounded-md" />
+                    <Input placeholder="Nguyễn Văn A" {...field} required className="rounded-md" />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -93,14 +93,14 @@ export function RegisterForm({ className }: { className?: string }) {
                 render={({ field }) => (
                   <FormItem>
                     <div className="flex items-center justify-between">
-                      <FormLabel>Password</FormLabel>
+                      <FormLabel>Mật khẩu</FormLabel>
                       <a href="#" className="text-sm underline-offset-4 hover:underline">
-                        Forgot your password?
+                        Quên mật khẩu?
                       </a>
                     </div>
                     <FormControl>
                       <Input
-                        placeholder="Enter your password"
+                        placeholder="Nhập mật khẩu của bạn"
                         type="password"
                         {...field}
                         required
@@ -114,15 +114,15 @@ export function RegisterForm({ className }: { className?: string }) {
               />
             </div>
             <Button type="submit" className="w-full mt-2">
-              Register
+              Đăng ký
             </Button>
           </form>
         </Form>
       </div>
       <div className="text-center text-sm">
-        Already have an account?{' '}
+        Đã có tài khoản?{' '}
         <a href="/login" className="underline underline-offset-4">
-          Login
+          Đăng nhập
         </a>
       </div>
     </div>

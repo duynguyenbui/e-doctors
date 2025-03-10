@@ -20,11 +20,11 @@ export function SettingsDialog({ open, onOpenChange }: { open: boolean; onOpenCh
     <Dialog open={open} onOpenChange={onOpenChange}>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Settings</DialogTitle>
+          <DialogTitle>Cài đặt</DialogTitle>
         </DialogHeader>
         <div className="grid gap-4 py-4">
           <div className="grid gap-2">
-            <Label>Select Model</Label>
+            <Label>Chọn mô hình</Label>
             <RadioGroup value={selectedModel} onValueChange={setSelectedModel}>
               {models.map((model) => (
                 <div key={model.id} className="flex items-center space-x-2">
@@ -35,7 +35,7 @@ export function SettingsDialog({ open, onOpenChange }: { open: boolean; onOpenCh
             </RadioGroup>
           </div>
           <div className="grid gap-2">
-            <Label>Temperature: {temperature.toFixed(1)}</Label>
+            <Label>Nhiệt độ: {temperature.toFixed(1)}</Label>
             <Slider
               min={0}
               max={1}

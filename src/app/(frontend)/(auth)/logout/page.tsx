@@ -22,13 +22,13 @@ export default function Page() {
     if (user) {
       Promise.resolve(logout())
         .then(() => {
-          toast.success('You have been successfully logged out.')
+          toast.success('Bạn đã đăng xuất thành công.')
         })
         .catch((_) => {
-          toast.error('An error occurred during logout.')
+          toast.error('Đã xảy ra lỗi trong quá trình đăng xuất.')
         })
     } else {
-      toast.info('You are already logged out.')
+      toast.info('Bạn đã đăng xuất rồi.')
     }
   }, [logout, user])
 
@@ -37,10 +37,10 @@ export default function Page() {
       <div className="mx-auto max-w-md text-center">
         <LogOutIcon className="mx-auto h-12 w-12 text-primary" />
         <h1 className="mt-4 text-3xl font-bold tracking-tight text-foreground sm:text-4xl">
-          Logging Out
+          Đang đăng xuất
         </h1>
         <p className="mt-4 text-muted-foreground">
-          You are about to log out of your account. Are you sure you want to continue?
+          Bạn sắp đăng xuất khỏi tài khoản của mình. Bạn có chắc chắn muốn tiếp tục không?
         </p>
         <div className="mt-6 flex gap-2 justify-center">
           <Button
@@ -49,7 +49,7 @@ export default function Page() {
               router.push('/')
             }}
           >
-            Home
+            Trang chủ
           </Button>
 
           <Button
@@ -59,7 +59,7 @@ export default function Page() {
             }}
             variant="outline"
           >
-            Login
+            Đăng nhập
             <LogInIcon className="h-4 w-4" />
           </Button>
         </div>
@@ -67,4 +67,3 @@ export default function Page() {
     </div>
   )
 }
-

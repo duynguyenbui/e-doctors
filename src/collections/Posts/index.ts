@@ -19,13 +19,21 @@ import {
   PreviewField,
 } from '@payloadcms/plugin-seo/fields'
 import { slugField } from '@/fields/slug'
-import { Banner } from '@/components/Banner/config'
+import { Banner } from '@/blocks/Banner/config'
 import { MediaBlock } from '@/blocks/MediaBlock/config'
 import { generatePreviewPath } from '@/utilities/generatePreviewPath'
 import { Code } from '@/blocks/Code/config'
 
 export const Posts: CollectionConfig<'posts'> = {
   slug: 'posts',
+  labels: {
+    singular: {
+      vi: 'Bài viết',
+    },
+    plural: {
+      vi: 'Bài viết',
+    },
+  },
   access: {
     create: authenticated,
     delete: authenticated,
@@ -68,6 +76,9 @@ export const Posts: CollectionConfig<'posts'> = {
   fields: [
     {
       name: 'title',
+      label: {
+        vi: 'Tiêu đề',
+      },
       type: 'text',
       required: true,
     },
@@ -78,6 +89,9 @@ export const Posts: CollectionConfig<'posts'> = {
           fields: [
             {
               name: 'heroImage',
+              label: {
+                vi: 'Ảnh bìa',
+              },
               type: 'upload',
               relationTo: 'media',
             },
@@ -100,12 +114,17 @@ export const Posts: CollectionConfig<'posts'> = {
               required: true,
             },
           ],
-          label: 'Content',
+          label: {
+            vi: 'Nội dung',
+          },
         },
         {
           fields: [
             {
               name: 'relatedPosts',
+              label: {
+                vi: 'Bài viết liên quan',
+              },
               type: 'relationship',
               admin: {
                 position: 'sidebar',
@@ -122,6 +141,9 @@ export const Posts: CollectionConfig<'posts'> = {
             },
             {
               name: 'categories',
+              label: {
+                vi: 'Danh mục',
+              },
               type: 'relationship',
               admin: {
                 position: 'sidebar',
@@ -130,11 +152,15 @@ export const Posts: CollectionConfig<'posts'> = {
               relationTo: 'categories',
             },
           ],
-          label: 'Meta',
+          label: {
+            vi: 'Meta',
+          },
         },
         {
           name: 'meta',
-          label: 'SEO',
+          label: {
+            vi: 'SEO',
+          },
           fields: [
             OverviewField({
               titlePath: 'meta.title',
@@ -163,6 +189,9 @@ export const Posts: CollectionConfig<'posts'> = {
     },
     {
       name: 'publishedAt',
+      label: {
+        vi: 'Ngày đăng',
+      },
       type: 'date',
       admin: {
         date: {
@@ -183,6 +212,9 @@ export const Posts: CollectionConfig<'posts'> = {
     },
     {
       name: 'authors',
+      label: {
+        vi: 'Tác giả',
+      },
       type: 'relationship',
       admin: {
         position: 'sidebar',
@@ -195,6 +227,9 @@ export const Posts: CollectionConfig<'posts'> = {
     // GraphQL will also not return mutated user data that differs from the underlying schema
     {
       name: 'populatedAuthors',
+      label: {
+        vi: 'Tác giả',
+      },
       type: 'array',
       access: {
         update: () => false,
@@ -206,10 +241,16 @@ export const Posts: CollectionConfig<'posts'> = {
       fields: [
         {
           name: 'id',
+          label: {
+            vi: 'ID',
+          },
           type: 'text',
         },
         {
           name: 'name',
+          label: {
+            vi: 'Tên',
+          },
           type: 'text',
         },
       ],

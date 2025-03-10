@@ -17,7 +17,7 @@ import type {
   BannerBlock as BannerBlockProps,
   MediaBlock as MediaBlockProps,
 } from '@/payload-types'
-import { BannerBlock } from '../Banner/Component'
+import { BannerBlock } from '../../blocks/Banner/Component'
 import { cn } from '@/lib/utils'
 
 type NodeTypes =

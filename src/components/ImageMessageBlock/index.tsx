@@ -20,7 +20,7 @@ interface ImageMessageBlockProps {
 
 export const ImageMessageBlock = ({
   media,
-  alt = 'Media content',
+  alt = 'Nội dung media',
   className,
   aspectRatio = 'auto',
   width = 400,
@@ -95,7 +95,7 @@ export const ImageMessageBlock = ({
         </Fragment>
       ) : (
         <div className="flex items-center justify-center h-full p-2 text-muted-foreground">
-          <p className="text-center text-xs">No media</p>
+          <p className="text-center text-xs">Không có media</p>
         </div>
       )}
     </div>

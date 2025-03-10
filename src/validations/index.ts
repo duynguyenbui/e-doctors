@@ -7,26 +7,26 @@ export const PayloadMessageValidator = z.object({
   role: z.enum(['User', 'Doctor']),
   content: z.string().optional(),
   attachments: z.array(z.instanceof(File))
-    .refine(files => {return Array.from(files).every(file => file instanceof File)}, { message: "Expected a file" })
-    .refine(files => Array.from(files).every(file => ACCEPTED_IMAGE_TYPES.includes((file as File).type)), "Only these types are allowed .jpg, .jpeg, .png and .webp")
-    .refine(files => Array.from(files).every(file => (file as File).size < 7000000), { message: 'File size must be less than 7MB.' })
+    .refine(files => {return Array.from(files).every(file => file instanceof File)}, { message: "Yêu cầu tệp tin" })
+    .refine(files => Array.from(files).every(file => ACCEPTED_IMAGE_TYPES.includes((file as File).type)), "Chỉ chấp nhận các định dạng .jpg, .jpeg, .png và .webp")
+    .refine(files => Array.from(files).every(file => (file as File).size < 7000000), { message: 'Kích thước tệp phải nhỏ hơn 7MB.' })
 })
 
 
 export const PayloadUserLoginValidator = z.object({
   email: z.string().email(),
   password: z.string().min(1, {
-    message: 'Password must not be blank.',
+    message: 'Mật khẩu không được để trống.',
   }),
 })
 
 export const PayloadUserSignUpValidator = z.object({
   email: z.string().email(),
   password: z.string().min(3, {
-    message: 'Password must be 3 characters.',
+    message: 'Mật khẩu phải có ít nhất 3 ký tự.',
   }),
   name: z.string().min(1, {
-    message: 'First name must not be blank.',
+    message: 'Tên không được để trống.',
   }),
 })
 

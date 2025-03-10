@@ -19,7 +19,7 @@ export const post2: Partial<Post> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'Explore the untold and overlooked. A magnified view into the corners of the world, where every story deserves its spotlight.',
+              text: 'Khám phá những điều chưa được kể và bị bỏ qua. Một cái nhìn sâu sắc vào các góc của thế giới, nơi mỗi câu chuyện đều xứng đáng được chú ý.',
               version: 1,
             },
           ],
@@ -47,7 +47,7 @@ export const post2: Partial<Post> = {
                         format: 1,
                         mode: 'normal',
                         style: '',
-                        text: 'Disclaimer:',
+                        text: 'Lưu ý:',
                         version: 1,
                       },
                       {
@@ -56,7 +56,7 @@ export const post2: Partial<Post> = {
                         format: 0,
                         mode: 'normal',
                         style: '',
-                        text: ' This content is fabricated and for demonstration purposes only. To edit this post, ',
+                        text: ' Nội dung này được tạo ra và chỉ dành cho mục đích minh họa. Để chỉnh sửa bài viết này, ',
                         version: 1,
                       },
                       {
@@ -68,7 +68,7 @@ export const post2: Partial<Post> = {
                             format: 0,
                             mode: 'normal',
                             style: '',
-                            text: 'navigate to the admin dashboard.',
+                            text: 'hãy điều hướng đến trang quản trị.',
                             version: 1,
                           },
                         ],
@@ -110,7 +110,7 @@ export const post2: Partial<Post> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'The Power of Resilience: Stories of Recovery and Hope',
+              text: 'Sức Mạnh của Sự Kiên Cường: Những Câu Chuyện về Phục Hồi và Hy Vọng',
               version: 1,
             },
           ],
@@ -129,7 +129,7 @@ export const post2: Partial<Post> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: "Throughout history, regions across the globe have faced the devastating impact of natural disasters, the turbulence of political unrest, and the challenging ripples of economic downturns. In these moments of profound crisis, an often-underestimated force emerges: the indomitable resilience of the human spirit. These aren't just tales of mere survival, but stories of communities forging bonds, uniting with a collective purpose, and demonstrating an innate ability to overcome.",
+              text: 'Xuyên suốt lịch sử, các khu vực trên toàn cầu đã phải đối mặt với tác động tàn phá của thiên tai, sự hỗn loạn của bất ổn chính trị và những làn sóng thách thức của suy thoái kinh tế. Trong những khoảnh khắc khủng hoảng sâu sắc này, một sức mạnh thường bị đánh giá thấp đã xuất hiện: sự kiên cường không thể khuất phục của tinh thần con người. Đây không chỉ là những câu chuyện về sự sống sót đơn thuần, mà là những câu chuyện về cộng đồng xây dựng mối liên kết, đoàn kết với mục đích chung và thể hiện khả năng vượt qua khó khăn.',
               version: 1,
             },
           ],
@@ -158,7 +158,7 @@ export const post2: Partial<Post> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'From neighbors forming makeshift rescue teams during floods to entire cities rallying to rebuild after economic collapse, the essence of humanity is most evident in these acts of solidarity. As we delve into these narratives, we witness the transformative power of community spirit, where adversity becomes a catalyst for growth, unity, and a brighter, rebuilt future.',
+              text: 'Từ những người hàng xóm thành lập đội cứu hộ tạm thời trong lũ lụt đến cả thành phố cùng nhau đứng lên xây dựng lại sau sự sụp đổ kinh tế, bản chất của nhân loại thể hiện rõ nhất qua những hành động đoàn kết này. Khi chúng ta đi sâu vào những câu chuyện này, chúng ta chứng kiến sức mạnh chuyển đổi của tinh thần cộng đồng, nơi nghịch cảnh trở thành chất xúc tác cho sự phát triển, đoàn kết và một tương lai tươi sáng hơn, được xây dựng lại.',
               version: 1,
             },
           ],
@@ -186,7 +186,7 @@ export const post2: Partial<Post> = {
                         format: 0,
                         mode: 'normal',
                         style: '',
-                        text: "This content above is completely dynamic using custom layout building blocks configured in the CMS. This can be anything you'd like from rich text and images, to highly designed, complex components.",
+                        text: 'Nội dung trên hoàn toàn linh hoạt sử dụng các khối xây dựng bố cục tùy chỉnh được cấu hình trong CMS. Điều này có thể là bất cứ thứ gì bạn muốn, từ văn bản phong phú và hình ảnh, đến các thành phần phức tạp được thiết kế cao.',
                         version: 1,
                       },
                     ],
@@ -220,12 +220,12 @@ export const post2: Partial<Post> = {
   heroImage: '{{IMAGE_1}}',
   meta: {
     description:
-      'Explore the untold and overlooked. A magnified view into the corners of the world, where every story deserves its spotlight.',
+      'Khám phá những điều chưa được kể và bị bỏ qua. Một cái nhìn sâu sắc vào các góc của thế giới, nơi mỗi câu chuyện đều xứng đáng được chú ý.',
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     image: '{{IMAGE_1}}',
-    title: 'Global Gaze: Beyond the Headlines',
+    title: 'Tầm Nhìn Toàn Cầu: Vượt Ra Ngoài Tiêu Đề',
   },
   relatedPosts: [], // this is populated by the seed script
-  title: 'Global Gaze: Beyond the Headlines',
+  title: 'Tầm Nhìn Toàn Cầu: Vượt Ra Ngoài Tiêu Đề',
 }
