@@ -30,6 +30,11 @@ const linkItems = [
     isLoggedIn: true,
   },
   {
+    name: 'Doi Ngu', 
+    href: '/doctors', 
+    isLoggedIn: true, 
+  },
+  {
     name: 'Đăng nhập',
     href: '/login',
     isLoggedIn: false,
