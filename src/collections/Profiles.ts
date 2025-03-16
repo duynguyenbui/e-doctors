@@ -14,7 +14,7 @@ export const Profiles: CollectionConfig = {
   access: {
     read: canViewOrEditOwn,
     create: authenticated,
-    update: canViewOrEditOwn,
+    update: authenticated,
     delete: admins,
   },
   fields: [

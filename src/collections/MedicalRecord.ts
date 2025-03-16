@@ -15,10 +15,10 @@ export const MedicalRecord: CollectionConfig = {
   },
 
   access: {
-    create: authenticated, // Chỉ user đã đăng nhập mới tạo được
-    read: authenticated, // Admin đọc tất cả, user chỉ đọc hồ sơ của mình
+    create: authenticated, 
+    read: authenticated, 
     update: authenticated, 
-    delete: admins, // Chỉ admin được xóa
+    delete: admins, 
   },
 
 
@@ -30,7 +30,7 @@ export const MedicalRecord: CollectionConfig = {
       relationTo: 'users',
       required: true,
       admin: {
-        readOnly: true, // Không cho chỉnh sửa thủ công
+        readOnly: true,
       },
     },
     {

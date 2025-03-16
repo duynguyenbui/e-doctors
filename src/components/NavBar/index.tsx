@@ -11,6 +11,8 @@ import { ModeToggle } from '../ModeToggle'
 import { Button } from '../ui/button'
 import { User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
+
+import { useUserStore, useMedicalRecordStore } from '@/app/(frontend)/profile/store';
 const linkItems = [
   {
     name: 'Trang chủ',
@@ -30,7 +32,7 @@ const linkItems = [
     isLoggedIn: true,
   },
   {
-    name: 'Doi Ngu', 
+    name: 'Đội ngũ', 
     href: '/doctors', 
     isLoggedIn: true, 
   },
@@ -60,7 +62,19 @@ const linkItems = [
 export default function NavBar() {
   const { user } = useAuth()
   const router = useRouter()
+  
+  // Lấy hàm kiểm tra từ Zustand store
+  const isProfileComplete = useUserStore((state) => state.isProfileComplete());
+  const isMedicalRecordComplete = useMedicalRecordStore((state) => state.isMedicalRecordComplete());
 
+  // Xử lý khi nhấp vào link "Trò chuyện"
+  const handleConversationsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (!isProfileComplete || !isMedicalRecordComplete) {
+      e.preventDefault();
+      alert("Bạn cần hoàn thành hồ sơ và bệnh án trước khi truy cập trang hội thoại!");
+      router.push('/profile');
+    }
+  };
   return (
     <header className="fixed top-0 z-50 w-full bg-white backdrop-blur-sm shadow-sm dark:bg-gray-950/80 mb-16">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
@@ -72,16 +86,17 @@ export default function NavBar() {
           {linkItems
             .filter((item) => {
               // Hiển thị liên kết nếu không có điều kiện đăng nhập hoặc nếu người dùng đã đăng nhập
-              const loginCondition = item.isLoggedIn === undefined || item.isLoggedIn === !!user
+              const loginCondition = item.isLoggedIn === undefined || item.isLoggedIn === !!user;
               // Kiểm tra điều kiện admin nếu được chỉ định
-              const adminCondition =
-                item.isAdmin === undefined || (item.isAdmin && user?.roles?.includes('admin'))
-              return loginCondition && adminCondition
+              const adminCondition = item.isAdmin === undefined || (item.isAdmin && user?.roles?.includes('admin'));
+              return loginCondition && adminCondition;
             })
             .map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
+                // Chỉ thêm onClick cho link "Trò chuyện"
+                onClick={item.href === '/conversations' ? handleConversationsClick : undefined}
                 className="text-sm font-medium hover:text-gray-900 dark:hover:text-gray-50"
               >
                 {item.name}
@@ -89,7 +104,11 @@ export default function NavBar() {
             ))}
 
           {user && (
-            <Button variant="ghost" className="text-sm font-bold hover:text-gray-900 dark:hover:text-gray-50" onClick={() => router.push('/profile')}>
+            <Button
+              variant="ghost"
+              className="text-sm font-bold hover:text-gray-900 dark:hover:text-gray-50"
+              onClick={() => router.push('/profile')}
+            >
               <User className="h-4 w-4" />
               {user.name}
             </Button>

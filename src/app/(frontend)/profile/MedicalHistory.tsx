@@ -30,10 +30,10 @@ interface MedicalRecordFormProps {
 export default function MedicalRecordForm({ userId }: MedicalRecordFormProps) {
   const { medicalHistory, examinationDate, setField } = useMedicalRecordStore();
   const [fetched, setFetched] = useState(false);
-  // Fetch dữ liệu hồ sơ hiện có nếu user đã có hồ sơ
+
 
   useEffect(() => {
-    if (!userId || fetched) return; // 🛑 Chỉ fetch nếu `userId` hợp lệ và chưa fetch trước đó
+    if (!userId || fetched) return; 
 
     const fetchMedicalRecord = async () => {
       try {
@@ -54,14 +54,14 @@ export default function MedicalRecordForm({ userId }: MedicalRecordFormProps) {
           setField("examinationDate", record.examinationDate?.split("T")[0] || "");
         }
 
-        setFetched(true); // ✅ Đánh dấu đã fetch để không gọi lại
+        setFetched(true);
       } catch (error) {
         console.error("Lỗi khi lấy hồ sơ:", error);
       }
     };
 
     fetchMedicalRecord();
-  }, [userId]); // ✅ useEffect chỉ chạy khi `userId` thay đổi
+  }, [userId]); 
   
 
   const handleSubmit = async () => {

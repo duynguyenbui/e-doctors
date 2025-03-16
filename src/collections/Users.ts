@@ -24,7 +24,7 @@ export const Users: CollectionConfig = {
     create: anyone,
     delete: admins,
     read: authenticated,
-    update: canViewOrEditOwn,
+    update: authenticated,
   },
   hooks: {
     afterChange: [createProfile, createMedicalRecord],

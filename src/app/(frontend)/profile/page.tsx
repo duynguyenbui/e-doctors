@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
-
+import { useUserStore } from '@/app/(frontend)/profile/store'
 import MedicalHistory from './MedicalHistory'
 
 interface User {
@@ -29,19 +29,22 @@ interface Profile {
 }
 
 export default function ProfilesPage() {
-  const [profiles, setProfiles] = useState<Profile[]>([])
+
   const [loading, setLoading] = useState(true)
   const [error, setError] = useState<string | null>(null)
   const router = useRouter()
-
-  // Lấy danh sách hồ sơ
+  const profiles = useUserStore((state) => state.profiles);
+  const setProfiles = useUserStore((state) => state.setProfiles); 
+  // get profiles from server
   useEffect(() => {
     const fetchProfiles = async () => {
       try {
         const res = await fetch('/api/profiles')
         if (!res.ok) throw new Error('Failed to fetch profiles')
         const data = await res.json()
+        console.log("🔄 Gọi setProfiles với dữ liệu:", data.docs);
         setProfiles(data?.docs || [])
+        console.log("🛠 Kiểm tra profiles trong Zustand:", useUserStore.getState().profiles);
       } catch (err: any) {
         setError(err.message)
       } finally {
@@ -52,7 +55,7 @@ export default function ProfilesPage() {
     fetchProfiles()
   }, [])
 
-  // Hàm cập nhật state của profile khi người dùng chỉnh sửa
+  // update profile
   const handleInputChange = (index: number, field: string, value: string) => {
     const newProfiles = [...profiles]
     if (field === 'name' || field === 'email') {
@@ -63,7 +66,7 @@ export default function ProfilesPage() {
     setProfiles(newProfiles)
   }
 
-  // Hàm upload avatar (giữ nguyên logic upload)
+  // upload avatar 
   const handleAvatarUpload = async (file: File, index: number) => {
     try {
       const formData = new FormData()
@@ -85,7 +88,7 @@ export default function ProfilesPage() {
       }
 
       // Cập nhật avatar cho profile tương ứng
-      const updatedAvatar = { id: media.doc.id, url: media.doc.url } 
+      const updatedAvatar = { id: media.doc.id, url: media.doc.url }
 
       const newProfiles = [...profiles]
       newProfiles[index].user = {
@@ -100,7 +103,7 @@ export default function ProfilesPage() {
     }
   }
 
-  // Hàm gửi cập nhật thông tin lên server cho 1 hồ sơ
+  // update profile
   const handleUpdateProfile = async (index: number) => {
     const profile = profiles[index]
     try {
@@ -161,7 +164,7 @@ export default function ProfilesPage() {
   if (loading) return <p className="text-center text-gray-500 mt-6 text-lg">Đang tải...</p>
   if (error) return <p className="text-center text-red-500 mt-6 text-lg">Lỗi: {error}</p>
   if (profiles.length === 0)
-    return <p className="text-center text-gray-600 mt-6 text-lg">Không có hồ sơ nào.</p>
+    return <p className="text-center text-gray-600 mt-6 text-lg">Không có hồ sơ .</p>
 
   return (
     <div className=" mx-auto p-8">
@@ -175,7 +178,7 @@ export default function ProfilesPage() {
             {/* Cột Hồ sơ */}
             <div className="border-r pr-4">
               <div className="flex flex-col items-center mb-6">
-                {/* Hiển thị avatar */}
+                {/*  avatar */}
                 <div className="w-24 h-24 relative group">
                   <div className="w-full h-full rounded-full overflow-hidden">
                     {profile.user?.avatar ? (
@@ -214,7 +217,7 @@ export default function ProfilesPage() {
                     </div>
                   </div>
                 </div>
-                {/* Các input luôn hiển thị để chỉnh sửa thông tin */}
+                {/* Các input update profile */}
                 <div className="w-full">
                   <label className="block text-sm font-medium text-gray-700">Tên</label>
                   <input
@@ -271,7 +274,7 @@ export default function ProfilesPage() {
                   <label className="block text-sm font-medium text-gray-700">Ngày sinh</label>
                   <input
                     type="date"
-                    value={profile.dob}
+                    value={profile.dob ? new Date(profile.dob).toISOString().split('T')[0] : ''}
                     onChange={(e) => handleInputChange(index, 'dob', e.target.value)}
                     className="mt-1 block w-full border border-gray-300 rounded-md p-2"
                   />
@@ -288,13 +291,12 @@ export default function ProfilesPage() {
             </div>
             {/* Cột Bệnh án */}
             <div className="pl-4">
-             
-            <MedicalHistory userId={profile.user.id} />
-
+              <MedicalHistory userId={profile.user.id} />
             </div>
           </div>
         </div>
       ))}
+
     </div>
   )
 }
