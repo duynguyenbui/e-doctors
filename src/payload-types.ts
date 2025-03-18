@@ -72,6 +72,9 @@ export interface Config {
     media: Media;
     posts: Post;
     categories: Category;
+    profiles: Profile;
+    doctors: Doctor;
+    'medical-records': MedicalRecord;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -93,6 +96,9 @@ export interface Config {
     media: MediaSelect<false> | MediaSelect<true>;
     posts: PostsSelect<false> | PostsSelect<true>;
     categories: CategoriesSelect<false> | CategoriesSelect<true>;
+    profiles: ProfilesSelect<false> | ProfilesSelect<true>;
+    doctors: DoctorsSelect<false> | DoctorsSelect<true>;
+    'medical-records': MedicalRecordsSelect<false> | MedicalRecordsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -149,6 +155,8 @@ export interface User {
   name: string;
   avatar?: (string | null) | Media;
   roles: ('admin' | 'doctor' | 'user')[];
+  profileId?: (string | null) | Profile;
+  doctorId?: (string | null) | Doctor;
   updatedAt: string;
   createdAt: string;
   email: string;
@@ -254,6 +262,39 @@ export interface Media {
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profiles".
+ */
+export interface Profile {
+  id: string;
+  user: string | User;
+  phone: string;
+  address?: string | null;
+  gender: 'male' | 'female' | 'other';
+  dob: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "doctors".
+ */
+export interface Doctor {
+  id: string;
+  /**
+   * Chọn tài khoản user cho bác sĩ
+   */
+  user: string | User;
+  specialization: string;
+  degree: string;
+  experience: number;
+  phone?: string | null;
+  location?: string | null;
+  bio?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
  * via the `definition` "conversations".
  */
 export interface Conversation {
@@ -354,6 +395,57 @@ export interface Category {
         id?: string | null;
       }[]
     | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "medical-records".
+ */
+export interface MedicalRecord {
+  id: string;
+  user: string | User;
+  /**
+   * Tiền sử bệnh án của bệnh nhân, vui lòng chọn các mục phù hợp
+   */
+  medicalHistory?: {
+    chronicDiseases?:
+      | {
+          disease?:
+            | (
+                | 'heart'
+                | 'high_blood_pressure'
+                | 'diabetes'
+                | 'asthma'
+                | 'cancer'
+                | 'arthritis'
+                | 'osteoporosis'
+                | 'kidney_disease'
+                | 'liver_disease'
+                | 'digestive_disorder'
+                | 'neurological_disorder'
+              )
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    allergies?:
+      | {
+          allergy?: ('food' | 'medicine' | 'pollen' | 'animal_hair' | 'environment') | null;
+          id?: string | null;
+        }[]
+      | null;
+    surgeries?:
+      | {
+          surgery?:
+            | ('appendectomy' | 'heart_surgery' | 'joint_surgery' | 'stomach_surgery' | 'cesarean_section')
+            | null;
+          id?: string | null;
+        }[]
+      | null;
+    otherConditions?: string | null;
+  };
+  examinationDate: string;
   updatedAt: string;
   createdAt: string;
 }
@@ -722,6 +814,18 @@ export interface PayloadLockedDocument {
         value: string | Category;
       } | null)
     | ({
+        relationTo: 'profiles';
+        value: string | Profile;
+      } | null)
+    | ({
+        relationTo: 'doctors';
+        value: string | Doctor;
+      } | null)
+    | ({
+        relationTo: 'medical-records';
+        value: string | MedicalRecord;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -791,6 +895,8 @@ export interface UsersSelect<T extends boolean = true> {
   name?: T;
   avatar?: T;
   roles?: T;
+  profileId?: T;
+  doctorId?: T;
   updatedAt?: T;
   createdAt?: T;
   email?: T;
@@ -973,6 +1079,67 @@ export interface CategoriesSelect<T extends boolean = true> {
         label?: T;
         id?: T;
       };
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profiles_select".
+ */
+export interface ProfilesSelect<T extends boolean = true> {
+  user?: T;
+  phone?: T;
+  address?: T;
+  gender?: T;
+  dob?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "doctors_select".
+ */
+export interface DoctorsSelect<T extends boolean = true> {
+  user?: T;
+  specialization?: T;
+  degree?: T;
+  experience?: T;
+  phone?: T;
+  location?: T;
+  bio?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "medical-records_select".
+ */
+export interface MedicalRecordsSelect<T extends boolean = true> {
+  user?: T;
+  medicalHistory?:
+    | T
+    | {
+        chronicDiseases?:
+          | T
+          | {
+              disease?: T;
+              id?: T;
+            };
+        allergies?:
+          | T
+          | {
+              allergy?: T;
+              id?: T;
+            };
+        surgeries?:
+          | T
+          | {
+              surgery?: T;
+              id?: T;
+            };
+        otherConditions?: T;
+      };
+  examinationDate?: T;
   updatedAt?: T;
   createdAt?: T;
 }

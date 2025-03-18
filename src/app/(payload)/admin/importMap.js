@@ -18,8 +18,8 @@ import { PreviewComponent as PreviewComponent_a8a977ebc872c5d5ea7ee689724c0860 }
 import { SlugComponent as SlugComponent_92cc057d0a2abb4f6cf0307edf59f986 } from '@/fields/slug/SlugComponent'
 import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
-import { default as default_1e170097fc855ab6f70b7e4f54adcffd } from 'src/decorators/Icon/index'
-import { default as default_f1829884b1e046f5fa0f65a8dabb87d1 } from 'src/decorators/Logo/index'
+import { default as default_1e170097fc855ab6f70b7e4f54adcffd } from '../../../decorators/Icon/index'
+import { default as default_f1829884b1e046f5fa0f65a8dabb87d1 } from '../../../decorators/Logo/index'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
