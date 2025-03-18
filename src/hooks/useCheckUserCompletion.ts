@@ -10,13 +10,13 @@ export const useCheckUserCompletion = () => {
 
   useEffect(() => {
     console.log(" Kiểm tra ok chuaw");
-    console.log("👤 ho so đầy đủ?", isProfileComplete);
-    console.log("📄 Bệnh án đầy đủ?", isMedicalRecordComplete);
+    console.log("ho so đầy đủ?", isProfileComplete);
+    console.log(" Bệnh án đầy đủ?", isMedicalRecordComplete);
     if (!isProfileComplete || !isMedicalRecordComplete) {
       console.warn("ho so benh an chua day du");
       alert('Bạn cần hoàn thành hồ sơ cá nhân và bệnh án trước khi tiếp tục!');
       router.push('/profile');
     }
-    console.log("✅ Hồ sơ & bệnh án đầy đủ, tiếp tục...");
+    console.log(" Hồ sơ & bệnh án đầy đủ, tiếp tục...");
   }, [isProfileComplete, isMedicalRecordComplete, router]);
 };
