@@ -1,80 +1,50 @@
 'use client'
 
 import { useAuth } from '@/providers/AuthProvider'
-/**
- * v0 by Vercel.
- * @see https://v0.dev/t/EhccAlv2fOc
- * Documentation: https://v0.dev/docs#integrating-generated-code-into-your-nextjs-app
- */
 import Link from 'next/link'
 import { ModeToggle } from '../ModeToggle'
 import { Button } from '../ui/button'
 import { User } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-
-import { useUserStore, useMedicalRecordStore } from '@/app/(frontend)/profile/store';
-const linkItems = [
-  {
-    name: 'Trang chủ',
-    href: '/',
-  },
-  {
-    name: 'Bài viết',
-    href: '/posts',
-  },
-  {
-    name: 'Tìm kiếm',
-    href: '/search',
-  },
-  {
-    name: 'Trò chuyện',
-    href: '/conversations',
-    isLoggedIn: true,
-  },
-  {
-    name: 'Đội ngũ', 
-    href: '/doctors', 
-    isLoggedIn: true, 
-  },
-  {
-    name: 'Đăng nhập',
-    href: '/login',
-    isLoggedIn: false,
-  },
-  {
-    name: 'Đăng ký',
-    href: '/register',
-    isLoggedIn: false,
-  },
-  {
-    name: 'Quản trị',
-    href: '/admin',
-    isLoggedIn: true,
-    isAdmin: true,
-  },
-  {
-    name: 'Đăng xuất',
-    href: '/logout',
-    isLoggedIn: true,
-  },
-]
+import { useUserStore, useMedicalRecordStore } from '@/app/(frontend)/profile/store'
+import NotificationBell from '@/components/NotificationBell'
 
 export default function NavBar() {
   const { user } = useAuth()
   const router = useRouter()
-  
-  // Lấy hàm kiểm tra từ Zustand store
-  const isProfileComplete = useUserStore((state) => state.isProfileComplete());
-  const isMedicalRecordComplete = useMedicalRecordStore((state) => state.isMedicalRecordComplete());
+
+  // Lấy trạng thái từ Zustand store
+  const isProfileComplete = useUserStore((state) => state.isProfileComplete())
+  const isMedicalRecordComplete = useMedicalRecordStore((state) => state.isMedicalRecordComplete())
+
+  // Danh sách link điều hướng
+  const linkItems = [
+    { name: 'Trang chủ', href: '/' },
+    { name: 'Bài viết', href: '/posts' },
+    { name: 'Tìm kiếm', href: '/search' },
+    {
+      name: 'Trò chuyện',
+      href: user?.roles?.includes('doctor') ? '/conversations/respondent' : '/conversations',
+      isLoggedIn: true,
+    },
+    { name: 'Đội ngũ', href: '/doctors' },
+    { name: 'Quản Lý Chuẩn đoán', href: '/diagnosis', isLoggedIn: true, isDoctor: true },
+    { name: 'Đăng nhập', href: '/login', isLoggedIn: false },
+    { name: 'Đăng ký', href: '/register', isLoggedIn: false },
+    { name: 'Quản trị', href: '/admin', isLoggedIn: true, isAdmin: true },
+    { name: 'Đăng xuất', href: '/logout', isLoggedIn: true },
+  ]
 
   // Xử lý khi nhấp vào link "Trò chuyện"
   const handleConversationsClick = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    if (user?.roles?.includes('doctor')) return // Bác sĩ không cần kiểm tra
     if (!isProfileComplete || !isMedicalRecordComplete) {
-      e.preventDefault();
-      alert("Bạn cần hoàn thành hồ sơ và bệnh án trước khi truy cập trang hội thoại!");
-      router.push('/profile');
+      e.preventDefault()
+      alert('Bạn cần hoàn thành hồ sơ và bệnh án trước khi truy cập trang hội thoại!')
+      router.push('/profile')
     }
-  };
+  }
+
   return (
     <header className="fixed top-0 z-50 w-full bg-white backdrop-blur-sm shadow-sm dark:bg-gray-950/80 mb-16">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
@@ -85,24 +55,22 @@ export default function NavBar() {
         <nav className="hidden space-x-6 md:flex items-center">
           {linkItems
             .filter((item) => {
-              // Hiển thị liên kết nếu không có điều kiện đăng nhập hoặc nếu người dùng đã đăng nhập
-              const loginCondition = item.isLoggedIn === undefined || item.isLoggedIn === !!user;
-              // Kiểm tra điều kiện admin nếu được chỉ định
-              const adminCondition = item.isAdmin === undefined || (item.isAdmin && user?.roles?.includes('admin'));
-              return loginCondition && adminCondition;
+              const loginCondition = item.isLoggedIn === undefined || item.isLoggedIn === !!user
+              const adminCondition = item.isAdmin === undefined || (item.isAdmin && user?.roles?.includes('admin'))
+              const doctorCondition = item.isDoctor === undefined || (item.isDoctor && user?.roles?.includes('doctor'))
+              return loginCondition && adminCondition && doctorCondition
             })
             .map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                // Chỉ thêm onClick cho link "Trò chuyện"
-                onClick={item.href === '/conversations' ? handleConversationsClick : undefined}
+                onClick={item.href.includes('/conversations') ? handleConversationsClick : undefined}
                 className="text-sm font-medium hover:text-gray-900 dark:hover:text-gray-50"
               >
                 {item.name}
               </Link>
             ))}
-
+          {user && <NotificationBell />}
           {user && (
             <Button
               variant="ghost"

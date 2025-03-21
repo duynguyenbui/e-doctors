@@ -1,8 +1,7 @@
 import { Access } from "payload";
 
 export const canViewOrEditOwn: Access = ({ req }) => {
-  console.log("Received data:", req.body); // Kiểm tra body
-  console.log("User data:", req.user); // Kiểm tra user
+ 
 
   // Đảm bảo `req.user` tồn tại trước khi truy cập thuộc tính
   if (!req.user || !req.user.roles) {
@@ -19,7 +18,7 @@ export const canViewOrEditOwn: Access = ({ req }) => {
     return false;
   }
 
-  // Chỉ cho phép xem/chỉnh sửa hồ sơ của chính họ
+
   return {
     user: {
       equals: req.user.id,
