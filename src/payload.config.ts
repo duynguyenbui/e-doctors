@@ -18,8 +18,8 @@ import {Profiles} from './collections/Profiles'
 import { Doctors } from './collections/Doctors'
 import { MedicalRecord } from'./collections/MedicalRecord'
 
-import type { EmailAdapter } from 'payload'
-
+import{Diagnosis} from './collections/Diagnosis'
+import {Notifications} from './collections/Notifications'
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
 
@@ -60,7 +60,7 @@ export default buildConfig({
       ],
     },
   },
-  collections: [Users, Conversations, Messages, Media, Posts, Categories,Profiles,Doctors,MedicalRecord],
+  collections: [Users, Conversations, Messages, Media, Posts, Categories,Profiles,Doctors,MedicalRecord,Diagnosis,Notifications],
   editor: defaultLexical,
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

@@ -75,6 +75,8 @@ export interface Config {
     profiles: Profile;
     doctors: Doctor;
     'medical-records': MedicalRecord;
+    diagnoses: Diagnosis;
+    notifications: Notification;
     redirects: Redirect;
     forms: Form;
     'form-submissions': FormSubmission;
@@ -99,6 +101,8 @@ export interface Config {
     profiles: ProfilesSelect<false> | ProfilesSelect<true>;
     doctors: DoctorsSelect<false> | DoctorsSelect<true>;
     'medical-records': MedicalRecordsSelect<false> | MedicalRecordsSelect<true>;
+    diagnoses: DiagnosesSelect<false> | DiagnosesSelect<true>;
+    notifications: NotificationsSelect<false> | NotificationsSelect<true>;
     redirects: RedirectsSelect<false> | RedirectsSelect<true>;
     forms: FormsSelect<false> | FormsSelect<true>;
     'form-submissions': FormSubmissionsSelect<false> | FormSubmissionsSelect<true>;
@@ -446,6 +450,36 @@ export interface MedicalRecord {
     otherConditions?: string | null;
   };
   examinationDate: string;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "diagnoses".
+ */
+export interface Diagnosis {
+  id: string;
+  conversation: string | Conversation;
+  user: string | User;
+  diagnosis: string;
+  diagnosisDate: string;
+  treatment: string;
+  status?: ('pending' | 'approved' | 'rejected') | null;
+  approvedBy?: (string | null) | User;
+  approvedAt?: string | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications".
+ */
+export interface Notification {
+  id: string;
+  recipient: string | User;
+  message: string;
+  isRead?: boolean | null;
+  diagnosisId?: (string | null) | Diagnosis;
   updatedAt: string;
   createdAt: string;
 }
@@ -826,6 +860,14 @@ export interface PayloadLockedDocument {
         value: string | MedicalRecord;
       } | null)
     | ({
+        relationTo: 'diagnoses';
+        value: string | Diagnosis;
+      } | null)
+    | ({
+        relationTo: 'notifications';
+        value: string | Notification;
+      } | null)
+    | ({
         relationTo: 'redirects';
         value: string | Redirect;
       } | null)
@@ -1140,6 +1182,34 @@ export interface MedicalRecordsSelect<T extends boolean = true> {
         otherConditions?: T;
       };
   examinationDate?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "diagnoses_select".
+ */
+export interface DiagnosesSelect<T extends boolean = true> {
+  conversation?: T;
+  user?: T;
+  diagnosis?: T;
+  diagnosisDate?: T;
+  treatment?: T;
+  status?: T;
+  approvedBy?: T;
+  approvedAt?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "notifications_select".
+ */
+export interface NotificationsSelect<T extends boolean = true> {
+  recipient?: T;
+  message?: T;
+  isRead?: T;
+  diagnosisId?: T;
   updatedAt?: T;
   createdAt?: T;
 }

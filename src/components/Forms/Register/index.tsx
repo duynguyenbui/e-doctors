@@ -12,6 +12,7 @@ import {
 import { useAuth } from '@/providers/AuthProvider'
 import { useCallback } from 'react'
 import { toast } from 'sonner'
+import { useRouter } from 'next/navigation'
 import {
   Form,
   FormControl,
@@ -23,7 +24,7 @@ import {
 
 export function RegisterForm({ className }: { className?: string }) {
   const { create } = useAuth()
-
+  const router = useRouter()
   const form = useForm<TPayloadUserSignUpValidator>({
     resolver: zodResolver(PayloadUserSignUpValidator),
     defaultValues: {
@@ -39,6 +40,7 @@ export function RegisterForm({ className }: { className?: string }) {
         const res = await create(values)
         if (typeof res === 'object') {
           toast.success('Tài khoản của bạn đã được tạo thành công.')
+          router.push('/login')
         } else {
           toast.error(res)
         }
@@ -46,7 +48,7 @@ export function RegisterForm({ className }: { className?: string }) {
         toast.error('Đã xảy ra lỗi khi tạo tài khoản của bạn.')
       }
     },
-    [create],
+    [create,router],
   )
 
   return (
