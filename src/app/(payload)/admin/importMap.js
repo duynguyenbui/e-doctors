@@ -20,6 +20,7 @@ import { LinkToDoc as LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloa
 import { ReindexButton as ReindexButton_aead06e4cbf6b2620c5c51c9ab283634 } from '@payloadcms/plugin-search/client'
 import { default as default_1e170097fc855ab6f70b7e4f54adcffd } from 'src/decorators/Icon/index'
 import { default as default_f1829884b1e046f5fa0f65a8dabb87d1 } from 'src/decorators/Logo/index'
+import { default as default_4a0e81a905d6bce2116428dba635e8de } from 'src/decorators/BeforeDashboard/index'
 
 export const importMap = {
   "@payloadcms/richtext-lexical/rsc#RscEntryLexicalCell": RscEntryLexicalCell_44fe37237e0ebf4470c9990d8cb7b07e,
@@ -43,5 +44,6 @@ export const importMap = {
   "@payloadcms/plugin-search/client#LinkToDoc": LinkToDoc_aead06e4cbf6b2620c5c51c9ab283634,
   "@payloadcms/plugin-search/client#ReindexButton": ReindexButton_aead06e4cbf6b2620c5c51c9ab283634,
   "./decorators/Icon/index#default": default_1e170097fc855ab6f70b7e4f54adcffd,
-  "./decorators/Logo/index#default": default_f1829884b1e046f5fa0f65a8dabb87d1
+  "./decorators/Logo/index#default": default_f1829884b1e046f5fa0f65a8dabb87d1,
+  "./decorators/BeforeDashboard/index#default": default_4a0e81a905d6bce2116428dba635e8de
 }

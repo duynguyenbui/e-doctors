@@ -5,6 +5,7 @@ import { getPayloadClient } from '@/get-payload'
 import { Heart, Mail, Phone, MapPin, Calendar, GraduationCap, Award, Clock } from 'lucide-react'
 import { redirect } from 'next/navigation'
 import React from 'react'
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 
 type Args = {
   params: Promise<{
@@ -17,7 +18,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   const slug = params.slug
 
   const payload = await getPayloadClient()
-  const {docs:doctors} = await payload.find({
+  const { docs: doctors } = await payload.find({
     collection: 'physicianProfiles',
     where: {
       'accountDetails.user.id': {
@@ -26,7 +27,7 @@ export default async function Page({ params: paramsPromise }: Args) {
     },
     depth: 2,
     limit: 1,
-    pagination: false
+    pagination: false,
   })
 
   const doctor: any = doctors[0]
@@ -44,7 +45,13 @@ export default async function Page({ params: paramsPromise }: Args) {
       <div className="grid gap-6 md:grid-cols-[1fr_2fr]">
         <Card className="h-fit">
           <CardHeader className="text-center">
-            <CardTitle>{doctor.accountDetails.user.name}</CardTitle>
+            <CardTitle className="flex items-center gap-2 justify-center">
+              <Avatar>
+                <AvatarImage src={(doctor.accountDetails.user.avatar as any)?.url} alt="@shadcn" />
+                <AvatarFallback>ED</AvatarFallback>
+              </Avatar>
+              {doctor.accountDetails.user.name}
+            </CardTitle>
             <CardDescription className="flex justify-center items-center gap-1">
               <Heart className="h-4 w-4 text-primary" />
               {doctor.specialty}

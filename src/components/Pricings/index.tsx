@@ -7,6 +7,7 @@ import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
 import { createPayment } from '@/actions/payment'
 import { toast } from 'sonner'
+import { formatVND } from '@/utilities/currency'
 
 const amountPerMonth = process.env.NEXT_PUBLIC_AMOUNT_PER_MONTH
 
@@ -34,10 +35,10 @@ export const Pricings = () => {
 
         <div className="flex items-center justify-center">
           <PriceCard
-            tier={`${amountPerMonth} VND / 1 tháng`}
-            price={amountPerMonth!}
+            tier={`${formatVND(Number(amountPerMonth))} / 1 tháng`}
+            price={formatVND(Number(amountPerMonth))}
             bestFor="Tốt nhất cho 1-5 người dùng"
-            CTA={<GhostButton className="w-full" onClick={onBuy}>Nạp {amountPerMonth} VND</GhostButton>}
+            CTA={<GhostButton className="w-full" onClick={onBuy}>Nạp {formatVND(Number(amountPerMonth))}</GhostButton>}
             benefits={[
               { text: 'Được chat trong vòng 1 tháng', checked: true },
               { text: 'Không giới hạn số lượng tin nhắn', checked: true },

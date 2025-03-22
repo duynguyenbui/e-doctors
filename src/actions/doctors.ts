@@ -13,7 +13,7 @@ export const getDoctors = async () => {
       },
     },
     pagination: false,
-    depth: 0,
+    depth: 1,
   })
 
   return doctorDetails

@@ -32,6 +32,7 @@ export default buildConfig({
         Logo: './decorators/Logo/index',
         Icon: './decorators/Icon/index',
       },
+      beforeDashboard: ['./decorators/BeforeDashboard/index'],
     },
     livePreview: {
       breakpoints: [

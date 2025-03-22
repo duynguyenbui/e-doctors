@@ -3,7 +3,7 @@
 import { createConversation } from '@/actions/conversation'
 import { Card, CardContent, CardFooter } from '@/components/ui/card'
 import { User } from '@/payload-types'
-import { ArrowRight } from 'lucide-react'
+import { ArrowRight, MousePointerClickIcon } from 'lucide-react'
 import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
@@ -32,19 +32,26 @@ export default function DoctorCard({ id, name, avatar, email, phone, address }: 
   if (!id) {
     router.push('/conversations')
   }
-  
+
   return (
     <Card className="overflow-hidden">
       <div className="relative aspect-video">
         <Image
-          src={'/doctor-card-placeholder.svg'}
+          src={(avatar as any)?.url ?? '/doctor-card-placeholder.svg'}
           alt={name}
           fill
-          className="object-cover transition-transform hover:scale-105"
+          className="object-cover transition-transform hover:scale-105 -mt-6"
         />
       </div>
-      <CardContent className="p-4">
-        <Button className="text-xl font-bold mb-2 cursor-pointer" variant='secondary' onClick={() => handleClick(id)}>{name}</Button>
+      <CardContent className="px-4 py-2 -mt-6">
+        <Button
+          className="text-xl font-bold mb-2 cursor-pointer"
+          variant="default"
+          onClick={() => handleClick(id)}
+        >
+          {name}
+          <MousePointerClickIcon className="w-4 h-4 ml-2" />
+        </Button>
         <div className="flex flex-wrap gap-2 flex-col">
           <div className="flex flex-wrap gap-2">
             <span className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10">

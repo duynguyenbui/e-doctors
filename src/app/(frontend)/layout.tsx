@@ -24,7 +24,7 @@ export default function RootLayout({ children }: LayoutProps) {
         <Providers>
           <NavBar />
           <main className="min-h-[calc(100vh-4rem)] mt-16">{children}</main>
-          <Toaster position="top-left" />
+          <Toaster position="top-left" richColors />
         </Providers>
       </body>
     </html>
