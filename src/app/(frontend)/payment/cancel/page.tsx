@@ -1,0 +1,45 @@
+'use client'
+
+import Link from 'next/link'
+import { Card } from '@/components/ui/card'
+import { useEffect } from 'react'
+import { useRouter, useSearchParams } from 'next/navigation'
+import { cn } from '@/lib/utils'
+import { buttonVariants } from '@/components/ui/button'
+import { XCircle } from 'lucide-react'
+
+const Page = () => {
+  const searchParams = useSearchParams()
+  const userId = searchParams?.get('userId')
+  const router = useRouter()
+
+  if (!userId) {
+    router.push('/')
+  }
+
+  return (
+    <div className="container mx-auto py-10">
+      <div className="flex flex-col items-center justify-center ">
+        <Card className="max-w-md w-full space-y-6 p-6 rounded-lg shadow-lg">
+          <div className="flex flex-col items-center">
+            <XCircle className="text-red-500 h-16 w-16" />
+            <h1 className="text-3xl font-bold mt-4">Thanh toán đã bị hủy</h1>
+            <p className="mt-2">Thanh toán của bạn đã bị hủy.</p>
+          </div>
+
+          <div className="flex justify-center">
+            <Link
+              href={`/pricings?userId=${userId}`}
+              className={cn(buttonVariants(), 'mt-4')}
+              prefetch={false}
+            >
+              Thanh toán của bạn thất bại, hãy thử lại
+            </Link>
+          </div>
+        </Card>
+      </div>
+    </div>
+  )
+}
+
+export default Page

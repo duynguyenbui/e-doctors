@@ -11,6 +11,7 @@ import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 import { stripePlugin } from '@payloadcms/plugin-stripe'
+import Stripe from 'stripe'
 // import Stripe from 'stripe'
 
 const generateTitle: GenerateTitle<Post> = ({ doc }) => {
@@ -85,6 +86,47 @@ export const plugins: Plugin[] = [
     stripeWebhooksEndpointSecret: process.env.STRIPE_WEBHOOKS_ENDPOINT_SECRET,
     webhooks: {
       'checkout.session.completed': async ({ event, req }) => {
+        const { payload } = req
+        const session = event.data.object as Stripe.Checkout.Session
+        const userId = session?.metadata?.userId
+
+        if (!userId) {
+          return
+        }
+
+        const { docs: paymentSubscriptions } = await payload.find({
+          collection: 'paymentSubscriptions',
+          where: {
+            'accountDetails.user.id': {
+              equals: userId,
+            },
+          },
+          pagination: false,
+          depth: 1,
+          limit: 1,
+        })
+
+        const paymentSubscription = paymentSubscriptions[0]
+
+        if (!paymentSubscription) {
+          return
+        }
+
+        const currentDate = new Date()
+
+        payload.update({
+          collection: 'paymentSubscriptions',
+          id: paymentSubscription.id,
+          data: {
+            subscription: [
+              ...(paymentSubscription.subscription || []),
+              {
+                startDate: currentDate.toISOString(),
+                endDate: new Date(currentDate.getTime() + 30 * 24 * 60 * 60 * 1000).toISOString(),
+              }
+            ]
+          }
+        })
         console.log('checkout.session.completed', event)
       },
     },

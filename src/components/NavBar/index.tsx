@@ -25,6 +25,17 @@ const linkItems = [
     href: '/search',
   },
   {
+    name: 'Hồ sơ bệnh án',
+    href: '/medical-records',
+    isLoggedIn: true,
+  },
+  {
+    name: 'Hỗ trợ bệnh nhân',
+    href: '/conversations/respondent',
+    isLoggedIn: true,
+    isDoctor: true,
+  },
+  {
     name: 'Trò chuyện',
     href: '/conversations',
     isLoggedIn: true,
@@ -66,12 +77,11 @@ export default function NavBar() {
         <nav className="hidden space-x-6 md:flex items-center">
           {linkItems
             .filter((item) => {
-              // Hiển thị liên kết nếu không có điều kiện đăng nhập hoặc nếu người dùng đã đăng nhập
               const loginCondition = item.isLoggedIn === undefined || item.isLoggedIn === !!user
-              // Kiểm tra điều kiện admin nếu được chỉ định
-              const adminCondition =
-                item.isAdmin === undefined || (item.isAdmin && user?.roles?.includes('admin'))
-              return loginCondition && adminCondition
+              const adminCondition = item.isAdmin === undefined || (item.isAdmin && user?.roles?.includes('admin'))
+              const doctorCondition = item.isDoctor === undefined || (item.isDoctor && user?.roles?.includes('doctor'))
+
+              return loginCondition && adminCondition && doctorCondition
             })
             .map((item) => (
               <Link

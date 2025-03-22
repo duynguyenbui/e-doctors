@@ -5,8 +5,21 @@ import type { ReactNode, CSSProperties } from 'react'
 import { Check, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { motion } from 'framer-motion'
+import { createPayment } from '@/actions/payment'
+import { toast } from 'sonner'
+
+const amountPerMonth = process.env.NEXT_PUBLIC_AMOUNT_PER_MONTH
 
 export const Pricings = () => {
+
+  const onBuy = async () => {
+    const { success, message } = await createPayment()
+
+    if (!success) {
+      toast.error(message)
+    }
+  }
+
   return (
     <section className="relative overflow-hidden">
       <div className="relative z-10 mx-auto max-w-5xl px-4 py-20 md:px-8">
@@ -21,10 +34,10 @@ export const Pricings = () => {
 
         <div className="flex items-center justify-center">
           <PriceCard
-            tier="300,000 VND / 1 tháng"
-            price="300,000 VND"
+            tier={`${amountPerMonth} VND / 1 tháng`}
+            price={amountPerMonth!}
             bestFor="Tốt nhất cho 1-5 người dùng"
-            CTA={<GhostButton className="w-full">Nạp 300,000 VND</GhostButton>}
+            CTA={<GhostButton className="w-full" onClick={onBuy}>Nạp {amountPerMonth} VND</GhostButton>}
             benefits={[
               { text: 'Được chat trong vòng 1 tháng', checked: true },
               { text: 'Không giới hạn số lượng tin nhắn', checked: true },
