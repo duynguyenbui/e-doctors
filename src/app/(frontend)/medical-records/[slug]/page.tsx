@@ -42,7 +42,7 @@ export default async function Page({ params: paramsPromise }: Args) {
 
   const { user } = await getServerSideUser()
 
-  if (!user || medicalRecord.accountDetails.user.id !== user.id) {
+  if (!user || ![medicalRecord.accountDetails.user.id, medicalRecord.physician.accountDetails.user.id].includes(user.id)) {
     redirect('/medical-records')
   }
 
