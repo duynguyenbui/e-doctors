@@ -4,8 +4,10 @@ import { anyone } from '@/access/anyone'
 import { admins } from '@/access/admin'
 import { authenticated } from '@/access/authenticated'
 import { checkRole } from '@/access/checkRole'
-import { populatePhysicianProfiles } from './Hooks/populatePhysicianProfiles'
-import { populatePaymentSubscriptions } from './Hooks/populatePaymentSubscriptions'
+import { populatePhysicianProfiles } from './Hooks/UserHooks/populatePhysicianProfiles'
+import { populatePaymentSubscriptions } from './Hooks/UserHooks/populatePaymentSubscriptions'
+import { deletePhysicianProfiles } from './Hooks/UserHooks/deletePhysicianProfiles'
+import { deletePaymentSubscriptions } from './Hooks/UserHooks/deletePaymentSubscriptions'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -24,13 +26,14 @@ export const Users: CollectionConfig = {
   },
   access: {
     admin: ({ req: { user } }) => checkRole(['admin'], user ?? undefined),
-    create: anyone,
+    create: admins,
     delete: admins,
     read: authenticated,
     update: admins,
   },
   hooks: {
     afterChange: [populatePhysicianProfiles, populatePaymentSubscriptions],
+    afterDelete: [deletePhysicianProfiles, deletePaymentSubscriptions],
   },
   fields: [
     {
@@ -110,9 +113,9 @@ export const Users: CollectionConfig = {
       hasMany: true,
       saveToJWT: true,
       required: true,
-      hooks: {
-        beforeChange: [protectRoles],
-      },
+      // hooks: {
+      //   beforeChange: [protectRoles],
+      // },
       options: [
         {
           label: {

@@ -319,7 +319,7 @@ export interface Message {
  */
 export interface MedicalRecord {
   id: string;
-  physician: (string | PhysicianProfile)[];
+  physician: string | PhysicianProfile;
   visitDate: string;
   symptoms?: string | null;
   diagnosis?: string | null;
@@ -332,7 +332,7 @@ export interface MedicalRecord {
         id?: string | null;
       }[]
     | null;
-  notes?: string | null;
+  note?: string | null;
   accountDetails: {
     user: string | User;
   };
@@ -739,7 +739,7 @@ export interface MedicalRecordsSelect<T extends boolean = true> {
         instructions?: T;
         id?: T;
       };
-  notes?: T;
+  note?: T;
   accountDetails?:
     | T
     | {

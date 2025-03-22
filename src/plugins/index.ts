@@ -11,7 +11,7 @@ import { beforeSyncWithSearch } from '@/search/beforeSync'
 import { Post } from '@/payload-types'
 import { getServerSideURL } from '@/utilities/getURL'
 import { stripePlugin } from '@payloadcms/plugin-stripe'
-import Stripe from 'stripe'
+// import Stripe from 'stripe'
 
 const generateTitle: GenerateTitle<Post> = ({ doc }) => {
   return doc?.title ? `${doc.title} | eDoctors` : 'eDoctors'

@@ -36,40 +36,56 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
       where: {
         id: {
           exists: true,
-        }
-      }
+        },
+      },
     }),
     payload.delete({
       collection: 'messages',
       where: {
         id: {
           exists: true,
-        }
-      }
+        },
+      },
     }),
     payload.delete({
       collection: 'conversations',
       where: {
         id: {
           exists: true,
-        }
-      }
+        },
+      },
     }),
     payload.delete({
       collection: 'media',
       where: {
         id: {
           exists: true,
-        }
-      }
+        },
+      },
+    }),
+    payload.delete({
+      collection: 'physicianProfiles',
+      where: {
+        id: {
+          exists: true,
+        },
+      },
+    }),
+    payload.delete({  
+      collection: 'paymentSubscriptions',
+      where: {
+        id: {
+          exists: true,
+        },
+      },
     }),
     payload.delete({
       collection: 'posts',
       where: {
         id: {
           exists: true,
-        }
-      }
+        },
+      },
     }),
   ])
 
@@ -107,7 +123,7 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
         dob: '2000-01-01',
         phone: '0909090909',
         address: '456 Elm St, Anytown, USA',
-        roles: ['user', 'doctor'],
+        roles: ['doctor', 'user'],
       },
     }),
     payload.create({
@@ -160,81 +176,86 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
 
   payload.logger.info(`Seeding demo categories...`)
 
-const [cardiologyCategory, neurologyCategory, pediatricsCategory, dermatologyCategory, orthopedicsCategory, radiologyCategory] = await Promise.all([
-  // CATEGORIES
-  payload.create({
-    collection: 'categories',
-    data: {
-      title: 'Tim mạch',
-      breadcrumbs: [
-        {
-          label: 'Tim mạch',
-          url: '/tim-mach',
-        },
-      ],
-    },
-  }),
-  payload.create({
-    collection: 'categories',
-    data: {
-      title: 'Thần kinh',
-      breadcrumbs: [
-        {
-          label: 'Thần kinh',
-          url: '/than-kinh',
-        },
-      ],
-    },
-  }),
-  payload.create({
-    collection: 'categories',
-    data: {
-      title: 'Nhi khoa',
-      breadcrumbs: [
-        {
-          label: 'Nhi khoa',
-          url: '/nhi-khoa',
-        },
-      ],
-    },
-  }),
-  payload.create({
-    collection: 'categories',
-    data: {
-      title: 'Da liễu',
-      breadcrumbs: [
-        {
-          label: 'Da liễu',
-          url: '/da-lieu',
-        },
-      ],
-    },
-  }),
-  payload.create({
-    collection: 'categories',
-    data: {
-      title: 'Chỉnh hình',
-      breadcrumbs: [
-        {
-          label: 'Chỉnh hình',
-          url: '/chinh-hinh',
-        },
-      ],
-    },
-  }),
-  payload.create({
-    collection: 'categories',
-    data: {
-      title: 'Chẩn đoán hình ảnh',
-      breadcrumbs: [
-        {
-          label: 'Chẩn đoán hình ảnh',
-          url: '/chan-doan-hinh-anh',
-        },
-      ],
-    },
-  }),
-])
+  const [
+    cardiologyCategory,
+    neurologyCategory,
+    pediatricsCategory,
+    dermatologyCategory,
+  ] = await Promise.all([
+    // CATEGORIES
+    payload.create({
+      collection: 'categories',
+      data: {
+        title: 'Tim mạch',
+        breadcrumbs: [
+          {
+            label: 'Tim mạch',
+            url: '/tim-mach',
+          },
+        ],
+      },
+    }),
+    payload.create({
+      collection: 'categories',
+      data: {
+        title: 'Thần kinh',
+        breadcrumbs: [
+          {
+            label: 'Thần kinh',
+            url: '/than-kinh',
+          },
+        ],
+      },
+    }),
+    payload.create({
+      collection: 'categories',
+      data: {
+        title: 'Nhi khoa',
+        breadcrumbs: [
+          {
+            label: 'Nhi khoa',
+            url: '/nhi-khoa',
+          },
+        ],
+      },
+    }),
+    payload.create({
+      collection: 'categories',
+      data: {
+        title: 'Da liễu',
+        breadcrumbs: [
+          {
+            label: 'Da liễu',
+            url: '/da-lieu',
+          },
+        ],
+      },
+    }),
+    payload.create({
+      collection: 'categories',
+      data: {
+        title: 'Chỉnh hình',
+        breadcrumbs: [
+          {
+            label: 'Chỉnh hình',
+            url: '/chinh-hinh',
+          },
+        ],
+      },
+    }),
+    payload.create({
+      collection: 'categories',
+      data: {
+        title: 'Chẩn đoán hình ảnh',
+        breadcrumbs: [
+          {
+            label: 'Chẩn đoán hình ảnh',
+            url: '/chan-doan-hinh-anh',
+          },
+        ],
+      },
+    }),
+  ])
 
   let demoAuthorID: number | string = user.id
 
@@ -341,6 +362,35 @@ const [cardiologyCategory, neurologyCategory, pediatricsCategory, dermatologyCat
       relatedPosts: [post1Doc.id, post2Doc.id, post3Doc.id],
     },
   })
+
+  payload.logger.info(`Seeding demo physician profiles...`)
+
+  const [{docs: physicianProfiles1}] = await Promise.all([
+    payload.find({
+      collection: 'physicianProfiles',
+      where: {
+        'accountDetails.user.id': {
+          equals: doctor.id,
+        },
+      },
+    }),
+  ])
+
+  const physicianProfile1 = physicianProfiles1[0]
+
+  if (physicianProfile1) {
+    await payload.update({
+      collection: 'physicianProfiles',
+      id: physicianProfile1.id,
+      data: {
+        academicRank: 'doctor', 
+        experience: 15,
+        specialty: 'Tim mạch và các bệnh tim mạch',
+        awards: 'Nhận giải thưởng Xuất sắc Quốc gia về Tim mạch, 2018',
+        education: 'Đại học Y Hà Nội, Khóa 2005',
+      }
+    })
+  }
 }
 
 const fetchFileByDisk = async (folder: string, url: string): Promise<File> => {

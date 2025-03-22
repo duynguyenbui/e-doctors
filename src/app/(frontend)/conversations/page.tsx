@@ -1,5 +1,5 @@
 import { getDoctors } from '@/actions/doctors'
-import ExpandingCard from '@/components/ExpandingCard'
+import DoctorCard from '@/components/DoctorsCard'
 import { getServerSideUser } from '@/get-serverside-user'
 import { redirect } from 'next/navigation'
 
@@ -18,15 +18,10 @@ export default async function Page() {
 
   return (
     <div className="container p-10 mx-auto">
-      <h1 className="text-3xl font-bold mb-6">Đối tác y tế của bạn</h1>
+      <h1 className="text-3xl font-bold mb-6">Chọn bác sĩ bạn muốn hợp tác</h1>
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 ml-5 mr-5">
         {doctors.map((doctor, index) => (
-          <ExpandingCard
-            key={index}
-            name={doctor.name}
-            avatar={doctor?.avatar ?? null}
-            id={doctor.id}
-          />
+         <DoctorCard key={index} {...doctor} />
         ))}
       </div>
     </div>

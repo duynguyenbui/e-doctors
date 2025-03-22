@@ -18,7 +18,7 @@ export const MedicalRecords: CollectionConfig = {
       },
       type: 'relationship',
       relationTo: 'physicianProfiles',
-      hasMany: true,
+      hasMany: false,
       required: true,
     },
     {
@@ -87,7 +87,7 @@ export const MedicalRecords: CollectionConfig = {
       ]
     },
     {
-      name: 'notes',
+      name: 'note',
       label: {
         vi: 'Ghi chú thêm',
       },

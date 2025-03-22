@@ -1,0 +1,79 @@
+'use client'
+
+import { createConversation } from '@/actions/conversation'
+import { Card, CardContent, CardFooter } from '@/components/ui/card'
+import { User } from '@/payload-types'
+import { ArrowRight } from 'lucide-react'
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { toast } from 'sonner'
+import { Button } from '../ui/button'
+
+type DoctorCardProps = User
+
+export default function DoctorCard({ id, name, avatar, email, phone, address }: DoctorCardProps) {
+  const router = useRouter()
+
+  const handleClick = async (doctorId: string) => {
+    const { success, data, message } = await createConversation(doctorId)
+
+    if (data) {
+      if (success) {
+        toast.success(message)
+      }
+
+      router.push(`/conversations/chat/${data.id}`)
+    } else {
+      toast.error(message)
+    }
+  }
+
+  if (!id) {
+    router.push('/conversations')
+  }
+  
+  return (
+    <Card className="overflow-hidden">
+      <div className="relative aspect-video">
+        <Image
+          src={'/doctor-card-placeholder.svg'}
+          alt={name}
+          fill
+          className="object-cover transition-transform hover:scale-105"
+        />
+      </div>
+      <CardContent className="p-4">
+        <Button className="text-xl font-bold mb-2 cursor-pointer" variant='secondary' onClick={() => handleClick(id)}>{name}</Button>
+        <div className="flex flex-wrap gap-2 flex-col">
+          <div className="flex flex-wrap gap-2">
+            <span className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10">
+              Bác sĩ #{id}
+            </span>
+            <span className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10">
+              {email}
+            </span>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            <span className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10">
+              {phone}
+            </span>
+            <span className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10">
+              {address}
+            </span>
+          </div>
+        </div>
+      </CardContent>
+      <CardFooter className="p-4 pt-0">
+        <Link
+          href={`/doctors/${id}`}
+          target="_blank"
+          className="inline-flex items-center gap-2 text-sm hover:underline"
+        >
+          <ArrowRight className="h-4 w-4" />
+          Xem thêm về bác sĩ
+        </Link>
+      </CardFooter>
+    </Card>
+  )
+}

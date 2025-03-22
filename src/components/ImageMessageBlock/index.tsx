@@ -30,7 +30,7 @@ export const ImageMessageBlock = ({
   const [isLoading, setIsLoading] = useState(true)
   const [error, setError] = useState(false)
 
-  const { open, data } = useModals()
+  const { open } = useModals()
 
   const aspectRatioClass = {
     square: 'aspect-square',

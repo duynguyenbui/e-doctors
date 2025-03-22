@@ -2,7 +2,7 @@
 
 import axios from 'axios'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { DoorOpen, ImageIcon, LinkIcon, Scissors, Send, Settings, X } from 'lucide-react'
+import { BookUser, DoorOpen, Eye, ImageIcon, LinkIcon, Scissors, Send, Settings, X } from 'lucide-react'
 import { useRouter } from 'next/navigation'
 import type React from 'react'
 import { useEffect, useRef, useState } from 'react'
@@ -10,7 +10,7 @@ import { useForm } from 'react-hook-form'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 
-import { CHAT_KEY, MAX_ATTACHMENTS } from '@/constants'
+import { CHAT_KEY, MAX_ATTACHMENTS, ModalType } from '@/constants'
 import { Loader } from '@/components/Loader'
 import { SettingsDialog } from '@/components/SettingDialog'
 import SocketIndicator from '@/components/SocketIndicator'
@@ -33,8 +33,8 @@ import { useSocket } from '@/providers/SocketProvider'
 import { Conversation, Message } from '@/payload-types'
 import { PayloadMessageValidator, TPayloadMessageValidator } from '@/validations'
 import { ImageMessageBlock } from '@/components/ImageMessageBlock'
-
-
+import ReactMarkdown from 'react-markdown'
+import { useModals } from '@/stores'
 
 export function Chat({
   conversations,
@@ -44,7 +44,6 @@ export function Chat({
   currentConversationId: string
 }) {
   const [isLinkDialogOpen, setIsLinkDialogOpen] = useState(false)
-  const [isSettingsOpen, setIsSettingsOpen] = useState(false)
   const [linkUrl, setLinkUrl] = useState('')
   const imageInputRef = useRef<HTMLInputElement>(null)
   const inputRef = useRef<HTMLInputElement>(null)
@@ -56,6 +55,7 @@ export function Chat({
   const chatKey = `${CHAT_KEY}:${currentConversationId}`
   const messagesEndRef = useRef<HTMLDivElement>(null)
   const [attachmentClients, setAttachmentClients] = useState<File[]>([])
+  const { open } = useModals()
 
   const form = useForm<TPayloadMessageValidator>({
     resolver: zodResolver(PayloadMessageValidator),
@@ -67,7 +67,7 @@ export function Chat({
     },
   })
 
-  const {isSubmitting} = form.formState
+  const { isSubmitting } = form.formState
 
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: 'smooth', block: 'end' })
@@ -76,21 +76,23 @@ export function Chat({
   const currentConversation =
     conversations.find((conv) => conv.id === currentConversationId) || conversations[0]
 
-    const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const currentPatient = currentConversation?.participants.find((participant: any) => {
+    return !participant.roles.includes('doctor')
+  })
 
-      if (attachmentClients.length >= MAX_ATTACHMENTS) {
-        toast.error('Bạn chỉ có thể tải lên tối đa 3 tệp đính kèm')
-        return
-      }
+  const handleImageUpload = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (attachmentClients.length >= MAX_ATTACHMENTS) {
+      toast.error('Bạn chỉ có thể tải lên tối đa 3 tệp đính kèm')
+      return
+    }
 
-      const files = e.target.files;
-      if (files && files.length > 0) {
-        const newAttachments = Array.from(files);
-        setAttachmentClients((prev) => [...prev, ...newAttachments]);
-        form.setValue('attachments', [...(form.getValues('attachments') || []), ...newAttachments]);
-      }
-    };
-    
+    const files = e.target.files
+    if (files && files.length > 0) {
+      const newAttachments = Array.from(files)
+      setAttachmentClients((prev) => [...prev, ...newAttachments])
+      form.setValue('attachments', [...(form.getValues('attachments') || []), ...newAttachments])
+    }
+  }
 
   const handleCut = () => {
     if (inputRef.current) {
@@ -123,7 +125,10 @@ export function Chat({
 
   const handleAttachmentRemove = (attachment: File) => {
     setAttachmentClients((prev) => prev.filter((a) => a.name !== attachment.name))
-    form.setValue('attachments', form.getValues('attachments')?.filter((a) => a.name !== attachment.name) || [])
+    form.setValue(
+      'attachments',
+      form.getValues('attachments')?.filter((a) => a.name !== attachment.name) || [],
+    )
   }
 
   const onSubmit = async (values: TPayloadMessageValidator) => {
@@ -148,14 +153,14 @@ export function Chat({
 
     const formData = new FormData()
 
-    formData.append('conversationId', currentConversationId);
-    formData.append('role', data.role);
+    formData.append('conversationId', currentConversationId)
+    formData.append('role', data.role)
     if (data.content) {
-      formData.append('content', data.content);
+      formData.append('content', data.content)
     }
     if (data.attachments && data.attachments.length > 0) {
       for (const file of data.attachments) {
-        formData.append('attachments', file, file.name);
+        formData.append('attachments', file, file.name)
       }
     }
 
@@ -229,10 +234,25 @@ export function Chat({
             <span>{currentConversation?.name}</span>
           </div>
           <div className="flex items-center gap-2">
-            <Button variant="ghost" size="icon" onClick={() => setIsSettingsOpen(true)}>
-              <Settings className="h-4 w-4" />
-              <span className="sr-only">Cài đặt</span>
-            </Button>
+            {user?.roles.includes('doctor') && (
+              <div className="flex items-center gap-2">
+                <Button variant="outline" onClick={() => open({ modal: ModalType.MEDICAL_RECORDS, data: currentPatient })}>
+                  <Eye className="h-4 w-4" />
+                  <span className="font-bold text-sm">
+                    Xem hồ sơ bệnh án của {(currentPatient as any)?.name}
+                  </span>
+                </Button>
+                <Button
+                  variant="default"
+                  onClick={() =>
+                    open({ modal: ModalType.MEDICAL_RECORD_NEW, data: currentPatient })
+                  }
+                >
+                  <BookUser className="h-4 w-4" />
+                  <span className="font-bold text-sm">Tạo mới hồ sơ bệnh án</span>
+                </Button>
+              </div>
+            )}
             <SocketIndicator />
           </div>
         </div>
@@ -240,12 +260,13 @@ export function Chat({
         <div className="flex-1 overflow-auto p-4">
           {!isLoading &&
             messagesClient?.map((message, index) => {
-              
-              const currentUserIsDoctor = user?.roles?.includes('doctor');
-              const isDoctor = message.role === 'Doctor';
-              const shouldShowOnRight = (currentUserIsDoctor && isDoctor) || (!currentUserIsDoctor && !isDoctor);
-              const isCurrentUser = message.sender === user?.id;
-              const senderId = typeof message.sender === 'string' ? message.sender : message.sender.id;
+              const currentUserIsDoctor = user?.roles?.includes('doctor')
+              const isDoctor = message.role === 'Doctor'
+              const shouldShowOnRight =
+                (currentUserIsDoctor && isDoctor) || (!currentUserIsDoctor && !isDoctor)
+              const isCurrentUser = message.sender === user?.id
+              const senderId =
+                typeof message.sender === 'string' ? message.sender : message.sender.id
 
               return (
                 <div
@@ -264,33 +285,34 @@ export function Chat({
                       <div
                         className={cn(
                           'h-8 w-8 rounded-full flex items-center justify-center text-white',
-                          isDoctor ? 'bg-blue-500' : 'bg-green-500'
+                          isDoctor ? 'bg-blue-500' : 'bg-green-500',
                         )}
                       >
                         {user?.name?.charAt(0) || 'N/A'}
                       </div>
                       <div className="flex-1">
                         <div className="text-xs text-muted-foreground mb-1">
-                          {
-                            isCurrentUser ? 'You' : (isDoctor ? `Doctor #${senderId}` : `User ${senderId}`)
-                          }
+                          {isCurrentUser
+                            ? 'You'
+                            : isDoctor
+                              ? `Doctor #${senderId}`
+                              : `User ${senderId}`}
                         </div>
-                        <div className="text-foreground">{message.content}</div>
+                        <div className="text-foreground">
+                          <ReactMarkdown>{message.content}</ReactMarkdown>
+                        </div>
                         {message.attachments &&
                           message.attachments.length > 0 &&
                           message.attachments.map((attachment) => (
                             <div key={attachment.id} className="mt-2">
-                              <ImageMessageBlock
-                                media={attachment.media}
-                                aspectRatio="auto"
-                              />
+                              <ImageMessageBlock media={attachment.media} aspectRatio="auto" />
                             </div>
                           ))}
                       </div>
                     </div>
                   </Card>
                 </div>
-              );
+              )
             })}
           <div ref={messagesEndRef} />
           {(isLoading || error) && <Loader className="text-blue-500" />}
@@ -397,8 +419,6 @@ export function Chat({
             </DialogFooter>
           </DialogContent>
         </Dialog>
-
-        <SettingsDialog open={isSettingsOpen} onOpenChange={setIsSettingsOpen} />
       </div>
     </div>
   )

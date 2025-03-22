@@ -66,7 +66,7 @@ export function RegisterForm({ className }: { className?: string }) {
         toast.error('Đã xảy ra lỗi khi tạo tài khoản của bạn.')
       }
     },
-    [create],
+    [create, router],
   )
 
   return (

@@ -23,7 +23,7 @@ export default function ConversationCard({ id, name, description = 'Your Medical
   }
 
   return (
-    <Card className="hover:shadow-lg transition-all duration-300 group h-full" onClick={() => router.push(`/conversations/chat/${id}`)}>
+    <Card className="hover:shadow-lg transition-all duration-300 group h-full cursor-pointer" onClick={() => router.push(`/conversations/chat/${id}`)} >
       <CardContent className="p-4 flex flex-col h-full">
         <div className="flex flex-col items-center text-center space-y-2 mb-2">
           <div

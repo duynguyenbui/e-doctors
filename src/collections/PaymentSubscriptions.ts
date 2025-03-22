@@ -57,6 +57,14 @@ export const PaymentSubscriptions: CollectionConfig = {
       ],
     },
     {
+      name: 'numberOfTrialDays',
+      label: {
+        vi: 'Số ngày thử nghiệm',
+      },
+      type: 'number',
+      defaultValue: 5,
+    },
+    {
       name: 'accountDetails',
       label: {
         vi: 'Thông tin liên kết tài khoản',

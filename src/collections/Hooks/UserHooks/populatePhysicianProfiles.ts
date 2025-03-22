@@ -1,21 +1,5 @@
 import type { CollectionAfterChangeHook } from 'payload'
-import type { User } from '../../payload-types'
-
-/**
-{
-  createdAt: '2025-03-22T06:59:30.633Z',
-  updatedAt: '2025-03-22T06:59:30.633Z',
-  name: 'Test',
-  dob: '2025-03-05T12:00:00.000Z',
-  gender: 'male',
-  phone: '0944755822',
-  address: 'Test',
-  roles: [ 'doctor', 'user' ],
-  email: 'test@edoctors.com',
-  id: '67de5fd29b4ae8c9706b6904',
-  loginAttempts: 0
-}
-*/
+import type { User } from '../../../payload-types'
 
 export const populatePhysicianProfiles: CollectionAfterChangeHook<User> = async ({
   doc,

@@ -84,7 +84,7 @@ export default function NavBar() {
             ))}
 
           {user && (
-            <Button variant="ghost" className="text-sm font-bold hover:text-gray-900 dark:hover:text-gray-50" onClick={() => router.push('/profile')}>
+            <Button variant="ghost" className="text-sm font-bold hover:text-gray-900 dark:hover:text-gray-50" onClick={() => router.push('/profiles')}>
               <User className="h-4 w-4" />
               {user.name}
             </Button>

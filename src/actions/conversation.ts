@@ -16,7 +16,7 @@ export const getConversations = async () => {
       participants: { contains: user.id },
     },
     pagination: false,
-    depth: 0,
+    depth: 1,
   })
 
   return { success: true, message: 'Conversations fetched successfully', data: conversations ?? [] }

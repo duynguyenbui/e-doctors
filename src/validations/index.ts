@@ -42,6 +42,33 @@ export const PayloadUserSignUpValidator = z.object({
   }),
 })
 
+export const PayloadUserSettingsValidator = z.object({
+  email: z.string().email(),
+  password: z.string().optional(),
+  name: z.string().optional(),
+  dob: z.date().optional(),
+  gender: z.enum(['male', 'female']).optional(),
+  phone: z.string().optional(),
+  address: z.string().optional(),
+})
+
+export const PayloadMedicalRecordValidator = z.object({
+  patientId: z.string(),
+  doctorId: z.string(),
+  note: z.string().optional(),
+  diagnosis: z.string(),
+  treatment: z.string(),
+  symptoms: z.string(),
+  visitDate: z.date(),
+  prescriptions: z.array(z.object({
+    medication: z.string(),
+    dosage: z.string(),
+    instructions: z.string(),
+  })),
+})
+
 export type TPayloadMessageValidator = z.infer<typeof PayloadMessageValidator>
 export type TPayloadUserLoginValidator = z.infer<typeof PayloadUserLoginValidator>
 export type TPayloadUserSignUpValidator = z.infer<typeof PayloadUserSignUpValidator>
+export type TPayloadUserSettingsValidator = z.infer<typeof PayloadUserSettingsValidator>
+export type TPayloadMedicalRecordValidator = z.infer<typeof PayloadMedicalRecordValidator>
