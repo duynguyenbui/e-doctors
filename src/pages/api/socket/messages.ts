@@ -17,7 +17,7 @@ export const config = {
 
 export default async function handler(req: NextApiRequest, res: NextApiResponseServerIO) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method not allowed' })
+    return res.status(405).json({ message: 'Phương thức không được phép' })
   }
 
   const payload = await getPayload({ config: payloadConfig })
@@ -27,7 +27,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
   })
 
   if (!user) {
-    return res.status(401).json({ message: 'Not allowed' })
+    return res.status(401).json({ message: 'Không được phép' })
   }
 
   const form = formidable()
@@ -40,7 +40,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
   const attachments = files.attachments
 
   if (!conversationId || !role) {
-    return res.status(400).json({ message: 'Missing predefined fields' })
+    return res.status(400).json({ message: 'Thiếu trường dự định' })
   }
 
   const conversation = await payload.findByID({
@@ -49,11 +49,11 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
   })
 
   if (!conversation) {
-    return res.status(404).json({ message: 'Conversation not found' })
+    return res.status(404).json({ message: 'Cuộc hội thoại không tồn tại' })
   }
 
   if (!content && !attachments) {
-    return res.status(400).json({ message: 'Missing content or attachments' })
+    return res.status(400).json({ message: 'Không có nội dung hoặc tệp đính kèm' })
   }
 
   const chatKey = `${CHAT_KEY}:${conversationId}`
@@ -97,10 +97,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponseS
   })
 
   if (!payloadMessage) {
-    return res.status(400).json({ message: 'Cannot send message' })
+    return res.status(400).json({ message: 'Không thể gửi tin nhắn' })
   }
 
   res?.socket?.server?.io?.emit(chatKey, payloadMessage)
 
-  return res.status(200).json({ message: 'Message sent successfully' })
+  return res.status(200).json({ message: 'Tin nhắn đã được gửi thành công' })
 }

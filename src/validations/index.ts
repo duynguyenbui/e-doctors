@@ -28,6 +28,18 @@ export const PayloadUserSignUpValidator = z.object({
   name: z.string().min(1, {
     message: 'Tên không được để trống.',
   }),
+  gender: z.enum(['male', 'female'], {
+    message: 'Giới tính không hợp lệ.',
+  }),
+  dob: z.string().min(1, {
+    message: 'Ngày sinh không được để trống.',
+  }),
+  phone: z.string().min(1, {
+    message: 'Số điện thoại không được để trống.',
+  }),
+  address: z.string().min(1, {
+    message: 'Địa chỉ không được để trống.',
+  }),
 })
 
 export type TPayloadMessageValidator = z.infer<typeof PayloadMessageValidator>

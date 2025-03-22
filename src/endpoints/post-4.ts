@@ -1,7 +1,7 @@
 import type { Post } from '@/payload-types'
 
 export const post4: Partial<Post> = {
-  slug: 'digital-horizons-copy',
+  slug: 'tam-nhin-y-te',
   _status: 'published',
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
@@ -19,7 +19,7 @@ export const post4: Partial<Post> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'Khám phá những kỳ diệu của đổi mới hiện đại, nơi sự thay đổi là điều duy nhất không thay đổi. Một hành trình nơi pixel và dữ liệu hội tụ để kiến tạo tương lai.',
+              text: 'Khám phá những tiến bộ y tế và những câu chuyện chưa được kể trong lĩnh vực chăm sóc sức khỏe.',
               version: 1,
             },
           ],
@@ -119,7 +119,7 @@ export const post4: Partial<Post> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'Sự Phát Triển của AI và Học Máy',
+              text: 'Sự Phát Triển của Y Học và Công Nghệ',
               version: 1,
             },
           ],
@@ -138,7 +138,7 @@ export const post4: Partial<Post> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'Chúng ta đang sống trong một kỷ nguyên chuyển đổi, nơi trí tuệ nhân tạo (AI) đứng ở tuyến đầu của sự tiến hóa công nghệ. Những tác động lan tỏa từ sự tiến bộ của nó đang định hình lại các ngành công nghiệp với tốc độ chưa từng có. Các doanh nghiệp không còn bị giới hạn bởi những quy trình thủ công tẻ nhạt. Thay vào đó, những cỗ máy tinh vi, được cung cấp năng lượng bởi lượng dữ liệu lịch sử khổng lồ, giờ đây có khả năng đưa ra những quyết định trước đây chỉ dựa vào trực giác của con người. Những hệ thống thông minh này không chỉ tối ưu hóa hoạt động mà còn tiên phong trong các phương pháp tiếp cận đổi mới, báo hiệu một kỷ nguyên mới của sự chuyển đổi kinh doanh trên toàn cầu.',
+              text: 'Chúng ta đang sống trong một kỷ nguyên chuyển đổi, nơi y học và công nghệ đứng ở tuyến đầu của sự tiến hóa. Những tác động lan tỏa từ sự tiến bộ của nó đang định hình lại các ngành công nghiệp với tốc độ chưa từng có. Các doanh nghiệp không còn bị giới hạn bởi những quy trình thủ công tẻ nhạt. Thay vào đó, những cỗ máy tinh vi, được cung cấp năng lượng bởi lượng dữ liệu lịch sử khổng lồ, giờ đây có khả năng đưa ra những quyết định trước đây chỉ dựa vào trực giác của con người. Những hệ thống thông minh này không chỉ tối ưu hóa hoạt động mà còn tiên phong trong các phương pháp tiếp cận đổi mới, báo hiệu một kỷ nguyên mới của sự chuyển đổi y tế trên toàn cầu.',
               version: 1,
             },
           ],
@@ -157,7 +157,7 @@ export const post4: Partial<Post> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'Để minh họa chức năng cơ bản của AI, đây là một đoạn mã JavaScript thực hiện yêu cầu POST đến một API AI chung để tạo văn bản dựa trên một gợi ý.',
+              text: 'Để minh họa chức năng cơ bản của công nghệ y tế, đây là một đoạn mã JavaScript thực hiện yêu cầu POST đến một API y tế chung để tạo văn bản dựa trên một gợi ý.',
               version: 1,
             },
           ],
@@ -187,7 +187,7 @@ export const post4: Partial<Post> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'IoT: Kết Nối Thế Giới Xung Quanh Chúng Ta',
+              text: 'IoT: Kết Nối Thế Giới Y Tế Xung Quanh Chúng Ta',
               version: 1,
             },
           ],
@@ -206,7 +206,7 @@ export const post4: Partial<Post> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'Trong bối cảnh công nghệ phát triển nhanh chóng hiện nay, Internet vạn vật (IoT) nổi bật như một lực lượng cách mạng. Từ việc chuyển đổi nhà ở của chúng ta với hệ thống nhà thông minh đến việc định nghĩa lại giao thông thông qua xe kết nối, ảnh hưởng của IoT có thể nhận thấy rõ trong gần như mọi khía cạnh của cuộc sống hàng ngày.',
+              text: 'Trong bối cảnh công nghệ phát triển nhanh chóng hiện nay, Internet vạn vật (IoT) nổi bật như một lực lượng cách mạng trong y tế. Từ việc chuyển đổi nhà ở của chúng ta với hệ thống nhà thông minh đến việc định nghĩa lại giao thông thông qua xe kết nối, ảnh hưởng của IoT có thể nhận thấy rõ trong gần như mọi khía cạnh của cuộc sống hàng ngày.',
               version: 1,
             },
           ],
@@ -225,7 +225,7 @@ export const post4: Partial<Post> = {
               format: 0,
               mode: 'normal',
               style: '',
-              text: 'Công nghệ này dựa trên sự tích hợp liền mạch của các thiết bị và hệ thống, cho phép chúng giao tiếp và cộng tác một cách dễ dàng. Với mỗi thiết bị được kết nối, chúng ta tiến gần hơn đến một thế giới nơi sự tiện lợi và hiệu quả được tích hợp trong chính cấu trúc của sự tồn tại của chúng ta. Kết quả là, chúng ta đang chuyển sang một kỷ nguyên nơi môi trường xung quanh phản ứng một cách trực quan với nhu cầu của chúng ta, báo hiệu một cộng đồng toàn cầu thông minh và kết nối hơn.',
+              text: 'Công nghệ này dựa trên sự tích hợp liền mạch của các thiết bị và hệ thống, cho phép chúng giao tiếp và cộng tác một cách dễ dàng. Với mỗi thiết bị được kết nối, chúng ta tiến gần hơn đến một thế giới nơi sự tiện lợi và hiệu quả được tích hợp trong chính cấu trúc của sự tồn tại của chúng ta. Kết quả là, chúng ta đang chuyển sang một kỷ nguyên nơi môi trường xung quanh phản ứng một cách trực quan với nhu cầu của chúng ta, báo hiệu một cộng đồng y tế toàn cầu thông minh và kết nối hơn.',
               version: 1,
             },
           ],
@@ -297,12 +297,12 @@ export const post4: Partial<Post> = {
   heroImage: '{{IMAGE_1}}',
   meta: {
     description:
-      'Khám phá những kỳ diệu của đổi mới hiện đại, nơi sự thay đổi là điều duy nhất không thay đổi. Một hành trình nơi pixel và dữ liệu hội tụ để kiến tạo tương lai.',
+      'Khám phá những tiến bộ y tế và những câu chuyện chưa được kể trong lĩnh vực chăm sóc sức khỏe.',
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     image: '{{IMAGE_1}}',
-    title: 'Chân Trời Số: Cái Nhìn Thoáng Qua về Tương Lai' + ' Copy',
+    title: 'Tầm Nhìn Y Tế: Vượt Ra Ngoài Tiêu Đề',
   },
   relatedPosts: [], // this is populated by the seed script
-  title: 'Chân Trời Số: Cái Nhìn Thoáng Qua về Tương Lai' + ' Copy',
+  title: 'Tầm Nhìn Y Tế: Vượt Ra Ngoài Tiêu Đề',
 }

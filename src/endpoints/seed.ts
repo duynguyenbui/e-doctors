@@ -17,7 +17,7 @@ const collections: CollectionSlug[] = ['categories', 'media', 'posts']
 // const capitalize = (str: string) => str.charAt(0).toUpperCase() + str.slice(1)
 
 export const seed = async ({ payload, req }: { payload: Payload; req: PayloadRequest }) => {
-  payload.logger.info(`— Clearing collections and globals...`)
+  payload.logger.info(`Clearing collections and globals...`)
   // clear the database
 
   await Promise.all(
@@ -30,18 +30,50 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
       .map((collection) => payload.db.deleteVersions({ collection, req, where: {} })),
   )
 
-  payload.logger.info(`— Seeding demo author and user...`)
+  Promise.all([
+    payload.delete({
+      collection: 'categories',
+      where: {
+        id: {
+          exists: true,
+        }
+      }
+    }),
+    payload.delete({
+      collection: 'messages',
+      where: {
+        id: {
+          exists: true,
+        }
+      }
+    }),
+    payload.delete({
+      collection: 'conversations',
+      where: {
+        id: {
+          exists: true,
+        }
+      }
+    }),
+    payload.delete({
+      collection: 'media',
+      where: {
+        id: {
+          exists: true,
+        }
+      }
+    }),
+    payload.delete({
+      collection: 'posts',
+      where: {
+        id: {
+          exists: true,
+        }
+      }
+    }),
+  ])
 
   await Promise.all([
-    await payload.delete({
-      collection: 'users',
-      depth: 0,
-      where: {
-        email: {
-          equals: 'demo@edoctors.com',
-        },
-      },
-    }),
     await payload.delete({
       collection: 'users',
       depth: 0,
@@ -56,13 +88,44 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
       depth: 0,
       where: {
         email: {
-          equals: 'demo@edoctors.com',
+          equals: 'user@edoctors.com',
         },
       },
     }),
   ])
 
-  payload.logger.info(`— Seeding demo images...`)
+  payload.logger.info(`Seeding demo author and user...`)
+
+  const [doctor, user] = await Promise.all([
+    payload.create({
+      collection: 'users',
+      data: {
+        name: 'Bác sĩ',
+        email: 'doctor@edoctors.com',
+        password: 'doctor',
+        gender: 'female',
+        dob: '2000-01-01',
+        phone: '0909090909',
+        address: '456 Elm St, Anytown, USA',
+        roles: ['user', 'doctor'],
+      },
+    }),
+    payload.create({
+      collection: 'users',
+      data: {
+        name: 'Người dùng',
+        email: 'user@edoctors.com',
+        password: 'user',
+        gender: 'male',
+        dob: '1990-01-01',
+        phone: '0909090909',
+        address: '456 Elm St, Anytown, USA',
+        roles: ['user'],
+      },
+    }),
+  ])
+
+  payload.logger.info(`Seeding demo images...`)
 
   const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer] = await Promise.all([
     fetchFileByDisk('D:/Projects/PayloadCMS/e-doctors/src/endpoints', 'image-post1.webp'),
@@ -70,55 +133,6 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     fetchFileByDisk('D:/Projects/PayloadCMS/e-doctors/src/endpoints', 'image-post3.webp'),
     fetchFileByDisk('D:/Projects/PayloadCMS/e-doctors/src/endpoints', 'image-hero1.webp'),
   ])
-
-  const [_, doctor, demo] = await Promise.all([
-    payload.create({
-      collection: 'users',
-      data: {
-        name: 'Người dùng',
-        email: 'user@edoctors.com',
-        password: 'user',
-        roles: ['user'],
-      },
-    }),
-    payload.create({
-      collection: 'users',
-      data: {
-        name: 'Bác sĩ',
-        email: 'doctor@edoctors.com',
-        password: 'doctor',
-        roles: ['user'],
-      },
-    }),
-    payload.create({
-      collection: 'users',
-      data: {
-        name: 'Người dùng demo',
-        email: 'demo@edoctors.com',
-        password: 'demo',
-        roles: ['user'],
-      },
-    }),
-  ])
-
-  const [] = await Promise.all([
-    payload.update({
-      collection: 'users',
-      id: doctor.id,
-      data: {
-        roles: ['user', 'doctor'],
-      },
-    }),
-    payload.update({
-      collection: 'users',
-      id: demo.id,
-      data: {
-        roles: ['user', 'doctor'],
-      },
-    }),
-  ])
-
-  payload.logger.info(`— Seeding demo images...`)
 
   const [image1Doc, image2Doc, image3Doc] = await Promise.all([
     // MEDIA
@@ -144,85 +158,85 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     }),
   ])
 
-  payload.logger.info(`— Seeding demo categories...`)
+  payload.logger.info(`Seeding demo categories...`)
 
-  const [menCategory, womenCategory, kidsCategory, accessoriesCategory] = await Promise.all([
-    // CATEGORIES
-    payload.create({
-      collection: 'categories', 
-      data: {
-        title: 'Nam',
-        breadcrumbs: [
-          {
-            label: 'Nam',
-            url: '/nam',
-          },
-        ],
-      },
-    }),
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'Nữ',
-        breadcrumbs: [
-          {
-            label: 'Nữ', 
-            url: '/nu',
-          },
-        ],
-      },
-    }),
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'Trẻ em',
-        breadcrumbs: [
-          {
-            label: 'Trẻ em',
-            url: '/tre-em',
-          },
-        ],
-      },
-    }),
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'Phụ kiện',
-        breadcrumbs: [
-          {
-            label: 'Phụ kiện',
-            url: '/phu-kien',
-          },
-        ],
-      },
-    }),
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'Giày dép',
-        breadcrumbs: [
-          {
-            label: 'Giày dép',
-            url: '/giay-dep',
-          },
-        ],
-      },
-    }),
-    payload.create({
-      collection: 'categories',
-      data: {
-        title: 'Áo khoác',
-        breadcrumbs: [
-          {
-            label: 'Áo khoác',
-            url: '/ao-khoac',
-          },
-        ],
-      },
-    }),
-  ])
+const [cardiologyCategory, neurologyCategory, pediatricsCategory, dermatologyCategory, orthopedicsCategory, radiologyCategory] = await Promise.all([
+  // CATEGORIES
+  payload.create({
+    collection: 'categories',
+    data: {
+      title: 'Tim mạch',
+      breadcrumbs: [
+        {
+          label: 'Tim mạch',
+          url: '/tim-mach',
+        },
+      ],
+    },
+  }),
+  payload.create({
+    collection: 'categories',
+    data: {
+      title: 'Thần kinh',
+      breadcrumbs: [
+        {
+          label: 'Thần kinh',
+          url: '/than-kinh',
+        },
+      ],
+    },
+  }),
+  payload.create({
+    collection: 'categories',
+    data: {
+      title: 'Nhi khoa',
+      breadcrumbs: [
+        {
+          label: 'Nhi khoa',
+          url: '/nhi-khoa',
+        },
+      ],
+    },
+  }),
+  payload.create({
+    collection: 'categories',
+    data: {
+      title: 'Da liễu',
+      breadcrumbs: [
+        {
+          label: 'Da liễu',
+          url: '/da-lieu',
+        },
+      ],
+    },
+  }),
+  payload.create({
+    collection: 'categories',
+    data: {
+      title: 'Chỉnh hình',
+      breadcrumbs: [
+        {
+          label: 'Chỉnh hình',
+          url: '/chinh-hinh',
+        },
+      ],
+    },
+  }),
+  payload.create({
+    collection: 'categories',
+    data: {
+      title: 'Chẩn đoán hình ảnh',
+      breadcrumbs: [
+        {
+          label: 'Chẩn đoán hình ảnh',
+          url: '/chan-doan-hinh-anh',
+        },
+      ],
+    },
+  }),
+])
 
-  let demoAuthorID: number | string = demo.id
+  let demoAuthorID: number | string = user.id
 
   let image1ID: number | string = image1Doc.id
   let image2ID: number | string = image2Doc.id
@@ -235,7 +249,7 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
     demoAuthorID = `"${demoAuthorID}"`
   }
 
-  payload.logger.info(`— Seeding posts...`)
+  payload.logger.info(`Seeding posts...`)
 
   // Do not create posts with `Promise.all` because we want the posts to be created in order
   // This way we can sort them by `createdAt` or `publishedAt` and they will be in the expected order
@@ -247,7 +261,7 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
       disableRevalidate: true,
     },
     data: JSON.parse(
-      JSON.stringify({ ...post1, categories: [menCategory.id] })
+      JSON.stringify({ ...post1, categories: [cardiologyCategory.id] })
         .replace(/"\{\{IMAGE_1\}\}"/g, String(image1ID))
         .replace(/"\{\{IMAGE_2\}\}"/g, String(image2ID))
         .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID)),
@@ -261,7 +275,7 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
       disableRevalidate: true,
     },
     data: JSON.parse(
-      JSON.stringify({ ...post2, categories: [womenCategory.id] })
+      JSON.stringify({ ...post2, categories: [neurologyCategory.id] })
         .replace(/"\{\{IMAGE_1\}\}"/g, String(image2ID))
         .replace(/"\{\{IMAGE_2\}\}"/g, String(image3ID))
         .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID)),
@@ -275,7 +289,7 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
       disableRevalidate: true,
     },
     data: JSON.parse(
-      JSON.stringify({ ...post3, categories: [kidsCategory.id] })
+      JSON.stringify({ ...post3, categories: [pediatricsCategory.id] })
         .replace(/"\{\{IMAGE_1\}\}"/g, String(image3ID))
         .replace(/"\{\{IMAGE_2\}\}"/g, String(image1ID))
         .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID)),
@@ -289,7 +303,7 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
       disableRevalidate: true,
     },
     data: JSON.parse(
-      JSON.stringify({ ...post4, categories: [accessoriesCategory.id] })
+      JSON.stringify({ ...post4, categories: [dermatologyCategory.id] })
         .replace(/"\{\{IMAGE_1\}\}"/g, String(image1ID))
         .replace(/"\{\{IMAGE_2\}\}"/g, String(image2ID))
         .replace(/"\{\{AUTHOR\}\}"/g, String(demoAuthorID)),

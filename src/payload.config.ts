@@ -14,6 +14,9 @@ import { Categories } from './collections/Categories'
 import { plugins } from './plugins'
 import { getServerSideURL } from './utilities/getURL'
 import { defaultLexical } from './fields/defaultLexical'
+import { PhysicianProfiles } from './collections/PhysicianProfiles'
+import { MedicalRecords } from './collections/MedicalRecords'
+import { PaymentSubscriptions } from './collections/PaymentSubscriptions'
 
 const filename = fileURLToPath(import.meta.url)
 const dirname = path.dirname(filename)
@@ -53,7 +56,7 @@ export default buildConfig({
       ],
     },
   },
-  collections: [Users, Conversations, Messages, Media, Posts, Categories],
+  collections: [Users, PhysicianProfiles, Conversations, MedicalRecords, Messages, Media, Posts, Categories, PaymentSubscriptions],
   editor: defaultLexical,
   secret: process.env.PAYLOAD_SECRET || '',
   typescript: {

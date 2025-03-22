@@ -28,15 +28,15 @@ export const createConversation = async (doctorId: string) => {
   if(!user) {
     return  {
       success: false,
-      message: 'Your are not authorized to create a conversation',
+      message: 'Bạn không có quyền tạo cuộc hội thoại',
       data: null,
     }
   }
 
-  if (user.roles.includes('doctor') || user.roles.includes('admin'))
+  if (user.roles.includes('doctor'))
     return {
       success: false,
-      message: 'You must only be a user to create a conversation',
+      message: 'Bạn phải là người dùng để tạo cuộc hội thoại',
       data: null,
     }
 
@@ -48,7 +48,7 @@ export const createConversation = async (doctorId: string) => {
     depth: 0,
   })
 
-  if (!doctor) return { success: false, message: 'Doctor not found', data: null }
+  if (!doctor) return { success: false, message: 'Bác sĩ không tồn tại', data: null }
 
   const { docs: existingConversations } = await payloadClient.find({
     collection: 'conversations',
@@ -65,7 +65,7 @@ export const createConversation = async (doctorId: string) => {
   if (existingConversations.length > 0) {
     return {
       success: false,
-      message: 'Conversation already exists',
+      message: 'Cuộc hội thoại đã tồn tại',
       data: existingConversations[0],
     }
   }
@@ -78,5 +78,5 @@ export const createConversation = async (doctorId: string) => {
     },
   })
 
-  return { success: true, message: 'Conversation created successfully', data: conversation }
+  return { success: true, message: 'Cuộc hội thoại đã được tạo thành công', data: conversation }
 }

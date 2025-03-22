@@ -18,10 +18,10 @@ export const Media: CollectionConfig = {
   slug: 'media',
   labels: {
     singular: {
-      vi: 'Tài nguyên',
+      vi: 'Hình ảnh',
     },
     plural: {
-      vi: 'Tài nguyên',
+      vi: 'Hình ảnh',
     },
   },
   access: {

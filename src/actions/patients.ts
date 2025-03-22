@@ -7,7 +7,7 @@ export const getConversationsByDoctorId = async (doctorId: string) => {
   if (!doctorId) {
     return {
       success: false,
-      message: 'Doctor ID is required',
+      message: 'Mã bác sĩ là bắt buộc',
       data: [],
     }
   }
@@ -17,7 +17,7 @@ export const getConversationsByDoctorId = async (doctorId: string) => {
   if (!user || !user.roles.includes('doctor')) {
     return {
       success: false,
-      message: 'You are not authorized to access this page',
+      message: 'Bạn không có quyền truy cập trang này',
       data: [],
     }
   }
@@ -37,14 +37,14 @@ export const getConversationsByDoctorId = async (doctorId: string) => {
   if (!conversations) {
     return {
       success: false,
-      message: 'No conversations found',
+      message: 'Không tìm thấy cuộc hội thoại',
       data: [],
     }
   }
 
   return {
     success: true,
-    message: 'Conversations found',
+    message: 'Tìm thấy cuộc hội thoại',
     data: conversations,
   }
 }

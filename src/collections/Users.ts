@@ -4,6 +4,8 @@ import { anyone } from '@/access/anyone'
 import { admins } from '@/access/admin'
 import { authenticated } from '@/access/authenticated'
 import { checkRole } from '@/access/checkRole'
+import { populatePhysicianProfiles } from './Hooks/populatePhysicianProfiles'
+import { populatePaymentSubscriptions } from './Hooks/populatePaymentSubscriptions'
 
 export const Users: CollectionConfig = {
   slug: 'users',
@@ -27,6 +29,9 @@ export const Users: CollectionConfig = {
     read: authenticated,
     update: admins,
   },
+  hooks: {
+    afterChange: [populatePhysicianProfiles, populatePaymentSubscriptions],
+  },
   fields: [
     {
       name: 'name',
@@ -43,6 +48,58 @@ export const Users: CollectionConfig = {
       },
       type: 'upload',
       relationTo: 'media',
+    },
+    {
+      name: 'dob',
+      type: 'date',
+      label: {
+        vi: 'Ngày sinh',
+      },
+      admin: {
+        date: {
+          pickerAppearance: 'dayOnly',
+          displayFormat: 'dd/MM/yyyy',
+        },
+      },
+      required: true,
+    },
+    {
+      name: 'gender',
+      type: 'select',
+      label: {
+        vi: 'Giới tính',
+      },
+      options: [
+        {
+          label: {
+            vi: 'Nam',
+          },
+          value: 'male',
+        },
+        {
+          label: {
+            vi: 'Nữ',
+          },
+          value: 'female',
+        },
+      ],
+      required: true,
+    },
+    {
+      name: 'phone',
+      type: 'text',
+      label: {
+        vi: 'Số điện thoại',
+      },
+      required: true,
+    },
+    {
+      name: 'address',
+      type: 'textarea',
+      label: {
+        vi: 'Địa chỉ',
+      },
+      required: true,
     },
     {
       name: 'roles',
