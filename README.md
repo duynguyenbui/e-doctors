@@ -9,7 +9,7 @@
 Trước khi cài đặt, hãy đảm bảo server hoặc môi trường của bạn có:
 - **Node.js** (>= 18.x)
 - **Yarn** hoặc **npm**
-- **Cơ sở dữ liệu**: PostgreSQL / MySQL
+- **Cơ sở dữ liệu**: MongoDB
 
 ## 2. Cài Đặt Dự Án
 ### 2.1 Clone Source Code
