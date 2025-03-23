@@ -45,6 +45,7 @@ export function AccountForm({ user }: { user: User }) {
   })
 
   async function onSubmit(values: TPayloadUserSettingsValidator) {
+    
     const { success, message } = await updateUser(values)
     if (success) toast.success(message)
     else toast.error(message)

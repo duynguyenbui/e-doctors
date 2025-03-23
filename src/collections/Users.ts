@@ -26,7 +26,7 @@ export const Users: CollectionConfig = {
   },
   access: {
     admin: ({ req: { user } }) => checkRole(['admin'], user ?? undefined),
-    create: admins,
+    create: anyone,
     delete: admins,
     read: authenticated,
     update: admins,

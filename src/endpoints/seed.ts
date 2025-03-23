@@ -144,10 +144,10 @@ export const seed = async ({ payload, req }: { payload: Payload; req: PayloadReq
   payload.logger.info(`Seeding demo images...`)
 
   const [image1Buffer, image2Buffer, image3Buffer, hero1Buffer] = await Promise.all([
-    fetchFileByDisk('D:/Projects/PayloadCMS/e-doctors/src/endpoints', 'image-post1.webp'),
-    fetchFileByDisk('D:/Projects/PayloadCMS/e-doctors/src/endpoints', 'image-post2.webp'),
-    fetchFileByDisk('D:/Projects/PayloadCMS/e-doctors/src/endpoints', 'image-post3.webp'),
-    fetchFileByDisk('D:/Projects/PayloadCMS/e-doctors/src/endpoints', 'image-hero1.webp'),
+    fetchFileByDisk('E:/project/Edoctor/e-doctors/src/endpoints', 'image-post1.webp'),
+    fetchFileByDisk('E:/project/Edoctor/e-doctors/src/endpoints', 'image-post2.webp'),
+    fetchFileByDisk('E:/project/Edoctor/e-doctors/src/endpoints', 'image-post3.webp'),
+    fetchFileByDisk('E:/project/Edoctor/e-doctors/src/endpoints', 'image-hero1.webp'),
   ])
 
   const [image1Doc, image2Doc, image3Doc] = await Promise.all([
