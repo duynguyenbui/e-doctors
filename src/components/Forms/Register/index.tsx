@@ -55,7 +55,12 @@ export function RegisterForm({ className }: { className?: string }) {
   const onSubmit = useCallback(
     async (values: TPayloadUserSignUpValidator) => {
       try {
-        const res = await create(values)
+        const payload = {
+          ...values,
+          roles: ['user'], 
+        }
+        console.log("Sending payload:", payload) 
+        const res = await create(payload)
         if (typeof res === 'object') {
           toast.success('Tài khoản của bạn đã được tạo thành công.')
           router.push('/login')
