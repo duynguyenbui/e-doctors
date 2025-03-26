@@ -68,7 +68,7 @@ export default function NavBar() {
   const router = useRouter()
 
   return (
-    <header className="fixed top-0 z-50 w-full bg-white backdrop-blur-sm shadow-sm dark:bg-gray-950/80 mb-16">
+    <header className="fixed top-0 z-50 w-full bg-[#AFCAD3] backdrop-blur-sm shadow-sm dark:bg-gray-950/80 mb-16">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 md:px-6">
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
           <MountainIcon className="h-6 w-6" />

@@ -1,6 +1,6 @@
 import { RegisterForm } from '@/components/Forms/Register'
 import { GalleryVerticalEnd } from 'lucide-react'
-
+import Image from 'next/image'
 export default function Page() {
   return (
     <div className="grid min-h-svh lg:grid-cols-2">
@@ -20,11 +20,15 @@ export default function Page() {
         </div>
       </div>
       <div className="relative hidden bg-muted lg:block">
-        <img
-          src="/auth-placeholder.svg"
-          alt="Image"
-          className="absolute inset-0 h-full w-full object-cover dark:brightness-[0.2] dark:grayscale"
-        />
+      <Image
+      src="/media/bannerlogin.png"  
+      alt="Banner Login"
+      width={800}  
+      height={400}
+      className="object-cover dark:brightness-[0.2] dark:grayscale"
+      priority
+    />
+
       </div>
     </div>
   )
