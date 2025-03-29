@@ -4,9 +4,9 @@ import { useAuth } from '@/providers/AuthProvider'
 import Link from 'next/link'
 import { ModeToggle } from '../ModeToggle'
 import { Button } from '../ui/button'
-import { User, Menu } from 'lucide-react' // Thêm Menu icon từ lucide-react
+import { User, Menu } from 'lucide-react'
 import { useRouter } from 'next/navigation'
-import { useState } from 'react' // Thêm useState để toggle menu
+import { useState } from 'react'
 
 const linkItems = [
   {
@@ -63,21 +63,21 @@ const linkItems = [
 export default function NavBar() {
   const { user } = useAuth()
   const router = useRouter()
-  const [isMenuOpen, setIsMenuOpen] = useState(false) // State để toggle menu mobile
+  const [isMenuOpen, setIsMenuOpen] = useState(false)
 
   return (
-    <header className="fixed top-0 z-50 w-full bg-[#AFCAD3] backdrop-blur-sm shadow-sm dark:bg-gray-950/80 mb-16">
+    <header className="fixed top-0 z-50 w-full bg-[#285e89] backdrop-blur-sm shadow-sm dark:bg-gray-950/80 mb-16">
       <div className="container mx-auto flex h-16 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
         {/* Logo */}
         <Link href="/" className="flex items-center gap-2" prefetch={false}>
-          <MountainIcon className="h-5 w-5 sm:h-6 sm:w-6" />
-          <span className="text-base sm:text-lg font-bold">eDoctors</span>
+          <MountainIcon className="h-5 w-5 sm:h-6 sm:w-6 text-white" />
+          <span className="text-base sm:text-lg font-bold text-white">eDoctors</span>
         </Link>
 
         {/* Hamburger Button cho mobile */}
         <Button
           variant="ghost"
-          className="sm:hidden" // Chỉ hiển thị trên mobile
+          className="sm:hidden"
           onClick={() => setIsMenuOpen(!isMenuOpen)}
         >
           <Menu className="h-6 w-6" />
@@ -90,13 +90,21 @@ export default function NavBar() {
               const loginCondition = item.isLoggedIn === undefined || item.isLoggedIn === !!user
               const adminCondition = item.isAdmin === undefined || (item.isAdmin && user?.roles?.includes('admin'))
               const doctorCondition = item.isDoctor === undefined || (item.isDoctor && user?.roles?.includes('doctor'))
-              return loginCondition && adminCondition && doctorCondition
+              
+              // Ẩn "Trò chuyện" nếu là bác sĩ hoặc admin
+              const hideConversations = item.href === '/conversations' && (user?.roles?.includes('doctor') || user?.roles?.includes('admin'))
+              // Ẩn "Hỗ trợ bệnh nhân" nếu là admin
+              const hideRespondent = item.href === '/conversations/respondent' && user?.roles?.includes('admin')
+              // Ẩn "Hồ sơ bệnh án" nếu là bác sĩ hoặc admin
+              const hideMedicalRecords = item.href === '/medical-records' && (user?.roles?.includes('doctor') || user?.roles?.includes('admin'))
+
+              return loginCondition && adminCondition && doctorCondition && !hideConversations && !hideRespondent && !hideMedicalRecords
             })
             .map((item) => (
               <Link
                 key={item.href}
                 href={item.href}
-                className="text-xs sm:text-sm font-medium hover:text-gray-900 dark:hover:text-gray-50"
+                className="text-xs sm:text-sm font-medium hover:text-white-900 text-white dark:hover:text-gray-50"
               >
                 {item.name}
               </Link>
@@ -104,7 +112,7 @@ export default function NavBar() {
           {user && (
             <Button
               variant="ghost"
-              className="text-xs sm:text-sm font-bold hover:text-gray-900 dark:hover:text-gray-50"
+              className="text-xs sm:text-sm font-bold text-white hover:text-gray-900 dark:hover:text-gray-50"
               onClick={() => router.push('/profiles')}
             >
               <User className="h-3 w-3 sm:h-4 sm:w-4" />
@@ -122,14 +130,22 @@ export default function NavBar() {
                 const loginCondition = item.isLoggedIn === undefined || item.isLoggedIn === !!user
                 const adminCondition = item.isAdmin === undefined || (item.isAdmin && user?.roles?.includes('admin'))
                 const doctorCondition = item.isDoctor === undefined || (item.isDoctor && user?.roles?.includes('doctor'))
-                return loginCondition && adminCondition && doctorCondition
+                
+                // Ẩn "Trò chuyện" nếu là bác sĩ hoặc admin
+                const hideConversations = item.href === '/conversations' && (user?.roles?.includes('doctor') || user?.roles?.includes('admin'))
+                // Ẩn "Hỗ trợ bệnh nhân" nếu là admin
+                const hideRespondent = item.href === '/conversations/respondent' && user?.roles?.includes('admin')
+                // Ẩn "Hồ sơ bệnh án" nếu là bác sĩ hoặc admin
+                const hideMedicalRecords = item.href === '/medical-records' && (user?.roles?.includes('doctor') || user?.roles?.includes('admin'))
+
+                return loginCondition && adminCondition && doctorCondition && !hideConversations && !hideRespondent && !hideMedicalRecords
               })
               .map((item) => (
                 <Link
                   key={item.href}
                   href={item.href}
                   className="text-sm font-medium hover:text-gray-900 dark:hover:text-gray-50"
-                  onClick={() => setIsMenuOpen(false)} // Đóng menu khi click link
+                  onClick={() => setIsMenuOpen(false)}
                 >
                   {item.name}
                 </Link>
@@ -140,7 +156,7 @@ export default function NavBar() {
                 className="text-sm font-bold hover:text-gray-900 dark:hover:text-gray-50"
                 onClick={() => {
                   router.push('/profiles')
-                  setIsMenuOpen(false) // Đóng menu khi click
+                  setIsMenuOpen(false)
                 }}
               >
                 <User className="h-4 w-4" />

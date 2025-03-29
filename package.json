@@ -60,6 +60,7 @@
     "postcss": "^8.5.3",
     "prism-react-renderer": "^2.4.1",
     "react": "19.0.0",
+    "react-bits": "^1.0.5",
     "react-day-picker": "8.10.1",
     "react-dom": "19.0.0",
     "react-hook-form": "^7.54.2",

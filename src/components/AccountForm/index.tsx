@@ -29,8 +29,16 @@ import { updateUser } from '@/actions/users'
 import { toast } from 'sonner'
 import { cn } from '@/lib/utils'
 import { format } from 'date-fns'
+import Image from 'next/image'
+import { useState } from 'react'
 
 export function AccountForm({ user }: { user: User }) {
+  const [avatarPreview, setAvatarPreview] = useState<string | null>(
+    user.avatar && typeof user.avatar === 'object' && user.avatar.url
+      ? `/media/${user.avatar.filename}`
+      : null,
+  )
+
   const form = useForm<TPayloadUserSettingsValidator>({
     resolver: zodResolver(PayloadUserSettingsValidator),
     defaultValues: {
@@ -41,14 +49,36 @@ export function AccountForm({ user }: { user: User }) {
       gender: user.gender,
       phone: user.phone,
       address: user.address,
+      avatar: undefined, 
     },
   })
 
   async function onSubmit(values: TPayloadUserSettingsValidator) {
-    
-    const { success, message } = await updateUser(values)
-    if (success) toast.success(message)
-    else toast.error(message)
+    const formData = new FormData()
+    formData.append('email', values.email)
+    formData.append("name", user.name);
+    if (values.password) formData.append('password', values.password)
+    if (values.dob) formData.append('dob', values.dob.toISOString())
+    if (values.gender) formData.append('gender', values.gender)
+    if (values.phone) formData.append('phone', values.phone)
+    if (values.address) formData.append('address', values.address)
+    if (values.avatar instanceof File) {
+      formData.append('avatar', values.avatar) 
+    } else if (values.avatar === null) {
+      formData.append('avatar', 'null')
+    }
+
+    const { success, message } = await updateUser(formData)
+    if (success) {
+      toast.success(message)
+      if (values.avatar instanceof File) {
+        setAvatarPreview(URL.createObjectURL(values.avatar))
+      } else if (values.avatar === null) {
+        setAvatarPreview(null)
+      }
+    } else {
+      toast.error(message)
+    }
   }
 
   return (
@@ -62,6 +92,65 @@ export function AccountForm({ user }: { user: User }) {
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            {/* Avatar Field */}
+            <FormField
+              control={form.control}
+              name="avatar"
+              render={({ field: { onChange, value, ...field } }) => (
+                <FormItem>
+                  <FormLabel>Ảnh đại diện</FormLabel>
+                  <div className="flex items-center gap-4">
+                    {/* Hiển thị ảnh hiện tại hoặc ảnh preview */}
+                    {avatarPreview ? (
+                      <div className="relative w-24 h-24">
+                        <Image
+                          src={avatarPreview}
+                          alt="Avatar"
+                          width={96}
+                          height={96}
+                          className="rounded-full object-cover"
+                        />
+                      </div>
+                    ) : (
+                      <div className="w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center">
+                        <span className="text-gray-500">No Avatar</span>
+                      </div>
+                    )}
+                    <div className="flex flex-col gap-2">
+                      <FormControl>
+                        <Input
+                          type="file"
+                          accept="image/*"
+                          {...field}
+                          onChange={(e) => {
+                            const file = e.target.files?.[0]
+                            if (file) {
+                              onChange(file)
+                              setAvatarPreview(URL.createObjectURL(file))
+                            }
+                          }}
+                        />
+                      </FormControl>
+                      {avatarPreview && (
+                        <Button
+                          type="button"
+                          variant="outline"
+                          size="sm"
+                          onClick={() => {
+                            onChange(null) 
+                            setAvatarPreview(null)
+                          }}
+                        >
+                          Xóa ảnh
+                        </Button>
+                      )}
+                    </div>
+                  </div>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+
             {/* Email Field */}
             <FormField
               control={form.control}

@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Pacifico } from "next/font/google"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
+import { useEffect, useState } from "react"
 
 const pacifico = Pacifico({
   subsets: ["latin"],
@@ -11,69 +12,24 @@ const pacifico = Pacifico({
   variable: "--font-pacifico",
 })
 
-function ElegantShape({
-  className,
-  delay = 0,
-  width = 400,
-  height = 100,
-  rotate = 0,
-  gradient = "from-emerald-200/[0.7]", // Changed to emerald color
-}: {
-  className?: string
-  delay?: number
-  width?: number
-  height?: number
-  rotate?: number
-  gradient?: string
-}) {
+// Floating Particles Effect
+function FloatingParticles() {
   return (
-    <motion.div
-      initial={{
-        opacity: 0,
-        y: -150,
-        rotate: rotate - 15,
-      }}
-      animate={{
-        opacity: 1,
-        y: 0,
-        rotate: rotate,
-      }}
-      transition={{
-        duration: 2.4,
-        delay,
-        ease: [0.23, 0.86, 0.39, 0.96],
-        opacity: { duration: 1.2 },
-      }}
-      className={cn("absolute", className)}
-    >
-      <motion.div
-        animate={{
-          y: [0, 15, 0],
-        }}
-        transition={{
-          duration: 12,
-          repeat: Number.POSITIVE_INFINITY,
-          ease: "easeInOut",
-        }}
-        style={{
-          width,
-          height,
-        }}
-        className="relative"
-      >
-        <div
-          className={cn(
-            "absolute inset-0 rounded-full",
-            "bg-gradient-to-r to-transparent",
-            gradient,
-            "backdrop-blur-[2px] border-2 border-white/[0.6]",
-            "shadow-[0_8px_40px_0_rgba(209,250,229,0.5)]", // Green tinted shadow
-            "after:absolute after:inset-0 after:rounded-full",
-            "after:bg-[radial-gradient(circle_at_50%_50%,rgba(209,250,229,0.7),transparent_70%)]", // Green tinted glow
-          )}
+    <div className="absolute inset-0 pointer-events-none">
+      {[...Array(20)].map((_, i) => (
+        <motion.div
+          key={i}
+          className="absolute w-2 h-2 bg-white/70 rounded-full"
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 2, delay: i * 0.2, repeat: Infinity, repeatType: "mirror" }}
+          style={{
+            top: `${Math.random() * 100}%`,
+            left: `${Math.random() * 100}%`,
+          }}
         />
-      </motion.div>
-    </motion.div>
+      ))}
+    </div>
   )
 }
 
@@ -86,121 +42,78 @@ export default function Hero({
   title1?: string
   title2?: string
 }) {
-  const fadeUpVariants = {
-    hidden: { opacity: 0, y: 30 },
-    visible: (i: number) => ({
-      opacity: 1,
-      y: 0,
-      transition: {
-        duration: 1,
-        delay: 0.5 + i * 0.2,
-        ease: [0.25, 0.4, 0.25, 1],
-      },
-    }),
-  }
+  const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
+
+  useEffect(() => {
+    const handleMouseMove = (e: MouseEvent) => {
+      setMousePos({ x: e.clientX, y: e.clientY })
+    }
+    window.addEventListener("mousemove", handleMouseMove)
+    return () => window.removeEventListener("mousemove", handleMouseMove)
+  }, [])
 
   return (
     <div className="relative min-h-screen w-full flex items-center justify-center overflow-hidden bg-gradient-to-b from-green-50 via-emerald-50 to-teal-100">
-      {" "}
-      {/* Green gradient background */}
-      {/* Colorful background gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-emerald-300/[0.4] via-transparent to-teal-300/[0.4] blur-3xl" />
-      <div className="absolute inset-0 overflow-hidden">
-        <ElegantShape
-          delay={0.3}
-          width={600}
-          height={140}
-          rotate={12}
-          gradient="from-emerald-300/[0.6]"
-          className="left-[-10%] md:left-[-5%] top-[15%] md:top-[20%]"
-        />
+      <FloatingParticles />
+      {/* Light gradient overlay */}
+      <motion.div
+        className="absolute inset-0 bg-gradient-to-br from-emerald-300/[0.4] via-transparent to-teal-300/[0.4] blur-3xl"
+        animate={{ x: mousePos.x * 0.01, y: mousePos.y * 0.01 }}
+      />
 
-        <ElegantShape
-          delay={0.5}
-          width={500}
-          height={120}
-          rotate={-15}
-          gradient="from-teal-300/[0.6]"
-          className="right-[-5%] md:right-[0%] top-[70%] md:top-[75%]"
-        />
+      <div className="relative z-10 container mx-auto px-4 md:px-6 text-center">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1 }}
+          className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.5] border border-emerald-200/[0.6] mb-8"
+        >
+          <Image src="/hero-logo.svg" alt="eDoctors" width={20} height={20} />
+          <span className="text-sm text-black tracking-wide font-medium">{badge}</span>
+        </motion.div>
 
-        <ElegantShape
-          delay={0.4}
-          width={300}
-          height={80}
-          rotate={-8}
-          gradient="from-green-300/[0.6]"
-          className="left-[5%] md:left-[10%] bottom-[5%] md:bottom-[10%]"
-        />
-
-        <ElegantShape
-          delay={0.6}
-          width={200}
-          height={60}
-          rotate={20}
-          gradient="from-lime-300/[0.6]"
-          className="right-[15%] md:right-[20%] top-[10%] md:top-[15%]"
-        />
-
-        <ElegantShape
-          delay={0.7}
-          width={150}
-          height={40}
-          rotate={-25}
-          gradient="from-cyan-300/[0.6]"
-          className="left-[20%] md:left-[25%] top-[5%] md:top-[10%]"
-        />
-      </div>
-      {/* Add colorful light sources */}
-      <div className="absolute top-1/4 left-1/4 w-96 h-96 bg-emerald-200/30 rounded-full blur-3xl" />
-      <div className="absolute bottom-1/4 right-1/4 w-96 h-96 bg-teal-200/30 rounded-full blur-3xl" />
-      <div className="relative z-10 container mx-auto px-4 md:px-6">
-        <div className="max-w-3xl mx-auto text-center">
-          <motion.div
-            custom={0}
-            variants={fadeUpVariants}
-            initial="hidden"
-            animate="visible"
-            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/[0.5] border border-emerald-200/[0.6] mb-8 md:mb-12"
+        <motion.h1
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 1 }}
+          className="text-4xl sm:text-6xl md:text-8xl font-bold tracking-tight"
+        >
+          <span className="text-black">{title1}</span>
+          <br />
+          <motion.span
+            className={cn("text-black", pacifico.className)}
+            whileHover={{ scale: 1.05, rotate: 1 }}
           >
-            <Image src="/hero-logo.svg" alt="Kokonut UI" width={20} height={20} />
-            <span className="text-sm text-black tracking-wide font-medium">{badge}</span>
-          </motion.div>
+            {title2}
+          </motion.span>
+        </motion.h1>
 
-          <motion.div custom={1} variants={fadeUpVariants} initial="hidden" animate="visible">
-            <h1 className="text-4xl sm:text-6xl md:text-8xl font-bold mb-6 md:mb-8 tracking-tight">
-              <span className="text-black">{title1}</span>
-              <br />
-              <span className={cn("text-black", pacifico.className)}>{title2}</span>
-            </h1>
-          </motion.div>
+        <motion.p
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.5 }}
+          className="text-lg text-black mb-8 leading-relaxed max-w-xl mx-auto"
+        >
+          eDoctors là nền tảng cho phép bạn trò chuyện trực tuyến với bác sĩ.
+        </motion.p>
 
-          <motion.div custom={2} variants={fadeUpVariants} initial="hidden" animate="visible">
-            <p className="text-base sm:text-lg md:text-xl text-black mb-8 leading-relaxed font-medium tracking-wide max-w-xl mx-auto px-4">
-              eDoctors là nền tảng cho phép bạn trò chuyện trực tuyến với bác sĩ.
-            </p>
-          </motion.div>
-
-          {/* Updated buttons for green theme */}
-          <motion.div
-            custom={3}
-            variants={fadeUpVariants}
-            initial="hidden"
-            animate="visible"
-            className="flex gap-4 justify-center"
+        <div className="flex gap-4 justify-center">
+          <motion.button
+            whileHover={{ scale: 1.1, rotate: -2 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-300 text-white font-medium shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all"
           >
-            <button className="px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-300 text-white font-medium shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all">
-              Bắt đầu ngay
-            </button>
-            <button className="px-6 py-3 rounded-full bg-white/60 backdrop-blur-sm text-black font-medium border border-black/10 shadow-lg hover:bg-white/80 transition-all">
-              Tìm hiểu thêm
-            </button>
-          </motion.div>
+            Bắt đầu ngay
+          </motion.button>
+          <motion.button
+            whileHover={{ scale: 1.1, rotate: 2 }}
+            whileTap={{ scale: 0.95 }}
+            className="px-6 py-3 rounded-full bg-white/60 backdrop-blur-sm text-black font-medium border border-black/10 shadow-lg hover:bg-white/80 transition-all"
+          >
+            Tìm hiểu thêm
+          </motion.button>
         </div>
       </div>
-      {/* Light gradient overlay */}
-      <div className="absolute inset-0 bg-gradient-to-t from-teal-100/80 via-transparent to-green-50/80 pointer-events-none" />
     </div>
   )
 }
-

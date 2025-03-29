@@ -74,7 +74,7 @@ export const createMedicalRecord = async (values: TPayloadMedicalRecordValidator
     return { success: false, data: null, message: error.message }
   }
 
-  const { patientId, doctorId, note, diagnosis, treatment, symptoms, visitDate, prescriptions } =
+  const { patientId, physician, note, diagnosis, treatment, symptoms, visitDate, prescriptions } =
     data
 
   const payload = await getPayloadClient()
@@ -89,7 +89,7 @@ export const createMedicalRecord = async (values: TPayloadMedicalRecordValidator
     return { success: false, data: null, message: 'Bệnh nhân không tồn tại' }
   }
 
-  if (user?.id !== doctorId) {
+  if (user?.id !== physician) {
     return {
       success: false,
       data: null,
@@ -101,7 +101,7 @@ export const createMedicalRecord = async (values: TPayloadMedicalRecordValidator
     collection: 'physicianProfiles',
     where: {
       'accountDetails.user.id': {
-        equals: doctorId,
+        equals: physician,
       },
     },
     depth: 0,

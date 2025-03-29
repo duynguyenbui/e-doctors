@@ -49,7 +49,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   })
 
   return (
-    <div className="pt-16 pb-16 container max-w-5xl mx-auto">
+    <div className="pt-16 pb-16 container max-w-5xl mx-auto ">
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none text-center">
           <h1 className="mb-8 lg:mb-16">Tìm kiếm</h1>

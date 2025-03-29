@@ -25,11 +25,11 @@ import { PayloadMedicalRecordValidator, TPayloadMedicalRecordValidator } from '@
 export function MedicalRecordForm({
   onSubmit,
   patientId,
-  doctorId,
+  physician,
 }: {
   onSubmit: (values: TPayloadMedicalRecordValidator) => void
   patientId: string
-  doctorId: string
+  physician: string
 }) {
   const form = useForm<TPayloadMedicalRecordValidator>({
     resolver: zodResolver(PayloadMedicalRecordValidator),
@@ -55,8 +55,8 @@ export function MedicalRecordForm({
 
   useEffect(() => {
     form.setValue('patientId', patientId)
-    form.setValue('doctorId', doctorId)
-  }, [patientId, doctorId])
+    form.setValue('physician', physician)
+  }, [patientId, physician])
 
   return (
     <Form {...form}>

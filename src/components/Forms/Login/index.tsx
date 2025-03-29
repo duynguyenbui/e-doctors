@@ -101,7 +101,7 @@ export function LoginForm({ className }: { className?: string }) {
                 )}
               />
             </div>
-            <Button type="submit" className="w-full mt-2">
+            <Button type="submit" className="w-full mt-2 bg-blue-500">
               Đăng nhập
             </Button>
           </form>

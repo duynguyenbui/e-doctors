@@ -50,11 +50,12 @@ export const PayloadUserSettingsValidator = z.object({
   gender: z.enum(['male', 'female']).optional(),
   phone: z.string().optional(),
   address: z.string().optional(),
+  avatar: z.instanceof(File).optional().or(z.string().optional()),
 })
 
 export const PayloadMedicalRecordValidator = z.object({
   patientId: z.string(),
-  doctorId: z.string(),
+  physician: z.string(),
   note: z.string().optional(),
   diagnosis: z.string(),
   treatment: z.string(),

@@ -23,7 +23,7 @@ export default function RootLayout({ children }: LayoutProps) {
       <body>
         <Providers>
           <NavBar />
-          <main className="min-h-[calc(100vh-4rem)] mt-16">{children}</main>
+          <main className="min-h-[calc(100vh-4rem)] mt-16 bg-[#eff3f5]">{children}</main>
           <Toaster position="top-left" richColors />
         </Providers>
       </body>

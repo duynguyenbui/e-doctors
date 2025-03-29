@@ -59,7 +59,7 @@ export function MedicalRecordNewModal() {
         <div className="mt-4">
           <MedicalRecordForm
             onSubmit={handleSubmit}
-            doctorId={user.id}
+            physician={user.id}
             patientId={currentPatient.id}
           />
         </div>
