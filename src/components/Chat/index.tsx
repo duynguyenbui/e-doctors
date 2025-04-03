@@ -9,6 +9,7 @@ import { useEffect, useRef, useState } from "react"
 import { useForm } from "react-hook-form"
 import { toast } from "sonner"
 import { cn } from "@/lib/utils"
+import { format } from "date-fns"
 
 import { CHAT_KEY, MAX_ATTACHMENTS, ModalType } from "@/constants"
 import { Loader } from "@/components/Loader"
@@ -167,12 +168,10 @@ export function Chat({
       })
 
     setAttachmentClients([])
-    // clean up
     form.setValue("content", "")
     form.setValue("attachments", [])
   }
 
-  // side effects
   useEffect(() => {
     if (isConnected) {
       socket?.on(chatKey, (message: any) => {
@@ -212,7 +211,7 @@ export function Chat({
               "w-full justify-start mb-2 mr-2 text-sm md:text-base truncate",
               conv.id === currentConversationId
                 ? "bg-blue-200 text-blue-800 hover:bg-blue-300"
-                : "text-blue-700 hover:bg-blue-100",
+                : "text-blue-700 hover:bg-blue-100"
             )}
             onClick={() => handleConversationChange(conv.id)}
           >
@@ -261,26 +260,37 @@ export function Chat({
               const isCurrentUser = message.sender === user?.id
               const senderId = typeof message.sender === "string" ? message.sender : message.sender.id
 
+ 
+              const messageTime = isCurrentUser
+              ? "Bạn"
+              : isDoctor
+              ? `Dr.${typeof message.sender === "string" ? `#${senderId}` : message.sender.name || `#${senderId}`}`
+              : ` BN ${typeof message.sender === "string" ? currentConversation?.name || "Unknown" : message.sender.name || currentConversation?.name || "Unknown"}`
+              
+              const messageTime = message.createdAt
+                ? format(new Date(message.createdAt), "HH:mm, dd/MM/yyyy")
+                : "Không rõ thời gian"
+
               return (
                 <div key={index} className={`flex ${shouldShowOnRight ? "justify-end" : "justify-start"} mb-4`}>
                   <Card
                     className={cn(
                       "p-4 max-w-[80%] shadow-sm",
-                      isDoctor ? "bg-blue-100 border-blue-200" : "bg-cyan-50 border-cyan-200",
+                      isDoctor ? "bg-blue-100 border-blue-200" : "bg-cyan-50 border-cyan-200"
                     )}
                   >
                     <div className={`flex gap-4 ${shouldShowOnRight ? "flex-row-reverse" : "flex-row"}`}>
                       <div
                         className={cn(
                           "h-8 w-8 rounded-full flex items-center justify-center text-white",
-                          isDoctor ? "bg-blue-600" : "bg-cyan-500",
+                          isDoctor ? "bg-blue-600" : "bg-cyan-500"
                         )}
                       >
-                        {user?.name?.charAt(0) || "N/A"}
+                        {senderName.charAt(0) || "N/A"}
                       </div>
                       <div className="flex-1">
                         <div className="text-xs text-muted-foreground mb-1">
-                          {isCurrentUser ? "You" : isDoctor ? `Doctor #${senderId}` : `User ${senderId}`}
+                          {senderName} • {messageTime}
                         </div>
                         <div className={cn("text-foreground", isDoctor ? "text-blue-900" : "text-cyan-900")}>
                           <ReactMarkdown>{message.content}</ReactMarkdown>
@@ -414,4 +424,3 @@ export function Chat({
     </div>
   )
 }
-
