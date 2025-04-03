@@ -9,7 +9,7 @@ export default function SocketIndicator() {
   if (!isConnected) {
     return (
       <Badge variant="outline" className="bg-yellow-600 text-white border-none">
-        Phục hồi: Phân giải lại mỗi 1 giây
+        Phục hồi: trễ 1 giây
       </Badge>
     )
   }

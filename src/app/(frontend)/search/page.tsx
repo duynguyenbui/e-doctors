@@ -17,7 +17,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   const payload = await getPayload({ config: configPromise })
 
   const posts = await payload.find({
-    collection: 'search',
+    collection: 'posts',
     depth: 1,
     limit: 3,
     select: {
@@ -26,7 +26,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
       categories: true,
       meta: true,
     },
-    // pagination: false reduces overhead if you don't need totalDocs
+
     pagination: false,
     ...(query
       ? {
@@ -49,7 +49,7 @@ export default async function Page({ searchParams: searchParamsPromise }: Args) 
   })
 
   return (
-    <div className="pt-16 pb-16 container max-w-5xl mx-auto">
+    <div className="pt-16 pb-16 container max-w-5xl mx-auto ">
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none text-center">
           <h1 className="mb-8 lg:mb-16">Tìm kiếm</h1>

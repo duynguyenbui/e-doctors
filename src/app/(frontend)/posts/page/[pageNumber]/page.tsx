@@ -33,7 +33,7 @@ export default async function Page({ params: paramsPromise }: Args) {
   })
 
   return (
-    <div className="pt-16 pb-16 container max-w-5xl mx-auto">
+    <div className="pt-16 pb-16 container max-w-5xl mx-auto ">
       <div className="container mb-16">
         <div className="prose dark:prose-invert max-w-none">
           <h1>Bài viết</h1>

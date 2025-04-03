@@ -10,9 +10,16 @@ import { useRouter } from 'next/navigation'
 import { toast } from 'sonner'
 import { Button } from '../ui/button'
 
-type DoctorCardProps = User
+type DoctorCardProps = User & {
+  profile?: {
+    education?: string
+    experience?: number
+    specialty?: string
+    awards?: string
+  }
+}
 
-export default function DoctorCard({ id, name, avatar, email, phone, address }: DoctorCardProps) {
+export default function DoctorCard({ id, name, avatar, email, profile }: DoctorCardProps) {
   const router = useRouter()
 
   const handleClick = async (doctorId: string) => {
@@ -45,7 +52,7 @@ export default function DoctorCard({ id, name, avatar, email, phone, address }: 
       </div>
       <CardContent className="px-4 py-2 -mt-6">
         <Button
-          className="text-xl font-bold mb-2 cursor-pointer"
+          className="text-xl font-bold mb-2 cursor-pointer bg-blue-600  "
           variant="default"
           onClick={() => handleClick(id)}
         >
@@ -55,20 +62,35 @@ export default function DoctorCard({ id, name, avatar, email, phone, address }: 
         <div className="flex flex-wrap gap-2 flex-col">
           <div className="flex flex-wrap gap-2">
             <span className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10">
-              Bác sĩ #{id}
-            </span>
-            <span className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10">
               {email}
             </span>
           </div>
-          <div className="flex flex-wrap gap-2">
-            <span className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10">
-              {phone}
-            </span>
-            <span className="inline-flex items-center rounded-md bg-muted px-2 py-1 text-xs font-medium ring-1 ring-inset ring-gray-500/10">
-              {address}
-            </span>
-          </div>
+
+          {/* Hiển thị Profile nếu có */}
+          {profile && (
+            <div className="mt-2">
+              {profile.specialty && (
+                <p className="text-sm text-gray-700">
+                  <strong>Chuyên khoa:</strong> {profile.specialty}
+                </p>
+              )}
+              {profile.education && (
+                <p className="text-sm text-gray-700">
+                  <strong>Học vấn:</strong> {profile.education}
+                </p>
+              )}
+              {profile.experience !== undefined && (
+                <p className="text-sm text-gray-700">
+                  <strong>Kinh nghiệm:</strong> {profile.experience} năm
+                </p>
+              )}
+              {profile.awards && (
+                <p className="text-sm text-gray-700">
+                  <strong>Thành tựu:</strong> {profile.awards}
+                </p>
+              )}
+            </div>
+          )}
         </div>
       </CardContent>
       <CardFooter className="p-4 pt-0">

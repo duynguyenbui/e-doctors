@@ -14,18 +14,18 @@ export const PayloadMessageValidator = z.object({
 
 
 export const PayloadUserLoginValidator = z.object({
-  email: z.string().email(),
-  password: z.string().min(1, {
+  email: z.string().email('Email không hợp lệ.' ),
+  password: z.string().min(4, {
     message: 'Mật khẩu không được để trống.',
   }),
 })
 
 export const PayloadUserSignUpValidator = z.object({
   email: z.string().email(),
-  password: z.string().min(3, {
-    message: 'Mật khẩu phải có ít nhất 3 ký tự.',
+  password: z.string().min(4, {
+    message: 'Mật khẩu phải có ít nhất 4 ký tự.',
   }),
-  name: z.string().min(1, {
+  name: z.string().min(4, {
     message: 'Tên không được để trống.',
   }),
   gender: z.enum(['male', 'female'], {
@@ -34,9 +34,8 @@ export const PayloadUserSignUpValidator = z.object({
   dob: z.string().min(1, {
     message: 'Ngày sinh không được để trống.',
   }),
-  phone: z.string().min(1, {
-    message: 'Số điện thoại không được để trống.',
-  }),
+  phone: z.string()
+    .regex(/^\d{10}$/, "Số điện thoại phải có đúng 10 chữ số."),
   address: z.string().min(1, {
     message: 'Địa chỉ không được để trống.',
   }),
@@ -50,11 +49,12 @@ export const PayloadUserSettingsValidator = z.object({
   gender: z.enum(['male', 'female']).optional(),
   phone: z.string().optional(),
   address: z.string().optional(),
+  avatar: z.instanceof(File).optional().or(z.string().optional()),
 })
 
 export const PayloadMedicalRecordValidator = z.object({
   patientId: z.string(),
-  doctorId: z.string(),
+  physician: z.string(),
   note: z.string().optional(),
   diagnosis: z.string(),
   treatment: z.string(),

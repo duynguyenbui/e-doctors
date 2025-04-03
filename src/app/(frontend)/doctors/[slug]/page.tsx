@@ -128,7 +128,7 @@ export default async function Page({ params: paramsPromise }: Args) {
             </CardContent>
           </Card>
 
-          <Card>
+          {/* <Card>
             <CardHeader>
               <CardTitle>Thông tin ID</CardTitle>
             </CardHeader>
@@ -152,7 +152,7 @@ export default async function Page({ params: paramsPromise }: Args) {
                 </div>
               </div>
             </CardContent>
-          </Card>
+          </Card> */}
         </div>
       </div>
     </div>
