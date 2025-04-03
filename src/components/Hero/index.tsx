@@ -5,7 +5,7 @@ import { Pacifico } from "next/font/google"
 import Image from "next/image"
 import { cn } from "@/lib/utils"
 import { useEffect, useState } from "react"
-
+import { useRouter } from "next/navigation"
 const pacifico = Pacifico({
   subsets: ["latin"],
   weight: ["400"],
@@ -43,7 +43,7 @@ export default function Hero({
   title2?: string
 }) {
   const [mousePos, setMousePos] = useState({ x: 0, y: 0 })
-
+  const router = useRouter()
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
       setMousePos({ x: e.clientX, y: e.clientY })
@@ -101,6 +101,7 @@ export default function Hero({
           <motion.button
             whileHover={{ scale: 1.1, rotate: -2 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => router.push("/conversations")} 
             className="px-6 py-3 rounded-full bg-gradient-to-r from-blue-500 to-blue-300 text-white font-medium shadow-lg shadow-emerald-500/30 hover:shadow-emerald-500/50 transition-all"
           >
             Bắt đầu ngay
@@ -108,6 +109,7 @@ export default function Hero({
           <motion.button
             whileHover={{ scale: 1.1, rotate: 2 }}
             whileTap={{ scale: 0.95 }}
+            onClick={() => router.push("/posts")} 
             className="px-6 py-3 rounded-full bg-white/60 backdrop-blur-sm text-black font-medium border border-black/10 shadow-lg hover:bg-white/80 transition-all"
           >
             Tìm hiểu thêm
