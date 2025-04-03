@@ -14,18 +14,18 @@ export const PayloadMessageValidator = z.object({
 
 
 export const PayloadUserLoginValidator = z.object({
-  email: z.string().email(),
-  password: z.string().min(1, {
+  email: z.string().email('Email không hợp lệ.' ),
+  password: z.string().min(4, {
     message: 'Mật khẩu không được để trống.',
   }),
 })
 
 export const PayloadUserSignUpValidator = z.object({
   email: z.string().email(),
-  password: z.string().min(3, {
-    message: 'Mật khẩu phải có ít nhất 3 ký tự.',
+  password: z.string().min(4, {
+    message: 'Mật khẩu phải có ít nhất 4 ký tự.',
   }),
-  name: z.string().min(1, {
+  name: z.string().min(4, {
     message: 'Tên không được để trống.',
   }),
   gender: z.enum(['male', 'female'], {
@@ -34,7 +34,7 @@ export const PayloadUserSignUpValidator = z.object({
   dob: z.string().min(1, {
     message: 'Ngày sinh không được để trống.',
   }),
-  phone: z.string().min(1, {
+  phone: z.string().min(10, {
     message: 'Số điện thoại không được để trống.',
   }),
   address: z.string().min(1, {
