@@ -34,9 +34,8 @@ export const PayloadUserSignUpValidator = z.object({
   dob: z.string().min(1, {
     message: 'Ngày sinh không được để trống.',
   }),
-  phone: z.string().min(10, {
-    message: 'Số điện thoại không được để trống.',
-  }),
+  phone: z.string()
+    .regex(/^\d{10}$/, "Số điện thoại phải có đúng 10 chữ số."),
   address: z.string().min(1, {
     message: 'Địa chỉ không được để trống.',
   }),
