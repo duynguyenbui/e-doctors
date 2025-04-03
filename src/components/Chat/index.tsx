@@ -261,7 +261,7 @@ export function Chat({
               const senderId = typeof message.sender === "string" ? message.sender : message.sender.id
 
  
-              const messageTime = isCurrentUser
+              const senderName = isCurrentUser
               ? "Bạn"
               : isDoctor
               ? `Dr.${typeof message.sender === "string" ? `#${senderId}` : message.sender.name || `#${senderId}`}`
