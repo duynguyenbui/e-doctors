@@ -12,6 +12,7 @@ export const getConversations = async () => {
 
   const { docs: conversations } = await payloadClient.find({
     collection: 'conversations',
+    sort: '-updatedAt',
     where: {
       participants: { contains: user.id },
     },

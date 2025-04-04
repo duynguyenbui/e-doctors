@@ -11,11 +11,13 @@ import { toast } from 'sonner'
 import { Button } from '../ui/button'
 
 type DoctorCardProps = User & {
+  updatedAt?: string 
   profile?: {
     education?: string
     experience?: number
     specialty?: string
     awards?: string
+    
   }
 }
 

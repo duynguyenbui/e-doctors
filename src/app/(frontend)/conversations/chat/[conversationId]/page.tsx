@@ -17,7 +17,7 @@ export default async function Page({
   }
 
   const { data: conversations } = await getConversations()
-
+console.log("data:conversations", conversations)
   if (!conversations) {
     redirect('/conversations')
   }
