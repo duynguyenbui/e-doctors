@@ -11,16 +11,26 @@ interface ConversationCardProps {
     id: string,
     name: string,
     description?: string,
-    participants: (string | User)[];
+    participants: (string | User)[],
+    updatedAt: string 
 }
 
-export default function ConversationCard({ id, name, description = 'Your Medical Respondent', participants }: ConversationCardProps) {
-  const {user } = useAuth()
+export default function ConversationCard({ id, name, description = 'Your Medical Respondent', participants, updatedAt }: ConversationCardProps) { // Nhận đúng prop updatedAt
+  const { user } = useAuth()
   const router = useRouter()
 
-  if(!user || !user.id || !id) {
+  if (!user || !user.id || !id) {
     return null
   }
+
+
+  const formattedDate = new Date(updatedAt).toLocaleString('vi-VN', {
+    year: 'numeric',
+    month: 'numeric',
+    day: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit',
+  })
 
   return (
     <Card className="hover:shadow-lg transition-all duration-300 group h-full cursor-pointer" onClick={() => router.push(`/conversations/chat/${id}`)} >
@@ -38,22 +48,21 @@ export default function ConversationCard({ id, name, description = 'Your Medical
           <h3 className="font-bold text-xl">{name}</h3>
           <Badge variant="outline">{description}</Badge>
         </div>
-
+        <p className="text-sm text-gray-700 mt-2">
+          <strong>Cuộc trò chuyện gần nhất:</strong> {formattedDate}
+        </p>
         <p className="text-xs text-gray-500 flex-grow overflow-hidden text-center">
-          {
-            participants.map((participant) => {
-              if(typeof participant === 'string' && participant !== user?.id) {
-                return participant
-              }
+          {participants.map((participant) => {
+            if (typeof participant === 'string' && participant !== user?.id) {
+              return participant
+            }
 
-              if(typeof participant === 'object' && participant.id !== user?.id) {
-                return participant.name
-              }
-            })
-          }
+            if (typeof participant === 'object' && participant.id !== user?.id) {
+              return participant.name
+            }
+          })}
         </p>
       </CardContent>
     </Card>
   )
 }
-
