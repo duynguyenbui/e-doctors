@@ -28,14 +28,12 @@ export const getDoctorsWithProfiles = async () => {
   const doctorsWithProfiles = doctors.map(doctor => {
 
     const profile = profiles.find(p => (p.accountDetails.user as any)?.id === doctor.id)
-    console.log(doctor.id)
    
     return {
       ...doctor,
       profile: profile || null,
     }
   })
-  console.log(doctorsWithProfiles)
   return doctorsWithProfiles
  
 }

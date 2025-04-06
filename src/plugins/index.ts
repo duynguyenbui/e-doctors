@@ -127,7 +127,6 @@ export const plugins: Plugin[] = [
             ]
           }
         })
-        console.log('checkout.session.completed', event)
       },
     },
   }),

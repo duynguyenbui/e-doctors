@@ -35,7 +35,6 @@ export function RegisterForm({ className }: { className?: string }) {
   const onSubmit = useCallback(
     async (values: TPayloadUserSignUpValidator) => {
       try {
-        // Update the dob field with the selected date from our DatePicker
         if (birthDate) {
           values.dob = birthDate.toISOString().split("T")[0]
         }
@@ -44,7 +43,6 @@ export function RegisterForm({ className }: { className?: string }) {
           ...values,
           roles: ["user"],
         }
-        console.log("Sending payload:", payload)
         const res = await create(payload)
         if (typeof res === "object") {
           toast.success("Tài khoản của bạn đã được tạo thành công.")

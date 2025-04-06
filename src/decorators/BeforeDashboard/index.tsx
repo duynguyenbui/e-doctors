@@ -6,10 +6,9 @@ import '../tailwinds.css'
 
 export default function BeforeDashboard() {
   return (
-    <Card className="w-full overflow-hidden border-0 shadow-lg">
+    <Card className="w-full overflow-hidden border-0 bg-gradient-to-r from-blue-300 to-green-400 shadow-lg">
       <CardContent className="p-0">
-        <div className="bg-gradient-to-r from-cyan-600 to-blue-700 p-6 md:p-8 relative overflow-hidden">
-          {/* Decorative elements */}
+        <div className="p-6 md:p-8 relative overflow-hidden">
           <div className="absolute -right-8 -top-8 w-40 h-40 bg-blue-500 opacity-20 rounded-full" />
           <div className="absolute right-20 bottom-4 w-24 h-24 bg-cyan-400 opacity-20 rounded-full" />
 
@@ -17,11 +16,11 @@ export default function BeforeDashboard() {
             <div className="space-y-2">
               <div className="flex items-center gap-2">
                 <Stethoscope className="h-6 w-6 text-white" />
-                <h2 className="text-xl font-bold text-white">eDoctors</h2>
+                <h2 className="text-xl font-bold text-white">EDoctors</h2>
               </div>
               <h1 className="text-2xl md:text-3xl font-bold text-white">Chào mừng trở lại!</h1>
               <p className="text-blue-100 max-w-md">
-                Cảm ơn bạn đã quay trở lại với nền tảng eDoctors. Chúng tôi rất vui khi được nhận sự
+                Cảm ơn bạn đã quay trở lại với nền tảng EDoctors. Chúng tôi rất vui khi được nhận sự
                 chỉ đạo và đồng hành cùng bạn.
               </p>
             </div>

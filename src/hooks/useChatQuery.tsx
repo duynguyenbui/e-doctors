@@ -12,7 +12,6 @@ export const useChatQuery = () => {
   const fetchMessages = async () => {
     if (!params?.conversationId) return []
 
-    console.log('fetching messages')
     return await getMessagesByConversationId(params.conversationId) ?? []
   }
 
